@@ -1663,7 +1663,6 @@ GameObject:
   - component: {fileID: 496123979}
   - component: {fileID: 496123978}
   - component: {fileID: 496123980}
-  - component: {fileID: 496123981}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1716,20 +1715,6 @@ MonoBehaviour:
   tilemap: {fileID: 413383338}
   textPrefab: {fileID: 5665775652568704953, guid: 8a36308c9d67e6547be64ce49e1b87d7, type: 3}
   parentObject: {fileID: 1364296688}
---- !u!114 &496123981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496123977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f93989f7e111964b88114fb6b7afedd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 413383338}
-  overlayPrefab: {fileID: 9130571099554620479, guid: db5799c07ee4c78449157e37d88fc977, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
