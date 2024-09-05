@@ -4,7 +4,9 @@ using UnityEngine;
 public class MouseController : MonoBehaviour
 {
     public GameObject cursor;
-   
+    public GameObject characterPrefab;
+    public GameObject spawnedCharacter;
+    
     // Update is called once per frame
     void LateUpdate()
     {
@@ -19,6 +21,17 @@ public class MouseController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 overlayTile.GetComponent<OverlayTile>().ShowTile();
+                
+                //Спавн персонажа
+                if (spawnedCharacter == null)
+                {
+                    SpawnCharacterAtTile(overlayTile.transform.position);
+                }
+                else
+                {
+                    MoveCharacterToTile(overlayTile.transform.position);
+                }
+                
             }
         }
     }
@@ -37,4 +50,15 @@ public class MouseController : MonoBehaviour
 
         return null;
     }
+
+    private void SpawnCharacterAtTile(Vector3 spawnPosition)
+    {
+        spawnedCharacter = Instantiate(characterPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private void MoveCharacterToTile(Vector3 newPosition)
+    {
+        spawnedCharacter.transform.position = newPosition;
+    }
+    
 }
