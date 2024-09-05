@@ -8,6 +8,9 @@ public class DevMenu : MonoBehaviour
 
     public Toggle gridGizmosToggle;
     public GameObject gridGizmos;
+
+    public Toggle tileCoordinatesToggle;
+    public GameObject tileCoordinates;
     public void Start()
     {
         devMenuToggle.isOn = false;
@@ -15,6 +18,9 @@ public class DevMenu : MonoBehaviour
 
         gridGizmosToggle.isOn = false;
         gridGizmos.SetActive(false);
+
+        tileCoordinatesToggle.isOn = false;
+        tileCoordinates.SetActive(false);
     }
 
     public void ShowDevMenu()
@@ -26,5 +32,10 @@ public class DevMenu : MonoBehaviour
     public void ShowGridGizmos()
     {
         gridGizmos.SetActive(!gridGizmos.activeSelf);
+    }
+
+    public void ShowTileCoordinates()
+    {
+        tileCoordinates.SetActive(!tileCoordinates.activeSelf);
     }
 }
