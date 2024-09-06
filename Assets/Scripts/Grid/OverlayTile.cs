@@ -1,4 +1,5 @@
 using UnityEngine;
+
 using UnityEngine.Serialization;
 
 public class OverlayTile : MonoBehaviour
@@ -12,6 +13,7 @@ public class OverlayTile : MonoBehaviour
     [FormerlySerializedAs("Previous")] public OverlayTile previous;
 
     public Vector3Int gridLocation;
+
 
 
     private void Update()
@@ -28,3 +30,4 @@ public class OverlayTile : MonoBehaviour
     }
 
 }
+

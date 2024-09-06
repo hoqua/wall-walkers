@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Linq;
 public class MouseController : MonoBehaviour
 {
     public GameObject cursor;
+
     public float speed;
     public GameObject characterPrefab;
     private CharacterInfo _character;

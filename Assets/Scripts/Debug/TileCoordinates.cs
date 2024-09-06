@@ -12,7 +12,6 @@ public class TileCoordinates : MonoBehaviour
     void Start()
     {
         DisplayTileCoordinates();
-        
     }
     
     void DisplayTileCoordinates()

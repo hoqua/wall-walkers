@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 8828367907157021089}
   - component: {fileID: 2769495870178670970}
   - component: {fileID: 6015941759344605311}
+
   - component: {fileID: -7415016774869231266}
   m_Layer: 0
   m_Name: CommonSoldier
