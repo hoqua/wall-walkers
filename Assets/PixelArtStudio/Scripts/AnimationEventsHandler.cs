@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationEventsHandler : MonoBehaviour
+namespace PixelArtStudio.Scripts
 {
-    public void AnimationEventHandler(string eventName)
+    public class AnimationEventsHandler : MonoBehaviour
     {
-        Debug.Log($"Event triggered: {eventName}");
+        public void AnimationEventHandler(string eventName)
+        {
+            Debug.Log($"Event triggered: {eventName}");
+        }
     }
 }

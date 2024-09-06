@@ -1,57 +1,91 @@
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
+
 
 public class MouseController : MonoBehaviour
 {
     public GameObject cursor;
-    public TileCoordinates tileCoordinatesScript;
-
+    public float speed;
     public GameObject characterPrefab;
-    private CharacterInfo character;
-    
-    void LateUpdate()
+    private CharacterInfo _character;
+
+    private PathFinder _pathFinder;
+    private List<OverlayTile> _path;
+
+    private void Start()
     {
-        var focusedTileHit = GetFocusedOnTile();
+        _pathFinder = new PathFinder();
+        _path = new List<OverlayTile>();
+    }
 
-        if (focusedTileHit.HasValue)
+    private void LateUpdate()
+    {
+        var hit = GetFocusedOnTile();
+
+        if (hit.HasValue)
         {
-            OverlayTile overlayTile = focusedTileHit?.collider.gameObject.GetComponent<OverlayTile>();
-            cursor.transform.position = overlayTile!.transform.position;
-            cursor.GetComponent<SpriteRenderer>().sortingOrder = overlayTile.GetComponent<SpriteRenderer>().sortingOrder;
-
+            var tile = hit.Value.collider.gameObject.GetComponent<OverlayTile>();
+            cursor.transform.position = tile.transform.position;
+            cursor.gameObject.GetComponent<SpriteRenderer>().sortingOrder =
+                tile.transform.GetComponent<SpriteRenderer>().sortingOrder;
             if (Input.GetMouseButtonDown(0))
             {
-                overlayTile.GetComponent<OverlayTile>().ShowTile();
+                tile.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
-                if (character == null)
+                if (_character == null)
                 {
-                    character = Instantiate(characterPrefab).GetComponent<CharacterInfo>();
-                    PositionCharacterOnTile(overlayTile);
+                    _character = Instantiate(characterPrefab).GetComponent<CharacterInfo>();
+                    PositionCharacterOnLine(tile);
+                    _character.standingOnTile = tile;
+                }
+                else
+                {
+                    _path = _pathFinder.FindPath(_character.standingOnTile, tile);
+
+                    tile.gameObject.GetComponent<OverlayTile>().HideTile();
                 }
             }
         }
+
+        if (_path.Count > 0) MoveAlongPath();
     }
 
-    public RaycastHit2D? GetFocusedOnTile()
+    private void MoveAlongPath()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 mousePos2d = new Vector2(mousePos.x, mousePos.y);
+        var step = speed * Time.deltaTime;
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2d, Vector2.zero);
+        var zIndex = _path[0].transform.position.z;
+        _character.transform.position =
+            Vector2.MoveTowards(_character.transform.position, _path[0].transform.position, step);
+        _character.transform.position =
+            new Vector3(_character.transform.position.x, _character.transform.position.y, zIndex);
 
-        if(hits.Length > 0)
+        if (Vector2.Distance(_character.transform.position, _path[0].transform.position) < 0.00001f)
         {
-            return hits.OrderByDescending(i => i.collider.transform.position.z).First();
+            PositionCharacterOnLine(_path[0]);
+            _path.RemoveAt(0);
         }
+    }
+
+    private void PositionCharacterOnLine(OverlayTile tile)
+    {
+        _character.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f,
+            tile.transform.position.z);
+        _character.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        _character.standingOnTile = tile;
+    }
+
+    private static RaycastHit2D? GetFocusedOnTile()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        var hits = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
+
+        if (hits.Length > 0) return hits.OrderByDescending(i => i.collider.transform.position.z).First();
 
         return null;
-    }
-
-    void PositionCharacterOnTile(OverlayTile tile)
-    {
-        character.transform.position =
-            new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
-        character.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
-        character.activeTile = tile;
     }
 }
