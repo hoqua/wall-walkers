@@ -5,23 +5,29 @@ public class MouseController : MonoBehaviour
 {
     public GameObject cursor;
     public TileCoordinates tileCoordinatesScript;
+
+    public GameObject characterPrefab;
+    private CharacterInfo character;
     
-    // Update is called once per frame
     void LateUpdate()
     {
-        RaycastHit2D? hit = GetFocusedOnTile();
+        var focusedTileHit = GetFocusedOnTile();
 
-        if (hit.HasValue)
+        if (focusedTileHit.HasValue)
         {
-            GameObject overlayTile = hit.Value.collider.gameObject;
-            cursor.transform.position = overlayTile.transform.position;
+            OverlayTile overlayTile = focusedTileHit?.collider.gameObject.GetComponent<OverlayTile>();
+            cursor.transform.position = overlayTile!.transform.position;
             cursor.GetComponent<SpriteRenderer>().sortingOrder = overlayTile.GetComponent<SpriteRenderer>().sortingOrder;
 
             if (Input.GetMouseButtonDown(0))
             {
                 overlayTile.GetComponent<OverlayTile>().ShowTile();
 
-                MoveCharacterToTile(overlayTile.transform.position);
+                if (character == null)
+                {
+                    character = Instantiate(characterPrefab).GetComponent<CharacterInfo>();
+                    PositionCharacterOnTile(overlayTile);
+                }
             }
         }
     }
@@ -41,12 +47,11 @@ public class MouseController : MonoBehaviour
         return null;
     }
 
-    void MoveCharacterToTile(Vector3 tilePosition)
+    void PositionCharacterOnTile(OverlayTile tile)
     {
-        if (tileCoordinatesScript.spawnedCharacter != null)
-        {
-            tileCoordinatesScript.spawnedCharacter.transform.position = tilePosition;
-        }
+        character.transform.position =
+            new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+        character.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
+        character.activeTile = tile;
     }
-    
 }
