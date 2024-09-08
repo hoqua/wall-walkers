@@ -8,29 +8,10 @@ public class TileCoordinates : MonoBehaviour
     public Tilemap tilemap; 
     public GameObject textPrefab;
     public GameObject parentObject; // Пустой объект для хранения всех координат
-
-    public GameObject characterPrefab;
-    public GameObject spawnedCharacter;
-    private List<Vector3Int> validTilePositions = new List<Vector3Int>(); // Храним все допустимые позиции тайлов
+    
     void Start()
     {
         DisplayTileCoordinates();
-        
-        SpawnCharacterAtRandomTile();
-    }
-    
-    void SpawnCharacterAtRandomTile()
-    {
-        if (validTilePositions.Count == 0)
-        {
-            Debug.LogError("Нет доступных тайлов для спавна персонажа.");
-            return;
-        }
-        
-        Vector3Int randomTilePosition = validTilePositions[Random.Range(0, validTilePositions.Count)];
-        Vector3 worldPosition = tilemap.GetCellCenterWorld(randomTilePosition);
-        
-        spawnedCharacter = Instantiate(characterPrefab, worldPosition, Quaternion.identity);
     }
     
     void DisplayTileCoordinates()
@@ -60,8 +41,6 @@ public class TileCoordinates : MonoBehaviour
                         TextMeshProUGUI textMesh = textObject.GetComponent<TextMeshProUGUI>();
                         textMesh.text = $"({x}, {y}, {z})"; 
                         
-                        // Добавляем текущую позицию тайла в список допустимых позиций
-                        validTilePositions.Add(tilePosition);
                     }
                 }
             }
