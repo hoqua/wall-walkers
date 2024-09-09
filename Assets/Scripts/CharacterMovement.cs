@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class CharacterMovement : MonoBehaviour
 {
     private Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
-    public Vector3Int currentTile;     // Текущая клетка персонажа.
+    public Vector3Int currentTile;     // Текущая клетка персонажа
 
     void Update()
     {
@@ -17,13 +17,13 @@ public class CharacterMovement : MonoBehaviour
 
             Debug.Log($"Mouse Position: {mousePos}, Target Tile: {targetTile}");
 
-            if (IsWithinOneTileRadius(targetTile))
+            if (IsWithinOneTileRadius(targetTile) && TileExists(targetTile))
             {
                 MoveToTile(targetTile);
             }
             else
             {
-                Debug.Log("Target tile is out of range.");
+                Debug.Log("Target tile is out of range or does not contain a tile.");
             }
         }
     }
@@ -45,6 +45,12 @@ public class CharacterMovement : MonoBehaviour
         Debug.Log($"Checking radius: Current Tile: {currentTile}, Target Tile: {targetTile}, dx: {dx}, dy: {dy}");
 
         return dx <= 1 && dy <= 1;
+    }
+
+    bool TileExists(Vector3Int targetTile)
+    {
+        TileBase tileBase = tilemap.GetTile(targetTile);
+        return tileBase != null;
     }
 
     void MoveToTile(Vector3Int targetTile)
