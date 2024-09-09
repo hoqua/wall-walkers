@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class CharacterMovement : MonoBehaviour
 {
     private Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
-    public Vector3Int currentTile;     // Текущая клетка персонажа
+    public Vector3Int currentTile;     // Текущая клетка персонажа.
 
     void Update()
     {
