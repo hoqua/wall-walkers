@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-
 
 public class GameManager : MonoBehaviour
 {
@@ -7,14 +7,14 @@ public class GameManager : MonoBehaviour
    public EnemyMovement enemy; // Ссылка на скрипт врага
 
    public float checkInterval = 0.05f; // Интервал между попытками поиска
-   private bool _playerFound = false;
-   private bool _enemyFound = false;
+   private bool _playerFound;
+   private bool _enemyFound;
    void Start()
    {
       StartCoroutine(FindPlayerAndEnemy());
    }
 
-   private System.Collections.IEnumerator FindPlayerAndEnemy()
+   private IEnumerator FindPlayerAndEnemy()
    {
       while (!_playerFound || !_enemyFound) 
       {

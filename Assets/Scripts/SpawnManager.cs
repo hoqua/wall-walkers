@@ -16,18 +16,15 @@ public class SpawnManager : MonoBehaviour
     {
         _playerSpawnPosition = GetRandomSpawnPosition();
         _enemySpawnPosition = GetRandomSpawnPosition();
-
-        // Убедиться, что позиции игрока и врага не совпадают
+        
         while (_enemySpawnPosition == _playerSpawnPosition)
         {
             _enemySpawnPosition = GetRandomSpawnPosition();
         }
-
-        // Спавним игрока
+        
         GameObject player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(_playerSpawnPosition), Quaternion.identity);
         player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, tilemap);
-
-        // Спавним врага
+        
         GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
         enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
       
@@ -38,8 +35,7 @@ public class SpawnManager : MonoBehaviour
     {
         Vector3Int randomPosition;
         BoundsInt visibleBounds = GetVisibleTileBounds();
-
-        // Находим случайную позицию в пределах видимой области, где есть тайл
+        
         do
         {
             int randomX = Random.Range(visibleBounds.xMin, visibleBounds.xMax);
@@ -50,21 +46,17 @@ public class SpawnManager : MonoBehaviour
 
         return randomPosition;
     }
-
-    // Метод для вычисления границ видимой области тайлов в 2D
+    
     private BoundsInt GetVisibleTileBounds()
     {
-        // Получаем углы видимой области камеры с учётом того, что камера на -10 по Z
         Vector3 bottomLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
         Vector3 topRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -mainCamera.transform.position.z));
-
-        // Преобразуем мировые координаты в клеточные координаты тайлмапа
+        
         Vector3Int bottomLeftTile = tilemap.WorldToCell(bottomLeft);
         Vector3Int topRightTile = tilemap.WorldToCell(topRight);
 
         Debug.Log($"Visible bounds - BottomLeft: {bottomLeftTile}, TopRight: {topRightTile}");
-
-        // Создаем границы видимых тайлов
+        
         return new BoundsInt(bottomLeftTile, topRightTile - bottomLeftTile);
     }
    
