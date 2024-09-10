@@ -3,31 +3,14 @@ using UnityEngine.Tilemaps;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
+    public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;     // Текущая клетка персонажа
 
-    void Update()
+    void Start()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0f;
-            
-            Vector3Int targetTile = tilemap.WorldToCell(mousePos);
-
-            Debug.Log($"Mouse Position: {mousePos}, Target Tile: {targetTile}");
-
-            if (IsWithinOneTileRadius(targetTile) && TileExists(targetTile))
-            {
-                MoveToTile(targetTile);
-            }
-            else
-            {
-                Debug.Log("Target tile is out of range or does not contain a tile.");
-            }
-        }
+        transform.position = tilemap.GetCellCenterWorld(currentTile);
     }
-
+    
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
     {
         currentTile = tilePosition;
@@ -37,7 +20,7 @@ public class CharacterMovement : MonoBehaviour
         Debug.Log($"Current Tile Set: {currentTile}, Position: {transform.position}");
     }
 
-    bool IsWithinOneTileRadius(Vector3Int targetTile)
+    public bool IsWithinOneTileRadius(Vector3Int targetTile)
     {
         int dx = Mathf.Abs(targetTile.x - currentTile.x);
         int dy = Mathf.Abs(targetTile.y - currentTile.y);
@@ -47,13 +30,13 @@ public class CharacterMovement : MonoBehaviour
         return dx <= 1 && dy <= 1;
     }
 
-    bool TileExists(Vector3Int targetTile)
+    public bool TileExists(Vector3Int targetTile)
     {
         TileBase tileBase = tilemap.GetTile(targetTile);
         return tileBase != null;
     }
 
-    void MoveToTile(Vector3Int targetTile)
+    public void MoveToTile(Vector3Int targetTile)
     {
         Vector3 worldPosition = tilemap.GetCellCenterWorld(targetTile);
         transform.position = worldPosition;

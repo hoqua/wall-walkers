@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 8828367907157021089}
   - component: {fileID: 2769495870178670970}
   - component: {fileID: 6015941759344605311}
-  - component: {fileID: 5311736316877918034}
+  - component: {fileID: 6250364599876764653}
   m_Layer: 0
-  m_Name: CommonSoldier
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_Sprite: {fileID: -7008412969330441016, guid: 4a7c0da22d195094c996d9182a363b82, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.3915094, b: 0.3915094, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3db72469e1e07b459f19a4646062131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5311736316877918034
+--- !u!114 &6250364599876764653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,7 +214,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8385226143460851807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38dcd447a4b216348a1aea2bfc7947c6, type: 3}
+  m_Script: {fileID: 11500000, guid: ec1a87c97a7358c40b31e6f7bcc75cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
   currentTile: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
