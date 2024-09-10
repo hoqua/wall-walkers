@@ -3,9 +3,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-   public CharacterMovement player; //Ссылка на скрипт игрока
+   public PlayerMovement player; //Ссылка на скрипт игрока
    public EnemyMovement enemy; // Ссылка на скрипт врага
 
+   void Start()
+   {
+      player = FindObjectOfType<PlayerMovement>();
+      enemy = FindObjectOfType<EnemyMovement>();
+   }
+   
    private void Update()
    {
       if (Input.GetMouseButtonDown(0))

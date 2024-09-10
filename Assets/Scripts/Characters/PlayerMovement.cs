@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class CharacterMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;     // Текущая клетка персонажа
 
     void Start()
     {
-        transform.position = tilemap.GetCellCenterWorld(currentTile);
+        tilemap = FindObjectOfType<Tilemap>();
     }
     
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)

@@ -1,5 +1,3 @@
-
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,13 +5,23 @@ public class EnemyMovement : MonoBehaviour
 {
     public Tilemap tilemap; // Tilemap по которому будет двигаться враг
     public Vector3Int currentTile; // Текущий тайл врага
-    public CharacterMovement player;// Ссылка на скрипт игрока
+    public PlayerMovement player;// Ссылка на скрипт игрока
 
     void Start()
     {
-        transform.position = tilemap.GetCellCenterWorld(currentTile);
+        tilemap = FindObjectOfType<Tilemap>();
+        player = FindObjectOfType<PlayerMovement>();
     }
 
+    public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
+    {
+        currentTile = tilePosition;
+        tilemap = map;
+        transform.position = tilemap.GetCellCenterWorld(currentTile);
+
+        Debug.Log($"Current Tile Set: {currentTile}, Position: {transform.position}");
+    }
+    
     public void MoveTowardsPlayer()
     {
         Vector3Int playerTile = player.currentTile;
