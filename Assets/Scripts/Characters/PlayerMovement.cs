@@ -5,8 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;    // Текущая клетка персонажа
-    public float moveSpeed = 1f;      // Скорость перемещения
-
+    
+    public float moveSpeed = 1f;      // Скорость движения (настраивается меню префаба)
     private Vector3 _targetPosition;   // Целевая позиция для перемещения
     private bool _isMoving;    // Флаг, что персонаж в движении
 

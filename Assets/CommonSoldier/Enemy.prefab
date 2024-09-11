@@ -220,3 +220,4 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   currentTile: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+  moveSpeed: 4

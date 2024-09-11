@@ -66,6 +66,13 @@ public class GameManager : MonoBehaviour
 
          targetTile = player.tilemap.WorldToCell(mousePos);
 
+         // Если игрок кликнет на себя, то ничего не произойдет
+         if (targetTile == player.currentTile)
+         {
+            Debug.Log("Player is already on this tile.");
+            return;
+         }
+         
          if (player.IsWithinOneTileRadius(targetTile) && player.TileExists(targetTile))
          {
             player.MoveToTile(targetTile);
