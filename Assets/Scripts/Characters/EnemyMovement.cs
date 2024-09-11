@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,16 +9,17 @@ public class EnemyMovement : MonoBehaviour
     public Vector3Int currentTile; // Текущий тайл врага
     public PlayerMovement player;// Ссылка на скрипт игрока
 
+
     public float moveSpeed = 1f; // Скорость движения (настраивается меню префаба)
     private Vector3 _targetPosition; // Целевая позиция для перемещения.
     private bool _isMoving; // Флаг, что враг в движении
     
-
     void Start()
     {
         tilemap = FindObjectOfType<Tilemap>();
         player = FindObjectOfType<PlayerMovement>();
         _targetPosition = transform.position;
+
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -56,6 +58,7 @@ public class EnemyMovement : MonoBehaviour
                 currentTile = targetTile;
                 _isMoving = true;
             }
+
         }
     }
 

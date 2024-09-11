@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
    public float checkInterval = 0.05f; // Интервал между попытками поиска
    private bool _playerFound;
    private bool _enemyFound;
-
    public Vector3Int targetTile;
+
    void Start()
    {
       StartCoroutine(FindPlayerAndEnemy());

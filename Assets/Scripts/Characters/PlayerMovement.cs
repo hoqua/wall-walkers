@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     {
         tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position; 
+
     }
     
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
