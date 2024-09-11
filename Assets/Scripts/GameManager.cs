@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
    public float checkInterval = 0.05f; // Интервал между попытками поиска
    private bool _playerFound;
    private bool _enemyFound;
+   public Vector3Int targetTile;
+
    void Start()
    {
       StartCoroutine(FindPlayerAndEnemy());
@@ -62,8 +64,15 @@ public class GameManager : MonoBehaviour
          Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
          mousePos.z = 0f;
 
-         var targetTile = player.tilemap.WorldToCell(mousePos);
+         targetTile = player.tilemap.WorldToCell(mousePos);
 
+         // Если игрок кликнет на себя, то ничего не произойдет
+         if (targetTile == player.currentTile)
+         {
+            Debug.Log("Player is already on this tile.");
+            return;
+         }
+         
          if (player.IsWithinOneTileRadius(targetTile) && player.TileExists(targetTile))
          {
             player.MoveToTile(targetTile);
