@@ -57,33 +57,4 @@ public class GameManager : MonoBehaviour
 
       Debug.Log("Both Player and Enemy found, game can proceed.");
    }
-   private void Update()
-   {
-      if (Input.GetMouseButtonDown(0))
-      {
-         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-         mousePos.z = 0f;
-
-         targetTile = player.tilemap.WorldToCell(mousePos);
-
-         // Если игрок кликнет на себя, то ничего не произойдет
-         if (targetTile == player.currentTile)
-         {
-            Debug.Log("Player is already on this tile.");
-            return;
-         }
-         
-         if (player.IsWithinOneTileRadius(targetTile) && player.TileExists(targetTile))
-         {
-            player.MoveToTile(targetTile);
-
-            enemy.MoveTowardsPlayer();
-         }
-         
-         else
-         {
-            Debug.Log("Cannot move player to the target tile.");
-         }
-      }
-   }
 }
