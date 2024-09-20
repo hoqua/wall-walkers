@@ -1,5 +1,3 @@
-
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,19 +5,12 @@ public class EnemyMovement : MonoBehaviour
 {
     public Tilemap tilemap; // Tilemap по которому будет двигаться враг
     public Vector3Int currentTile; // Текущий тайл врага
-    public PlayerMovement player;// Ссылка на скрипт игрока
+    public Movement player;// Ссылка на скрипт игрока
 
-
-    public float moveSpeed = 1f; // Скорость движения (настраивается меню префаба)
-    private Vector3 _targetPosition; // Целевая позиция для перемещения.
-    private bool _isMoving; // Флаг, что враг в движении
-    
     void Start()
     {
         tilemap = FindObjectOfType<Tilemap>();
-        player = FindObjectOfType<PlayerMovement>();
-        _targetPosition = transform.position;
-
+        player = FindObjectOfType<Movement>();
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -27,38 +18,20 @@ public class EnemyMovement : MonoBehaviour
         currentTile = tilePosition;
         tilemap = map;
         transform.position = tilemap.GetCellCenterWorld(currentTile);
-        _targetPosition = transform.position;
+
+        Debug.Log($"Current Tile Set: {currentTile}, Position: {transform.position}");
     }
-
-    private void Update()
-    {
-        if (_isMoving)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, moveSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
-            {
-                _isMoving = false;
-            }
-        }
-    }
-
+    
     public void MoveTowardsPlayer()
     {
-        if (!_isMoving)
+        Vector3Int playerTile = player.currentTile;
+        Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
+
+        Vector3Int targetTile = currentTile + direction;
+
+        if (tilemap.GetTile(targetTile) != null && targetTile != playerTile)
         {
-            Vector3Int playerTile = player.currentTile;
-            Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
-
-            Vector3Int targetTile = currentTile + direction;
-
-            if (tilemap.GetTile(targetTile) != null && targetTile != playerTile)
-            {
-                _targetPosition = tilemap.GetCellCenterWorld(targetTile);
-                currentTile = targetTile;
-                _isMoving = true;
-            }
-
+            MoveToTile(targetTile);
         }
     }
 
@@ -74,5 +47,14 @@ public class EnemyMovement : MonoBehaviour
             0
         );
         return direction;
+    }
+    
+    private void MoveToTile(Vector3Int targetTile)
+    {
+        Vector3 worldPosition = tilemap.GetCellCenterWorld(targetTile);
+        transform.position = worldPosition;
+        currentTile = targetTile;
+        
+        Debug.Log($"Enemy moved to Tile: {targetTile}, New Position: {transform.position}");
     }
 }

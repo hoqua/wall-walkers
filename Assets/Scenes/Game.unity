@@ -20433,8 +20433,9 @@ GameObject:
   m_Component:
   - component: {fileID: 418929555}
   - component: {fileID: 418929556}
+  - component: {fileID: 418929557}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameEssentials
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20452,7 +20453,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 440432747}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &418929556
@@ -20469,7 +20471,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   enemy: {fileID: 0}
-  checkInterval: 0.1
+--- !u!114 &418929557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418929554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ccee0e2136898643a84f3c446cf07ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 413383338}
+  mainCamera: {fileID: 519420031}
+  playerPrefab: {fileID: 8385226143460851807, guid: 0737acb13a4e6144bac8f83d78376d52, type: 3}
+  enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
 --- !u!1 &440432743
 GameObject:
   m_ObjectHideFlags: 0
@@ -20568,7 +20585,7 @@ RectTransform:
   - {fileID: 548156573}
   - {fileID: 1493271301}
   - {fileID: 383183865}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 418929555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -20605,7 +20622,6 @@ GameObject:
   - component: {fileID: 496123978}
   - component: {fileID: 496123980}
   - component: {fileID: 496123982}
-  - component: {fileID: 496123983}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -20673,22 +20689,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 413383338}
   highlightTile: {fileID: 11400000, guid: b30b2440ef43c944cb2d870fa4710727, type: 2}
---- !u!114 &496123983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496123977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ccee0e2136898643a84f3c446cf07ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 413383338}
-  mainCamera: {fileID: 519420031}
-  playerPrefab: {fileID: 8385226143460851807, guid: 0737acb13a4e6144bac8f83d78376d52, type: 3}
-  enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -20797,7 +20797,6 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   speed: 0.01
-  checkInterval: 0.1
 --- !u!1 &522984263
 GameObject:
   m_ObjectHideFlags: 0
@@ -21692,5 +21691,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 418929555}
-  - {fileID: 440432747}
   - {fileID: 496123979}
