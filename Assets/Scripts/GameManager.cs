@@ -1,60 +1,94 @@
+using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-   public PlayerMovement player; //Ссылка на скрипт игрока
+   public PlayerMovement player; // Ссылка на скрипт игрока
    public EnemyMovement enemy; // Ссылка на скрипт врага
 
-   public float checkInterval = 0.05f; // Интервал между попытками поиска
-   private bool _playerFound;
-   private bool _enemyFound;
-   public Vector3Int targetTile;
+   private Camera _mainCamera;
+   private GameState _gameState = GameState.PlayerTurn;
+   public static event Action<GameState> OnGameStateChanged;
 
-   void Start()
+   private async void Start()
    {
-      StartCoroutine(FindPlayerAndEnemy());
+      await FindCharacters();
+      await GameLoop();
    }
 
-   private IEnumerator FindPlayerAndEnemy()
+   private async Task FindCharacters()
    {
-      while (!_playerFound || !_enemyFound) 
+      while (player == null || enemy == null) // Используем "или", чтобы проверять оба объекта
       {
-         if (!_playerFound)
-         {
-            PlayerMovement foundPlayer = FindObjectOfType<PlayerMovement>();
+         player = FindObjectOfType<PlayerMovement>();
+         enemy = FindObjectOfType<EnemyMovement>();
+         await Task.Yield();
+      }
+   }
 
-            if (foundPlayer != null)
-            {
-               player = foundPlayer;
-               _playerFound = true;
-               Debug.Log("Player found.");
-            }
-            else
-            {
-               Debug.Log("Player not found, trying again...");
-            }
-         }
-         
-         if (!_enemyFound)
-         {
-            EnemyMovement foundEnemy = FindObjectOfType<EnemyMovement>();
+   private async Task GameLoop()
+   {
+      ChangeGameState(GameState.PlayerTurn);
+      await Task.Delay(1000); // Задержка перед первым ходом
 
-            if (foundEnemy != null)
-            {
-               enemy = foundEnemy;
-               _enemyFound = true;
-               Debug.Log("Enemy found.");
-            }
-            else
-            {
-               Debug.Log("Enemy not found, trying again...");
-            }
+      // Игровой цикл
+      while (_gameState != GameState.GameOver)
+      {
+         await PlayerTurn();
+         await EnemyTurn();
+      }
+   }
+
+   private void ChangeGameState(GameState newState)
+   {
+      _gameState = newState;
+      OnGameStateChanged?.Invoke(_gameState);
+   }
+
+   private async Task PlayerTurn()
+   {
+      player.StartPlayersTurn();
+      ChangeGameState(GameState.PlayerTurn);
+      Debug.Log("Now: Player's Turn");
+
+      // Ожидание хода игрока
+      while (_gameState == GameState.PlayerTurn)
+      {
+         if (player.HasMoved())
+         {
+            break;
          }
-         
-         yield return new WaitForSeconds(checkInterval);
+         await Task.Yield();
       }
 
-      Debug.Log("Both Player and Enemy found, game can proceed.");
+      Debug.Log("Player's Turn Ended");
    }
+
+   private async Task EnemyTurn()
+   {
+      ChangeGameState(GameState.EnemyTurn);
+      Debug.Log("Now: Enemy's Turn");
+
+      await Task.Delay(1000); // Задержка перед ходом врага (как будто думает)
+      enemy.MoveTowardsPlayer();
+
+      Debug.Log("Enemy's Turn Ended");
+   }
+
+   public GameState CurrentState()
+   {
+      return _gameState;
+   }
+}
+
+public enum GameState
+{
+   PlayerTurn,
+   EnemyTurn,
+   SpawningPhase,
+   EnvironmentTurn,
+   GameOver
 }

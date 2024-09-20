@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     
     public float moveSpeed = 1f;      // Скорость движения (настраивается меню префаба)
     private Vector3 _targetPosition;   // Целевая позиция для перемещения
-    private bool _isMoving;    // Флаг, что персонаж в движении
+    private bool _isMoving; // Флаг, что персонаж в движении
+    private bool _hasMoved = false;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         {
             MoveTowardsTarget();
         } 
+        
         else if (Input.GetMouseButtonDown(0))
         {
             HandlePlayerInput();
@@ -45,11 +48,17 @@ public class PlayerMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
         {
             _isMoving = false;
+            _hasMoved = true;
         }
     }
 
     private void HandlePlayerInput()
     {
+        if (_gameManager.CurrentState() != GameState.PlayerTurn)
+        {
+            return; // Игрок не может двигаться, не его ход
+        }
+        
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
 
@@ -88,6 +97,17 @@ public class PlayerMovement : MonoBehaviour
             _targetPosition = tilemap.GetCellCenterWorld(targetTile);
             currentTile = targetTile;
             _isMoving = true;
+            _hasMoved = false;
         }
+    }
+
+    public void StartPlayersTurn()
+    {
+        _hasMoved = false;
+    }
+    
+    public bool HasMoved()
+    {
+        return _hasMoved;
     }
 }
