@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class SpawnManager : MonoBehaviour {
-  public Tilemap tilemap; // Tilemap для спавна персонажей
-  public Camera mainCamera;
+  public Tilemap tilemap;                  // Tilemap для спавна персонажей
+  public Camera mainCamera;                // Камера
 
-  public GameObject playerPrefab;
-  public GameObject enemyPrefab;
+  public GameObject playerPrefab;          // Ссылка на Префаб игрока
+  public GameObject enemyPrefab;           // Ссылка на Префаб врага
 
-  private Vector3Int _playerSpawnPosition;
-  private Vector3Int _enemySpawnPosition;
+  private Vector3Int _playerSpawnPosition; // Место появления игрока
+  private Vector3Int _enemySpawnPosition;  // Место появления врага
 
   void Start() {
     _enemySpawnPosition = GetRandomSpawnPosition();

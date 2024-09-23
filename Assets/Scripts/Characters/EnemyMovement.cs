@@ -3,9 +3,9 @@ using UnityEngine.Tilemaps;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public Tilemap tilemap; // Tilemap по которому будет двигаться враг
+    public Tilemap tilemap;        // Tilemap по которому будет двигаться враг
     public Vector3Int currentTile; // Текущий тайл врага
-    public Movement player;// Ссылка на скрипт игрока
+    public Movement player;        // Ссылка на скрипт игрока
 
     void Start()
     {
