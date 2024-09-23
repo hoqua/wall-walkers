@@ -12,15 +12,6 @@ public class SpawnManager : MonoBehaviour {
   private Vector3Int _enemySpawnPosition;  // Место появления врага
 
   void Start() {
-    _enemySpawnPosition = GetRandomSpawnPosition();
-
-    while (_enemySpawnPosition == _playerSpawnPosition) {
-      _enemySpawnPosition = GetRandomSpawnPosition();
-    }
-
-    GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
-    enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
-    
     SpawnPlayer();
     SpawnEnemy();
   }
