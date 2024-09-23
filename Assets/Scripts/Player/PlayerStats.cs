@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-   public int health = 4;
+   public int health = 5;
 
    public void TakeDamage(int damage)
    {
@@ -20,5 +18,6 @@ public class PlayerStats : MonoBehaviour
    private void Die()
    {
       Debug.Log("Player has died");
+      Destroy(gameObject);
    }
 }

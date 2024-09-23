@@ -5,6 +5,7 @@ public class EnemyMovement : MonoBehaviour
 {
     public Tilemap tilemap;             // Tilemap по которому будет двигаться враг
     public Vector3Int currentTile;      // Текущий тайл врага
+    private EnemyAttack _enemyAttack;   // Ссылка на скрипт отвечающий за атаку врага
     public PlayerMovement player;       // Ссылка на скрипт игрока
 
     public float moveSpeed = 5f;        // Скорость движения игрока
@@ -14,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         tilemap = FindObjectOfType<Tilemap>();
+        _enemyAttack = GetComponent<EnemyAttack>();
         player = FindObjectOfType<PlayerMovement>();
         _targetPosition = transform.position;
     }
@@ -24,8 +26,6 @@ public class EnemyMovement : MonoBehaviour
         tilemap = map;
         transform.position = tilemap.GetCellCenterWorld(currentTile);
         _targetPosition = transform.position;
-        
-        Debug.Log($"Current Tile Set: {currentTile}, Position: {transform.position}");
     }
 
     void Update()
@@ -39,8 +39,14 @@ public class EnemyMovement : MonoBehaviour
     public void MoveTowardsPlayer()
     {
         Vector3Int playerTile = player.currentTile;
-        Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
 
+        if (_enemyAttack.IsPlayerInRange(currentTile, playerTile))
+        {
+            _enemyAttack.AttackPlayer();
+            return; // Если враг ударил врага, то он не двигается
+        }
+        
+        Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
         Vector3Int targetTile = currentTile + direction;
 
         if (tilemap.GetTile(targetTile) != null && targetTile != playerTile)
