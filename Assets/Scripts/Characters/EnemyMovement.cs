@@ -5,12 +5,12 @@ public class EnemyMovement : MonoBehaviour
 {
     public Tilemap tilemap;        // Tilemap по которому будет двигаться враг
     public Vector3Int currentTile; // Текущий тайл врага
-    public Movement player;        // Ссылка на скрипт игрока
+    public PlayerMovement player;  // Ссылка на скрипт игрока
 
     void Start()
     {
         tilemap = FindObjectOfType<Tilemap>();
-        player = FindObjectOfType<Movement>();
+        player = FindObjectOfType<PlayerMovement>();
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)

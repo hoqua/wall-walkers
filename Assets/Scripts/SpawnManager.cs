@@ -20,14 +20,36 @@ public class SpawnManager : MonoBehaviour {
 
     GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
     enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
-
-    Debug.Log($"Player spawned at: {_playerSpawnPosition}, Enemy spawned at: {_enemySpawnPosition}");
+    
+    SpawnPlayer();
+    SpawnEnemy();
   }
 
-  public void SpawnPlayer() {
+  
+
+  private void SpawnPlayer() {
+    _playerSpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для игрока
+    
     var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(GetRandomSpawnPosition()), Quaternion.identity);
-    player.GetComponent<Movement>().SetCurrentTile(_playerSpawnPosition, tilemap);
+    player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, tilemap);
+    
     Debug.Log($"Player spawned at: {_playerSpawnPosition}");
+  }
+  
+  private void SpawnEnemy()
+  {
+    _enemySpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для врага
+    
+    // Если позиции врага и игрока совпадают, то ищет другую позицию
+    while (_enemySpawnPosition == _playerSpawnPosition)
+    {
+      _enemySpawnPosition = GetRandomSpawnPosition();
+    }
+
+    GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
+    enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
+    
+    Debug.Log($"Enemy spawned at: {_enemySpawnPosition}");;
   }
 
   private Vector3Int GetRandomSpawnPosition() {
