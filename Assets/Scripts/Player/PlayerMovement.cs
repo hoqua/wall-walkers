@@ -5,12 +5,13 @@ using UnityEngine.Tilemaps;
 public class PlayerMovement : MonoBehaviour
 {
     private GameManager _gameManager;
+    private PlayerAttack _playerAttackScript;
     public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;    // Текущая клетка персонажа
     
-    public float moveSpeed = 1f;      // Скорость движения (настраивается меню префаба)
-    private Vector3 _targetPosition;   // Целевая позиция для перемещения
-    private bool _isMoving; // Флаг, что персонаж в движении
+    public float moveSpeed = 5f;      // Скорость движения (настраивается в меню префаба)
+    private Vector3 _targetPosition;  // Целевая позиция для перемещения
+    private bool _isMoving;           // Флаг, что персонаж в движении
     private bool _hasMoved = false;
 
     void Start()
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
+        _playerAttackScript = FindObjectOfType<PlayerAttack>();
     }
     
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -59,10 +61,7 @@ public class PlayerMovement : MonoBehaviour
             return; // Игрок не может двигаться, не его ход
         }
         
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f;
-
-        Vector3Int targetTile = tilemap.WorldToCell(mousePos);
+        Vector3Int targetTile = GetTargetTileFromMouse();
 
         if (targetTile == currentTile)
         {
@@ -72,10 +71,44 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsWithinOneTileRadius(targetTile) && TileExists(targetTile))
         {
-            MoveToTile(targetTile);
+            AttemptToMoveOrAttack(targetTile);
         }
     }
 
+    private Vector3Int GetTargetTileFromMouse()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+        return tilemap.WorldToCell(mousePos);
+    }
+
+    private void AttemptToMoveOrAttack(Vector3Int targetTile)
+    {
+        var enemy = GameObject.FindWithTag("Enemy");
+        if (enemy != null)
+        {
+            var enemyMovement = enemy.GetComponent<EnemyMovement>();
+            if (enemyMovement.currentTile == targetTile)
+            {
+                HandleAttack(enemy, targetTile);
+                return; // Не перемещаемся, если атака произошла
+            }
+        }
+
+        MoveToTile(targetTile); // Перемещаемся, если нет врага на целевой клетке
+    }
+
+    private void HandleAttack(GameObject enemy, Vector3Int targetTile)
+    {
+        bool willKillEnemy = _playerAttackScript.CheckIfWillKillEnemy(enemy);
+        _playerAttackScript.Attack(enemy);
+
+        // Если следующая атака убъет врага, перемещаемся на его клетку
+        if (willKillEnemy)
+        {
+            MoveToTile(targetTile);
+        }
+    }
     private bool IsWithinOneTileRadius(Vector3Int targetTile)
     {
         int dx = Mathf.Abs(targetTile.x - currentTile.x);

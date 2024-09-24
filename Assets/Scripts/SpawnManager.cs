@@ -2,32 +2,45 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class SpawnManager : MonoBehaviour {
-  public Tilemap tilemap; // Tilemap для спавна персонажей
-  public Camera mainCamera;
+  public Tilemap tilemap;                  // Tilemap для спавна персонажей
+  public Camera mainCamera;                // Камера
 
-  public GameObject playerPrefab;
-  public GameObject enemyPrefab;
+  public GameObject playerPrefab;          // Ссылка на Префаб игрока
+  public GameObject enemyPrefab;           // Ссылка на Префаб врага
 
-  private Vector3Int _playerSpawnPosition;
-  private Vector3Int _enemySpawnPosition;
+  private Vector3Int _playerSpawnPosition; // Место появления игрока
+  private Vector3Int _enemySpawnPosition;  // Место появления врага
 
   void Start() {
-    _enemySpawnPosition = GetRandomSpawnPosition();
+    SpawnPlayer();
+    SpawnEnemy();
+  }
 
-    while (_enemySpawnPosition == _playerSpawnPosition) {
+  
+
+  private void SpawnPlayer() {
+    _playerSpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для игрока
+    
+    var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(GetRandomSpawnPosition()), Quaternion.identity);
+    player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, tilemap);
+    
+    Debug.Log($"Player spawned at: {_playerSpawnPosition}");
+  }
+  
+  private void SpawnEnemy()
+  {
+    _enemySpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для врага
+    
+    // Если позиции врага и игрока совпадают, то ищет другую позицию
+    while (_enemySpawnPosition == _playerSpawnPosition)
+    {
       _enemySpawnPosition = GetRandomSpawnPosition();
     }
 
     GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
     enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
-
-    Debug.Log($"Player spawned at: {_playerSpawnPosition}, Enemy spawned at: {_enemySpawnPosition}");
-  }
-
-  public void SpawnPlayer() {
-    var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(GetRandomSpawnPosition()), Quaternion.identity);
-    player.GetComponent<Movement>().SetCurrentTile(_playerSpawnPosition, tilemap);
-    Debug.Log($"Player spawned at: {_playerSpawnPosition}");
+    
+    Debug.Log($"Enemy spawned at: {_enemySpawnPosition}");;
   }
 
   private Vector3Int GetRandomSpawnPosition() {

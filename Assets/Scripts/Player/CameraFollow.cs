@@ -1,9 +1,9 @@
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
-  public Transform target; // Ссылка на персонажа, за которым нужно следить
-  public Vector3 offset; // Смещение камеры от персонажа
-  public float speed = 0.01f; // Скорость премещения камеры
+  public Transform target;          // Ссылка на персонажа, за которым нужно следить
+  public Vector3 offset;            // Смещение камеры от персонажа
+  public float speed = 0.01f;       // Скорость премещения камеры
   private const float FixedZ = -10; // Фиксированное значение Z для камеры
 
   private void Start() {

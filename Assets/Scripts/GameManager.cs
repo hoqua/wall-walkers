@@ -5,11 +5,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
    public PlayerMovement player; // Ссылка на скрипт игрока
-   public EnemyMovement enemy; // Ссылка на скрипт врага
+   public EnemyMovement enemy;   // Ссылка на скрипт врага
 
    private Camera _mainCamera;
-   private GameState _gameState = GameState.PlayerTurn;
-   public static event Action<GameState> OnGameStateChanged;
+   private GameState _gameState = GameState.PlayerTurn;        // Начальное состояние игры
+   public static event Action<GameState> OnGameStateChanged;  // Ивент, отвечает за изменение состояния игры 
 
    private async void Start()
    {
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
       ChangeGameState(GameState.EnemyTurn);
       Debug.Log("Now: Enemy's Turn");
 
-      await Task.Delay(1000); // Задержка перед ходом врага (как будто думает)
+      await Task.Delay(250); // Задержка перед ходом врага (как будто думает)
       enemy.MoveTowardsPlayer();
 
       Debug.Log("Enemy's Turn Ended");
