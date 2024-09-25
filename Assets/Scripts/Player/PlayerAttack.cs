@@ -45,8 +45,6 @@ public class PlayerAttack : MonoBehaviour
         float horizontal = Mathf.Round(direction.x);
         float vertical = Mathf.Round(direction.y);
         
-        Debug.Log($"Horizontal: {horizontal}, Vertical: {vertical}");
-        
         animator.SetFloat(Horizontal, horizontal);
         animator.SetFloat(Vertical, vertical);
     }

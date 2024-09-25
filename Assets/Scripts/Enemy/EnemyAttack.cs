@@ -8,9 +8,11 @@ public class EnemyAttack : MonoBehaviour
    public int attackRange = 1; // Радиус атаки (1 = одна клетка)
    
    private PlayerStats _player;
-
+   private Transform _enemy;
+   
    void Start()
    {
+      _enemy = GetComponent<Transform>();
       _player = FindObjectOfType<PlayerStats>();
    }
 
@@ -24,7 +26,7 @@ public class EnemyAttack : MonoBehaviour
    
    public void AttackPlayer()
    {
-      if (_player != null)
+      if (_player != null && _enemy != null)
       {
          _player.TakeDamage(damage);
          Debug.Log($"Enemy attacks Player for {damage} damage.");
