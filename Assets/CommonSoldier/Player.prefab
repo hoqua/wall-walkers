@@ -282,8 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   slashObject: {fileID: 1158607598490334716}
-  attackDuration: 0.7
-  slashDuration: 0.6
   damage: 1
   targetEnemy: {fileID: 0}
 --- !u!1001 &5871191821688400377
@@ -308,7 +306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_LocalPosition.z

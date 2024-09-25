@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Animator animator;           // Аниматор и значения для анимаций
-    public GameObject slashObject;      // Префаб для эффекта удара
-    public float attackDuration = 0.7f; // Длительность анимации удара
-    public float slashDuration = 0.5f;  // Длительность анимации эффекта удара (slash)
+    public Animator animator;                      // Аниматор и значения для анимаций
+    public GameObject slashObject;                 // Префаб для эффекта удара
+    private readonly float _attackDuration = 0.7f; // Длительность анимации удара
+    private readonly float _slashDuration = 0.5f;  // Длительность анимации эффекта удара (slash)
     
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
@@ -20,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         _playerTransform = transform;
+        slashObject.SetActive(false);
     }
     
     public void Attack(GameObject enemy)
@@ -41,9 +42,10 @@ public class PlayerAttack : MonoBehaviour
         targetEnemy.TakeDamage(damage);
         
         // Переход в Idle после атаки
-        Invoke(nameof(ReturnToIdle), attackDuration);
+        Invoke(nameof(ReturnToIdle), _attackDuration);
     }
 
+    // Слеш эффект
     private void ShowSlashEffect(Vector3 direction)
     {
         slashObject.SetActive(true);
@@ -51,9 +53,10 @@ public class PlayerAttack : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
         
-        Invoke(nameof(DeactivateSlash), slashDuration);
+        Invoke(nameof(DeactivateSlash), _slashDuration);
     }
 
+    // Деактивация слеш эффекта
     private void DeactivateSlash()
     {
         slashObject.SetActive(false);
