@@ -1,20 +1,21 @@
 using UnityEngine;
 
-
-
 public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;           // Аниматор и значения для анимаций
+    public GameObject slashObject;      // Префаб для эффекта удара
+    public float attackDuration = 0.7f; // Длительность анимации удара
+    public float slashDuration = 0.5f;  // Длительность анимации эффекта удара (slash)
+    
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int AttackTrigger = Animator.StringToHash("AttackTrigger");
+    private static readonly int ReturnToIdleTrigger = Animator.StringToHash("ReturnToIdleTrigger"); 
     
-    private Transform _playerTransform;  // Положение игрока
     public int damage = 1;               // Урон игрока
+    private Transform _playerTransform;  // Положение игрока
     public EnemyStats targetEnemy;       // Враг которого игрок будет атаковать
-    private static readonly int ReturnToIdleTrigger = Animator.StringToHash("ReturnToIdleTrigger");
-
-
+    
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -31,13 +32,31 @@ public class PlayerAttack : MonoBehaviour
         
         animator.SetTrigger(AttackTrigger);
         
+        // Эффект удара
+        ShowSlashEffect(direction);
+        
         // Нанесение урона
         var enemyStats = enemy.GetComponent<EnemyStats>();
         targetEnemy = enemyStats;
         targetEnemy.TakeDamage(damage);
         
         // Переход в Idle после атаки
-        Invoke(nameof(ReturnToIdle), 0.7f);
+        Invoke(nameof(ReturnToIdle), attackDuration);
+    }
+
+    private void ShowSlashEffect(Vector3 direction)
+    {
+        slashObject.SetActive(true);
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
+        
+        Invoke(nameof(DeactivateSlash), slashDuration);
+    }
+
+    private void DeactivateSlash()
+    {
+        slashObject.SetActive(false);
     }
 
     private void SetAttackDirectionInAnimator(Vector3 direction)
