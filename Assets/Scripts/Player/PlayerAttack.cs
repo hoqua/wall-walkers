@@ -12,14 +12,15 @@ public class PlayerAttack : MonoBehaviour
     private static readonly int AttackTrigger = Animator.StringToHash("AttackTrigger");
     private static readonly int ReturnToIdleTrigger = Animator.StringToHash("ReturnToIdleTrigger"); 
     
-    public int damage = 1;               // Урон игрока
     private Transform _playerTransform;  // Положение игрока
+    private PlayerStats _playerStats;
     public EnemyStats targetEnemy;       // Враг которого игрок будет атаковать
     
     void Start()
     {
         animator = GetComponent<Animator>();
         _playerTransform = transform;
+        _playerStats = GetComponent<PlayerStats>();
         slashObject.SetActive(false);
     }
     
@@ -39,7 +40,7 @@ public class PlayerAttack : MonoBehaviour
         // Нанесение урона
         var enemyStats = enemy.GetComponent<EnemyStats>();
         targetEnemy = enemyStats;
-        targetEnemy.TakeDamage(damage);
+        targetEnemy.TakeDamage(_playerStats.damage);
         
         // Переход в Idle после атаки
         Invoke(nameof(ReturnToIdle), _attackDuration);
@@ -82,7 +83,7 @@ public class PlayerAttack : MonoBehaviour
     public bool CheckIfWillKillEnemy(GameObject enemy)
     {
         var enemyStats = enemy.GetComponent<EnemyStats>();
-        if (enemyStats != null) return enemyStats.health - damage <= 0;
+        if (enemyStats != null) return enemyStats.health - _playerStats.damage <= 0;
         return false;
     }
 }
