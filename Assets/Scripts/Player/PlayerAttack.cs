@@ -13,9 +13,9 @@ public class PlayerAttack : MonoBehaviour
     private static readonly int ReturnToIdleTrigger = Animator.StringToHash("ReturnToIdleTrigger"); 
     
     private Transform _playerTransform;  // Положение игрока
-    private PlayerStats _playerStats;
+    private PlayerStats _playerStats;    // Статистики игрока (здоровье, урон и тд.)
     public EnemyStats targetEnemy;       // Враг которого игрок будет атаковать
-    
+    public bool hasAttacked = false;     // Проверка, совершил ли игрок атаку
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -26,24 +26,35 @@ public class PlayerAttack : MonoBehaviour
     
     public void Attack(GameObject enemy)
     {
-        // Направление атаки
-        var direction = (enemy.transform.position - _playerTransform.position).normalized;
+        if (!hasAttacked)
+        {
+            // Устанавливается флаг, что игрок атаковал
+            hasAttacked = true;
+            
+            // Направление атаки
+            var direction = (enemy.transform.position - _playerTransform.position).normalized;
 
-        // Задаем направление атаки в аниматоре
-        SetAttackDirectionInAnimator(direction);
-        
-        animator.SetTrigger(AttackTrigger);
-        
-        // Эффект удара
-        ShowSlashEffect(direction);
-        
-        // Нанесение урона
-        var enemyStats = enemy.GetComponent<EnemyStats>();
-        targetEnemy = enemyStats;
-        targetEnemy.TakeDamage(_playerStats.damage);
-        
-        // Переход в Idle после атаки
-        Invoke(nameof(ReturnToIdle), _attackDuration);
+            // Задаем направление атаки в аниматоре
+            SetAttackDirectionInAnimator(direction);
+
+            animator.SetTrigger(AttackTrigger);
+
+            // Эффект удара
+            ShowSlashEffect(direction);
+
+            // Нанесение урона
+            var enemyStats = enemy.GetComponent<EnemyStats>();
+            targetEnemy = enemyStats;
+            targetEnemy.TakeDamage(_playerStats.damage);
+
+            // Переход в Idle после атаки
+            Invoke(nameof(ReturnToIdle), _attackDuration);
+        }
+    }
+
+    public void ResetAttack()
+    {
+        hasAttacked = false;
     }
 
     // Слеш эффект

@@ -101,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleAttack(GameObject enemy, Vector3Int targetTile)
     {
         bool willKillEnemy = _playerAttackScript.CheckIfWillKillEnemy(enemy);
+        
         _playerAttackScript.Attack(enemy);
 
         // Если следующая атака убъет врага, перемещаемся на его клетку
@@ -137,10 +138,11 @@ public class PlayerMovement : MonoBehaviour
     public void StartPlayersTurn()
     {
         _hasMoved = false;
+        _playerAttackScript.ResetAttack();
     }
     
-    public bool HasMoved()
+    public bool HasMovedOrAttacked()
     {
-        return _hasMoved;
+        return _hasMoved || _playerAttackScript.hasAttacked;
     }
 }

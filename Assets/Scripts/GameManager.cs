@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
       // Ожидание хода игрока
       while (_gameState == GameState.PlayerTurn)
       {
-         if (player.HasMoved())
+         if (player.HasMovedOrAttacked())
          {
             break;
          }
