@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-   public PlayerMovement player; // Ссылка на скрипт игрока
+   public PlayerController playerController; // Ссылка на скрипт игрока
    public EnemyMovement enemy;   // Ссылка на скрипт врага
 
    private Camera _mainCamera;
@@ -19,9 +20,9 @@ public class GameManager : MonoBehaviour
 
    private async Task FindCharacters()
    {
-      while (player == null || enemy == null) // Используем "или", чтобы проверять оба объекта
+      while (playerController == null || enemy == null) // Используем "или", чтобы проверять оба объекта
       {
-         player = FindObjectOfType<PlayerMovement>();
+         playerController = FindObjectOfType<PlayerController>();
          enemy = FindObjectOfType<EnemyMovement>();
          await Task.Yield();
       }
@@ -48,14 +49,14 @@ public class GameManager : MonoBehaviour
 
    private async Task PlayerTurn()
    {
-      player.StartPlayersTurn();
+      playerController.StartPlayersTurn();
       ChangeGameState(GameState.PlayerTurn);
       Debug.Log("Now: Player's Turn");
 
       // Ожидание хода игрока
       while (_gameState == GameState.PlayerTurn)
       {
-         if (player.HasMovedOrAttacked())
+         if (playerController.HasMovedOrAttacked())
          {
             break;
          }
