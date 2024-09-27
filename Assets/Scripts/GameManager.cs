@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class GameManager : MonoBehaviour
 {
    public PlayerController playerController; // Ссылка на скрипт игрока
-   public EnemyMovement enemy;   // Ссылка на скрипт врага
+   public EnemyController enemyController;               // Ссылка на скрипт врага
 
    private Camera _mainCamera;
    private GameState _gameState = GameState.PlayerTurn;        // Начальное состояние игры
@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviour
 
    private async Task FindCharacters()
    {
-      while (playerController == null || enemy == null) // Используем "или", чтобы проверять оба объекта
+      while (playerController == null || enemyController == null) // Используем "или", чтобы проверять оба объекта
       {
          playerController = FindObjectOfType<PlayerController>();
-         enemy = FindObjectOfType<EnemyMovement>();
+         enemyController = FindObjectOfType<EnemyController>();
          await Task.Yield();
       }
    }
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
    private async Task GameLoop()
    {
       ChangeGameState(GameState.PlayerTurn);
-      await Task.Delay(1000); // Задержка перед первым ходом
+      await Task.Delay(500); // Задержка перед первым ходом
 
       // Игровой цикл
       while (_gameState != GameState.GameOver)
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
       Debug.Log("Now: Enemy's Turn");
 
       await Task.Delay(500); // Задержка перед ходом врага (как будто думает)
-      enemy.MoveTowardsPlayer();
+      enemyController.MoveTowardsPlayer();
 
       Debug.Log("Enemy's Turn Ended");
    }
