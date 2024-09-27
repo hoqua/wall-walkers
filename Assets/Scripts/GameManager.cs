@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
+
 public class GameManager : MonoBehaviour
 {
-   public PlayerController playerController; // Ссылка на скрипт игрока
-   public EnemyController enemyController;               // Ссылка на скрипт врага
+   public Player player; // Ссылка на скрипт игрока
+   public Enemy enemy;               // Ссылка на скрипт врага
 
    private Camera _mainCamera;
    private GameState _gameState = GameState.PlayerTurn;        // Начальное состояние игры
@@ -20,10 +21,10 @@ public class GameManager : MonoBehaviour
 
    private async Task FindCharacters()
    {
-      while (playerController == null || enemyController == null) // Используем "или", чтобы проверять оба объекта
+      while (player == null || enemy == null) // Используем "или", чтобы проверять оба объекта
       {
-         playerController = FindObjectOfType<PlayerController>();
-         enemyController = FindObjectOfType<EnemyController>();
+         player = FindObjectOfType<Player>();
+         enemy = FindObjectOfType<Enemy>();
          await Task.Yield();
       }
    }
@@ -49,14 +50,14 @@ public class GameManager : MonoBehaviour
 
    private async Task PlayerTurn()
    {
-      playerController.StartPlayersTurn();
+      player.StartPlayersTurn();
       ChangeGameState(GameState.PlayerTurn);
       Debug.Log("Now: Player's Turn");
 
       // Ожидание хода игрока
       while (_gameState == GameState.PlayerTurn)
       {
-         if (playerController.HasMovedOrAttacked())
+         if (player.HasMovedOrAttacked())
          {
             break;
          }
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
       Debug.Log("Now: Enemy's Turn");
 
       await Task.Delay(500); // Задержка перед ходом врага (как будто думает)
-      enemyController.MoveTowardsPlayer();
+      enemy.MoveTowardsPlayer();
 
       Debug.Log("Enemy's Turn Ended");
    }
