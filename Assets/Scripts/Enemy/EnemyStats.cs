@@ -2,13 +2,16 @@
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
-{
-    public int health = 2;
+{   
+    public int health = 2;       // Количество здоровья врага
+    public int damage = 1;       // Сколько урона наносит враг
+    public int attackRange = 1;  // Радиус атаки (1 = одна клетка)
+             
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int playerDamage)
     {
-        health -= damage;
-        Debug.Log($"Enemy takes {damage} damage. Current health = {health}");
+        health -= playerDamage;
+        Debug.Log($"Enemy takes {playerDamage} damage. Current health = {health}");
 
         if (health <= 0)
         {

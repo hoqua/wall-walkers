@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
@@ -90,26 +89,14 @@ public class PlayerMovement : MonoBehaviour
             var enemyMovement = enemy.GetComponent<EnemyMovement>();
             if (enemyMovement.currentTile == targetTile)
             {
-                HandleAttack(enemy, targetTile);
+                _playerAttackScript.HandleAttack(enemy, targetTile);
                 return; // Не перемещаемся, если атака произошла
             }
         }
 
         MoveToTile(targetTile); // Перемещаемся, если нет врага на целевой клетке
     }
-
-    private void HandleAttack(GameObject enemy, Vector3Int targetTile)
-    {
-        bool willKillEnemy = _playerAttackScript.CheckIfWillKillEnemy(enemy);
-        
-        _playerAttackScript.Attack(enemy);
-
-        // Если следующая атака убъет врага, перемещаемся на его клетку
-        if (willKillEnemy)
-        {
-            MoveToTile(targetTile);
-        }
-    }
+    
     private bool IsWithinOneTileRadius(Vector3Int targetTile)
     {
         int dx = Mathf.Abs(targetTile.x - currentTile.x);
@@ -124,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
         return tileBase != null;
     }
 
-    private void MoveToTile(Vector3Int targetTile)
+    public void MoveToTile(Vector3Int targetTile)
     {
         if (!_isMoving)
         {

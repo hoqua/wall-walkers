@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-   public int damage = 1;                 // Сколько урона наносит враг
-   public int attackRange = 1;            // Радиус атаки (1 = одна клетка)
-   
-   public GameObject slashObject;         // Префаб для эффекта удара
+   public GameObject slashObject;                // Префаб для эффекта удара
    private readonly float _slashDuration = 0.5f; // Длительность эффекта атаки (slash)
-   
+
+   private EnemyStats _enemyStats;
    private PlayerStats _player;
    private Transform _enemy;
    
    void Start()
    {
+      _enemyStats = GetComponent<EnemyStats>();
       _enemy = GetComponent<Transform>();
       _player = FindObjectOfType<PlayerStats>();
       slashObject.SetActive(false);
@@ -25,15 +22,15 @@ public class EnemyAttack : MonoBehaviour
    {
       int dx = Mathf.Abs(enemyTile.x - playerTile.x);
       int dy = Mathf.Abs(enemyTile.y - playerTile.y);
-      return dx <= attackRange && dy <= attackRange; // Находится ли игрок в радиусе атаки
+      return dx <= _enemyStats.attackRange && dy <= _enemyStats.attackRange; // Находится ли игрок в радиусе атаки
    }
    
    public void AttackPlayer()
    {
       if (_player != null && _enemy != null)
       {
-         _player.TakeDamage(damage);
-         Debug.Log($"Enemy attacks Player for {damage} damage.");
+         _player.TakeDamage(_enemyStats.damage);
+         Debug.Log($"Enemy attacks Player for {_enemyStats.damage} damage.");
 
          Vector3 attackDirection = (_player.transform.position - _enemy.position).normalized;
          

@@ -12,16 +12,30 @@ public class PlayerAttack : MonoBehaviour
     private static readonly int AttackTrigger = Animator.StringToHash("AttackTrigger");
     private static readonly int ReturnToIdleTrigger = Animator.StringToHash("ReturnToIdleTrigger"); 
     
-    private Transform _playerTransform;  // Положение игрока
-    private PlayerStats _playerStats;    // Статистики игрока (здоровье, урон и тд.)
-    public EnemyStats targetEnemy;       // Враг которого игрок будет атаковать
-    public bool hasAttacked = false;     // Проверка, совершил ли игрок атаку
+    private Transform _playerTransform;             // Положение игрока
+    private PlayerStats _playerStats;               // Статистики игрока (здоровье, урон и тд.)
+    private PlayerMovement _playerMovementScript;   // Ссылка на движение игрока
+    public EnemyStats targetEnemy;                  // Враг которого игрок будет атаковать
+    public bool hasAttacked = false;                // Проверка, совершил ли игрок атаку
     void Start()
     {
         animator = GetComponent<Animator>();
         _playerTransform = transform;
         _playerStats = GetComponent<PlayerStats>();
         slashObject.SetActive(false);
+    }
+    
+    public void HandleAttack(GameObject enemy, Vector3Int targetTile)
+    {
+        bool willKillEnemy = CheckIfWillKillEnemy(enemy);
+        
+        Attack(enemy);
+
+        // Если следующая атака убъет врага, перемещаемся на его клетку
+        if (willKillEnemy)
+        {
+            _playerMovementScript.MoveToTile(targetTile);
+        }
     }
     
     public void Attack(GameObject enemy)
