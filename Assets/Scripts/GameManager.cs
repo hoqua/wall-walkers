@@ -2,10 +2,12 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
+
 public class GameManager : MonoBehaviour
 {
-   public PlayerMovement player; // Ссылка на скрипт игрока
-   public EnemyMovement enemy;   // Ссылка на скрипт врага
+   public Player player; // Ссылка на скрипт игрока
+   public Enemy enemy;               // Ссылка на скрипт врага
 
    private Camera _mainCamera;
    private GameState _gameState = GameState.PlayerTurn;        // Начальное состояние игры
@@ -21,8 +23,8 @@ public class GameManager : MonoBehaviour
    {
       while (player == null || enemy == null) // Используем "или", чтобы проверять оба объекта
       {
-         player = FindObjectOfType<PlayerMovement>();
-         enemy = FindObjectOfType<EnemyMovement>();
+         player = FindObjectOfType<Player>();
+         enemy = FindObjectOfType<Enemy>();
          await Task.Yield();
       }
    }
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
    private async Task GameLoop()
    {
       ChangeGameState(GameState.PlayerTurn);
-      await Task.Delay(1000); // Задержка перед первым ходом
+      await Task.Delay(500); // Задержка перед первым ходом
 
       // Игровой цикл
       while (_gameState != GameState.GameOver)
