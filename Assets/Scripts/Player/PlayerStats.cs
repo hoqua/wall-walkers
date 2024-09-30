@@ -3,21 +3,27 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-   public int health = 5; // Здоровье игрока (начальное)
-   public int damage = 1; // Урон игрока (начальный)
+   private readonly int _level = 1; // Уровень игрока
+   public int health = 5;  // Здоровье игрока (начальное)
+   public int damage = 1;  // Урон игрока (начальный)
 
+   private TMP_Text _levelText;  // Ссылка на TMP для отображения уровня
    private TMP_Text _healthText; // Ссылка на TMP для отображения здоровья
    private TMP_Text _damageText; // Ссылка на TMP для отображения урона
 
    void Start()
    {
+      _levelText = GameObject.FindWithTag("LevelText").GetComponent<TMP_Text>();
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
-      
+
+      UpdateLevelUI();
       UpdateHealthUI();
       UpdateDamageUI();
    }
+
    
+
    public void TakeDamage(int enemyDamage)
    {
       health -= enemyDamage;
@@ -30,6 +36,11 @@ public class PlayerStats : MonoBehaviour
       }
    }
 
+   private void UpdateLevelUI()
+   {
+      _levelText.text = $"{_level}";
+   }
+   
    void UpdateHealthUI()
    {
       _healthText.text = $"{health}";
