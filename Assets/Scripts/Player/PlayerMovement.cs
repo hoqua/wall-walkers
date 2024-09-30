@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
         tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
-        _playerAttackScript = FindObjectOfType<PlayerAttack>();
+        _playerAttackScript = GetComponent<PlayerAttack>();
     }
     
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
         {
             MoveTowardsTarget();
         } 
-        
         else if (Input.GetMouseButtonDown(0))
         {
             HandlePlayerInput();
@@ -83,18 +82,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptToMoveOrAttack(Vector3Int targetTile)
     {
-        var enemy = GameObject.FindWithTag("Enemy");
-        if (enemy != null)
-        {
-            var enemyMovement = enemy.GetComponent<EnemyMovement>();
-            if (enemyMovement.currentTile == targetTile)
-            {
-                _playerAttackScript.HandleAttack(enemy, targetTile);
-                return; // Не перемещаемся, если атака произошла
-            }
-        }
+        // Передаем целевую клетку для атаки
+        _playerAttackScript.HandleAttack(targetTile);
 
-        MoveToTile(targetTile); // Перемещаемся, если нет врага на целевой клетке
+        // Если атаки не было, перемещаемся на клетку
+        if (!_playerAttackScript.hasAttacked)
+        {
+            MoveToTile(targetTile);
+        }
     }
     
     private bool IsWithinOneTileRadius(Vector3Int targetTile)

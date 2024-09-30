@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,40 +8,41 @@ public class SpawnManager : MonoBehaviour {
 
   public GameObject playerPrefab;          // Ссылка на Префаб игрока
   public GameObject enemyPrefab;           // Ссылка на Префаб врага
+  public int enemyCount = 3;               // Количество врагов для спавна
 
   private Vector3Int _playerSpawnPosition; // Место появления игрока
-  private Vector3Int _enemySpawnPosition;  // Место появления врага
+  private List<Vector3Int> _enemySpawnPositions = new List<Vector3Int>(); // Список мест появления врагов
 
   void Start() {
     SpawnPlayer();
-    SpawnEnemy();
+    SpawnEnemies(enemyCount);  // Спавн нескольких врагов
   }
-
-  
 
   private void SpawnPlayer() {
     _playerSpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для игрока
     
-    var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(GetRandomSpawnPosition()), Quaternion.identity);
+    var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(_playerSpawnPosition), Quaternion.identity);
     player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, tilemap);
     
     Debug.Log($"Player spawned at: {_playerSpawnPosition}");
   }
-  
-  private void SpawnEnemy()
-  {
-    _enemySpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для врага
-    
-    // Если позиции врага и игрока совпадают, то ищет другую позицию
-    while (_enemySpawnPosition == _playerSpawnPosition)
-    {
-      _enemySpawnPosition = GetRandomSpawnPosition();
-    }
 
-    GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(_enemySpawnPosition), Quaternion.identity);
-    enemy.GetComponent<EnemyMovement>().SetCurrentTile(_enemySpawnPosition, tilemap);
+  private void SpawnEnemies(int count) {
+    for (int i = 0; i < count; i++) {
+      Vector3Int enemySpawnPosition = GetRandomSpawnPosition();
+      
+      // Проверяем, что позиция врага не совпадает с позицией игрока или другого врага
+      while (_enemySpawnPositions.Contains(enemySpawnPosition) || enemySpawnPosition == _playerSpawnPosition) {
+        enemySpawnPosition = GetRandomSpawnPosition();
+      }
+
+      _enemySpawnPositions.Add(enemySpawnPosition);  // Добавляем позицию в список врагов
+
+      GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(enemySpawnPosition), Quaternion.identity);
+      enemy.GetComponent<EnemyMovement>().SetCurrentTile(enemySpawnPosition, tilemap);
     
-    Debug.Log($"Enemy spawned at: {_enemySpawnPosition}");;
+      Debug.Log($"Enemy {i + 1} spawned at: {enemySpawnPosition}");
+    }
   }
 
   private Vector3Int GetRandomSpawnPosition() {
@@ -58,8 +60,7 @@ public class SpawnManager : MonoBehaviour {
 
   private BoundsInt GetVisibleTileBounds() {
     Vector3 bottomLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
-    Vector3 topRight =
-      mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -mainCamera.transform.position.z));
+    Vector3 topRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -mainCamera.transform.position.z));
 
     Vector3Int bottomLeftTile = tilemap.WorldToCell(bottomLeft);
     Vector3Int topRightTile = tilemap.WorldToCell(topRight);
@@ -68,7 +69,6 @@ public class SpawnManager : MonoBehaviour {
 
     return new BoundsInt(bottomLeftTile, topRightTile - bottomLeftTile);
   }
-
 
   private bool TileExists(Vector3Int position) {
     TileBase tile = tilemap.GetTile(position);
