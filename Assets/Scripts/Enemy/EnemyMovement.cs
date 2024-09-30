@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour
     private EnemyAttack _enemyAttack;   // Ссылка на скрипт отвечающий за атаку врага
     public PlayerMovement player;       // Ссылка на скрипт игрока
 
-    public float moveSpeed = 5f;        // Скорость движения игрока
+    public float moveSpeed = 3f;        // Скорость движения врага
     private Vector3 _targetPosition;    // Целевая позиция для перемещения
     private bool _isMoving;             // Флаг, что враг в движении
     

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 308150706097721357}
   - component: {fileID: -8695173655716281036}
   - component: {fileID: 2182160745639888878}
+  - component: {fileID: 801657881872222057}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -255,6 +256,7 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   currentTile: {x: 0, y: 0, z: 0}
   moveSpeed: 5
+  hasMoved: 0
 --- !u!114 &-8695173655716281036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  damage: 1
 --- !u!114 &2182160745639888878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,8 +285,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   slashObject: {fileID: 1158607598490334716}
-  damage: 1
   targetEnemy: {fileID: 0}
+  hasAttacked: 0
+--- !u!114 &801657881872222057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385226143460851807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804c93d0ec3915c4895ef6e9accb86c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5871191821688400377
 PrefabInstance:
   m_ObjectHideFlags: 0
