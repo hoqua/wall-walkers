@@ -21,6 +21,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _playerTransform = transform;
+        _playerMovementScript = GetComponent<PlayerMovement>();
         _playerStats = GetComponent<PlayerStats>();
         _playerMovementScript = GetComponent<PlayerMovement>();
         slashObject.SetActive(false);
