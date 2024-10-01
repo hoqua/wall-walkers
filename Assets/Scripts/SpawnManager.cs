@@ -67,8 +67,8 @@ public class SpawnManager : MonoBehaviour {
     Vector3 bottomLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
     Vector3 topRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -mainCamera.transform.position.z));
 
-    Vector3Int bottomLeftTile = _tilemap.WorldToCell(bottomLeft);
-    Vector3Int topRightTile = _tilemap.WorldToCell(topRight);
+    Vector3Int bottomLeftTile = tilemap.WorldToCell(bottomLeft);
+    Vector3Int topRightTile = tilemap.WorldToCell(topRight);
 
     Debug.Log($"Visible bounds - BottomLeft: {bottomLeftTile}, TopRight: {topRightTile}");
 
@@ -76,7 +76,7 @@ public class SpawnManager : MonoBehaviour {
   }
 
   private bool TileExists(Vector3Int position) {
-    TileBase tile = _tilemap.GetTile(position);
+    TileBase tile = tilemap.GetTile(position);
     return tile != null;
   }
 }

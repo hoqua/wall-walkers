@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;      // Скорость движения (настраивается в меню префаба)
     private Vector3 _targetPosition;  // Целевая позиция для перемещения
     private bool _isMoving;           // Флаг, что персонаж в движении
-    private bool _hasMoved = false;
+    public bool hasMoved = false;
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
         {
             _isMoving = false;
-            _hasMoved = true;
+            hasMoved = true;
         }
     }
 
@@ -113,18 +113,18 @@ public class PlayerMovement : MonoBehaviour
             _targetPosition = tilemap.GetCellCenterWorld(targetTile);
             currentTile = targetTile;
             _isMoving = true;
-            _hasMoved = false;
+            hasMoved = false;
         }
     }
 
     public void StartPlayersTurn()
     {
-        _hasMoved = false;
+        hasMoved = false;
         _playerAttackScript.ResetAttack();
     }
     
     public bool HasMovedOrAttacked()
     {
-        return _hasMoved || _playerAttackScript.hasAttacked;
+        return hasMoved || _playerAttackScript.hasAttacked;
     }
 }

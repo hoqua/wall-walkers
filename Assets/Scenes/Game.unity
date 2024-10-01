@@ -20691,8 +20691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccee0e2136898643a84f3c446cf07ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilemap: {fileID: 413383338}
-  _mainCamera: {fileID: 519420031}
+  tilemap: {fileID: 413383338}
+  mainCamera: {fileID: 519420031}
   playerPrefab: {fileID: 8385226143460851807, guid: 0737acb13a4e6144bac8f83d78376d52, type: 3}
   enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
   enemyCount: 3
