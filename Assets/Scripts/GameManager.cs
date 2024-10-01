@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private PlayerMovement _player;                                   // Ссылка на скрипт игрока
-    private List<EnemyMovement> _enemies = new();                   // Список врагов
+
+    private PlayerMovement _player;                                  // Ссылка на скрипт игрока
+    private List<EnemyMovement> _enemies = new();                    // Список врагов
 
     private Camera _mainCamera;
     private GameState _gameState = GameState.PlayerTurn;            // Начальное состояние игры
-    private static event Action<GameState> OnGameStateChanged;       // Ивент для изменения состояния игры
+    private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
 
     private async void Start()
     {
