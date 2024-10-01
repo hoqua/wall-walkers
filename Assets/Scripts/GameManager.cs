@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
+
 public class GameManager : MonoBehaviour
 {
     private PlayerMovement _player;                                   // Ссылка на скрипт игрока

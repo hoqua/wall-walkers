@@ -1,28 +1,33 @@
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
-  public Transform target;          // Ссылка на персонажа, за которым нужно следить
-  public Vector3 offset;            // Смещение камеры от персонажа
-  public float speed = 0.01f;       // Скорость премещения камеры
-  private const float FixedZ = -10; // Фиксированное значение Z для камеры
+    
+    private Transform _target;          // Ссылка на персонажа, за которым нужно следить
+    public Vector3 offset;            // Смещение камеры от персонажа
+    public float speed = 0.01f;       // Скорость премещения камеры
+    private const float FixedZ = -10; // Фиксированное значение Z для камеры
 
-  private void Start() {
-    var player = GameObject.FindWithTag("Player");
-    if (player == null) {
-      throw new System.Exception("Player not found");
+    private void Start() {
+        FindPlayer(); // Пытаемся найти игрока при старте
     }
 
-    target = player.transform;
-  }
+    private void LateUpdate() {
+        if (_target == null) {
+            FindPlayer(); // Если игрока до сих пор нет, продолжаем искать
+            return;
+        }
 
+        var desiredPosition = _target.position + offset;
+        var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, speed);
+        smoothedPosition.z = FixedZ;
 
-  private void LateUpdate() {
-    if (target == null) return;
+        transform.position = smoothedPosition;
+    }
 
-    var desiredPosition = target.position + offset;
-    var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, speed);
-    smoothedPosition.z = FixedZ;
-
-    transform.position = smoothedPosition;
-  }
+    private void FindPlayer() {
+        var player = GameObject.FindWithTag("Player");
+        if (player != null) {
+            _target = player.transform; // Устанавливаем target как игрока
+        }
+    }
 }

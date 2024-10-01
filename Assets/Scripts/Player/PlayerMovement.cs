@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
     private GameManager _gameManager;
-    private PlayerAttack _playerAttackScript;
+    private PlayerAttack _playerAttack;
     public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;    // Текущая клетка персонажа
     
     public float moveSpeed = 5f;      // Скорость движения (настраивается в меню префаба)
     private Vector3 _targetPosition;  // Целевая позиция для перемещения
     private bool _isMoving;           // Флаг, что персонаж в движении
-    private bool _hasMoved = false;
+    public bool hasMoved = false;
 
     void Start()
     {
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
         {
             _isMoving = false;
-            _hasMoved = true;
+            hasMoved = true;
         }
     }
 
@@ -82,10 +83,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptToMoveOrAttack(Vector3Int targetTile)
     {
-        // Передаем целевую клетку для атаки
+       
         _playerAttackScript.HandleAttack(targetTile);
-
-        // Если атаки не было, перемещаемся на клетку
+   
         if (!_playerAttackScript.hasAttacked)
         {
             MoveToTile(targetTile);
@@ -113,18 +113,7 @@ public class PlayerMovement : MonoBehaviour
             _targetPosition = tilemap.GetCellCenterWorld(targetTile);
             currentTile = targetTile;
             _isMoving = true;
-            _hasMoved = false;
+            hasMoved = false;
         }
-    }
-
-    public void StartPlayersTurn()
-    {
-        _hasMoved = false;
-        _playerAttackScript.ResetAttack();
-    }
-    
-    public bool HasMovedOrAttacked()
-    {
-        return _hasMoved || _playerAttackScript.hasAttacked;
     }
 }
