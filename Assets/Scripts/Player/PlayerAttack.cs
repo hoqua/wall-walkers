@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Animator animator;                      // Аниматор и значения для анимаций
+    private Animator _animator;                      // Аниматор и значения для анимаций
     public GameObject slashObject;                 // Префаб для эффекта удара
-    private readonly float _attackDuration = 0.7f; // Длительность анимации удара
-    private readonly float _slashDuration = 0.5f;  // Длительность анимации эффекта удара (slash)
+    private readonly float _attackDuration = 0.7f;  // Длительность анимации удара
+    private readonly float _slashDuration = 0.5f;   // Длительность анимации эффекта удара (slash)
     
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
@@ -15,54 +15,55 @@ public class PlayerAttack : MonoBehaviour
     private Transform _playerTransform;             // Положение игрока
     private PlayerStats _playerStats;               // Статистики игрока (здоровье, урон и тд.)
     private PlayerMovement _playerMovementScript;   // Ссылка на движение игрока
-    public EnemyStats targetEnemy;                  // Враг которого игрок будет атаковать
     public bool hasAttacked = false;                // Проверка, совершил ли игрок атаку
+    
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _playerTransform = transform;
         _playerMovementScript = GetComponent<PlayerMovement>();
         _playerStats = GetComponent<PlayerStats>();
+        _playerMovementScript = GetComponent<PlayerMovement>();
         slashObject.SetActive(false);
     }
     
-    public void HandleAttack(GameObject enemy, Vector3Int targetTile)
+    // Основная функция для атаки врага
+    public void HandleAttack(Vector3Int targetTile)
     {
-        bool willKillEnemy = CheckIfWillKillEnemy(enemy);
-        
-        Attack(enemy);
+        GameObject enemy = FindEnemyOnTile(targetTile);
 
-        // Если следующая атака убъет врага, перемещаемся на его клетку
-        if (willKillEnemy)
+        if (enemy != null)
         {
-            _playerMovementScript.MoveToTile(targetTile);
+            bool willKillEnemy = CheckIfWillKillEnemy(enemy);
+
+            Attack(enemy);
+
+            if (willKillEnemy)
+            {
+                _playerMovementScript.MoveToTile(targetTile);
+            }
+        }
+        else
+        {
+            hasAttacked = false; // Не атакуем, если враг не найден
         }
     }
-    
+
     public void Attack(GameObject enemy)
     {
         if (!hasAttacked)
         {
-            // Устанавливается флаг, что игрок атаковал
             hasAttacked = true;
             
-            // Направление атаки
             var direction = (enemy.transform.position - _playerTransform.position).normalized;
-
-            // Задаем направление атаки в аниматоре
             SetAttackDirectionInAnimator(direction);
 
-            animator.SetTrigger(AttackTrigger);
-
-            // Эффект удара
+            _animator.SetTrigger(AttackTrigger);
             ShowSlashEffect(direction);
 
-            // Нанесение урона
             var enemyStats = enemy.GetComponent<EnemyStats>();
-            targetEnemy = enemyStats;
-            targetEnemy.TakeDamage(_playerStats.damage);
+            enemyStats.TakeDamage(_playerStats.damage);
 
-            // Переход в Idle после атаки
             Invoke(nameof(ReturnToIdle), _attackDuration);
         }
     }
@@ -72,21 +73,27 @@ public class PlayerAttack : MonoBehaviour
         hasAttacked = false;
     }
 
-    // Слеш эффект
-    private void ShowSlashEffect(Vector3 direction)
+    private GameObject FindEnemyOnTile(Vector3Int targetTile)
     {
-        slashObject.SetActive(true);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
-        
-        Invoke(nameof(DeactivateSlash), _slashDuration);
+        foreach (GameObject enemy in enemies)
+        {
+            var enemyMovement = enemy.GetComponent<EnemyMovement>();
+
+            if (enemyMovement.currentTile == targetTile)
+            {
+                return enemy;
+            }
+        }
+
+        return null;
     }
 
-    // Деактивация слеш эффекта
-    private void DeactivateSlash()
+    private bool CheckIfWillKillEnemy(GameObject enemy)
     {
-        slashObject.SetActive(false);
+        var enemyStats = enemy.GetComponent<EnemyStats>();
+        return enemyStats.health - _playerStats.damage <= 0;
     }
 
     private void SetAttackDirectionInAnimator(Vector3 direction)
@@ -94,22 +101,28 @@ public class PlayerAttack : MonoBehaviour
         float horizontal = Mathf.Round(direction.x);
         float vertical = Mathf.Round(direction.y);
         
-        animator.SetFloat(Horizontal, horizontal);
-        animator.SetFloat(Vertical, vertical);
+        _animator.SetFloat(Horizontal, horizontal);
+        _animator.SetFloat(Vertical, vertical);
     }
     
-    // Возвращает анимацию в исходное положение после атаки
-    private void ReturnToIdle()
+    private void ShowSlashEffect(Vector3 direction)
     {
-        animator.SetTrigger(ReturnToIdleTrigger);
-        animator.SetFloat(Horizontal, 0);
-        animator.SetFloat(Vertical, -1);
+        slashObject.SetActive(true);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
+        
+        Invoke(nameof(DeactivateSlash), _slashDuration);
     }
 
-    public bool CheckIfWillKillEnemy(GameObject enemy)
+    private void DeactivateSlash()
     {
-        var enemyStats = enemy.GetComponent<EnemyStats>();
-        if (enemyStats != null) return enemyStats.health - _playerStats.damage <= 0;
-        return false;
+        slashObject.SetActive(false);
+    }
+
+    private void ReturnToIdle()
+    {
+        _animator.SetTrigger(ReturnToIdleTrigger);
+        _animator.SetFloat(Horizontal, 0);
+        _animator.SetFloat(Vertical, -1);
     }
 }
