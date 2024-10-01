@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class SpawnManager : MonoBehaviour {
   
-  [SerializeField] private Tilemap _tilemap;                         // Tilemap для спавна персонажей
-  [SerializeField] private Camera _mainCamera;                       // Камера
+  [SerializeField] private Tilemap tilemap;                         // Tilemap для спавна персонажей
+  [SerializeField] private Camera mainCamera;                       // Камера
 
   [SerializeField] private GameObject playerPrefab; // Ссылка на Префаб игрока (задается в Unity)
   [SerializeField] private GameObject enemyPrefab;  // Ссылка на Префаб врага (задается в Unity)
@@ -24,8 +23,8 @@ public class SpawnManager : MonoBehaviour {
   private void SpawnPlayer() {
     _playerSpawnPosition = GetRandomSpawnPosition(); // Инициализация позиции для игрока
     
-    var player = Instantiate(playerPrefab, _tilemap.GetCellCenterWorld(_playerSpawnPosition), Quaternion.identity);
-    player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, _tilemap);
+    var player = Instantiate(playerPrefab, tilemap.GetCellCenterWorld(_playerSpawnPosition), Quaternion.identity);
+    player.GetComponent<PlayerMovement>().SetCurrentTile(_playerSpawnPosition, tilemap);
     
     Debug.Log($"Player spawned at: {_playerSpawnPosition}");
   }
@@ -41,8 +40,8 @@ public class SpawnManager : MonoBehaviour {
 
       _enemySpawnPositions.Add(enemySpawnPosition);  // Добавляем позицию в список врагов
 
-      GameObject enemy = Instantiate(enemyPrefab, _tilemap.GetCellCenterWorld(enemySpawnPosition), Quaternion.identity);
-      enemy.GetComponent<EnemyMovement>().SetCurrentTile(enemySpawnPosition, _tilemap);
+      GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(enemySpawnPosition), Quaternion.identity);
+      enemy.GetComponent<EnemyMovement>().SetCurrentTile(enemySpawnPosition, tilemap);
     
       Debug.Log($"Enemy {i + 1} spawned at: {enemySpawnPosition}");
     }
@@ -62,11 +61,11 @@ public class SpawnManager : MonoBehaviour {
   }
 
   private BoundsInt GetVisibleTileBounds() {
-    Vector3 bottomLeft = _mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -_mainCamera.transform.position.z));
-    Vector3 topRight = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -_mainCamera.transform.position.z));
+    Vector3 bottomLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
+    Vector3 topRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, -mainCamera.transform.position.z));
 
-    Vector3Int bottomLeftTile = _tilemap.WorldToCell(bottomLeft);
-    Vector3Int topRightTile = _tilemap.WorldToCell(topRight);
+    Vector3Int bottomLeftTile = tilemap.WorldToCell(bottomLeft);
+    Vector3Int topRightTile = tilemap.WorldToCell(topRight);
 
     Debug.Log($"Visible bounds - BottomLeft: {bottomLeftTile}, TopRight: {topRightTile}");
 
@@ -74,7 +73,7 @@ public class SpawnManager : MonoBehaviour {
   }
 
   private bool TileExists(Vector3Int position) {
-    TileBase tile = _tilemap.GetTile(position);
+    TileBase tile = tilemap.GetTile(position);
     return tile != null;
   }
 }
