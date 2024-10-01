@@ -5,17 +5,17 @@ public class PlayerMovement : MonoBehaviour
 {
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
-    public Tilemap tilemap;           // Tilemap, по которой будет двигаться персонаж
-    public Vector3Int currentTile;    // Текущая клетка персонажа
+    private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
+    public Vector3Int currentTile;            // Текущая клетка персонажа
     
-    public float moveSpeed = 5f;      // Скорость движения (настраивается в меню префаба)
-    private Vector3 _targetPosition;  // Целевая позиция для перемещения
-    private bool _isMoving;           // Флаг, что персонаж в движении
-    public bool hasMoved = false;
+    public float moveSpeed = 5f;              // Скорость движения (настраивается в меню префаба)
+    private Vector3 _targetPosition;          // Целевая позиция для перемещения
+    private bool _isMoving;                   // Флаг, что персонаж в движении
+    public bool hasMoved;                     // Флаг, что персонаж походил и может начинаться ход врагов
 
     void Start()
     {
-        tilemap = FindObjectOfType<Tilemap>();
+        _tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
         _playerAttackScript = GetComponent<PlayerAttack>();
@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
     {
         currentTile = tilePosition;
-        tilemap = map;
-        transform.position = tilemap.GetCellCenterWorld(currentTile);
+        _tilemap = map;
+        transform.position = _tilemap.GetCellCenterWorld(currentTile);
         _targetPosition = transform.position; 
     }
 
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-        return tilemap.WorldToCell(mousePos);
+        return _tilemap.WorldToCell(mousePos);
     }
 
     private void AttemptToMoveOrAttack(Vector3Int targetTile)
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool TileExists(Vector3Int targetTile)
     {
-        TileBase tileBase = tilemap.GetTile(targetTile);
+        TileBase tileBase = _tilemap.GetTile(targetTile);
         return tileBase != null;
     }
 
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_isMoving)
         {
-            _targetPosition = tilemap.GetCellCenterWorld(targetTile);
+            _targetPosition = _tilemap.GetCellCenterWorld(targetTile);
             currentTile = targetTile;
             _isMoving = true;
             hasMoved = false;
