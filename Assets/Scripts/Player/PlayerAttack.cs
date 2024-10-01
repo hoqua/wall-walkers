@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Animator animator;                      // Аниматор и значения для анимаций
+    private Animator _animator;                      // Аниматор и значения для анимаций
     public GameObject slashObject;                 // Префаб для эффекта удара
-    private readonly float _attackDuration = 0.7f; // Длительность анимации удара
-    private readonly float _slashDuration = 0.5f;  // Длительность анимации эффекта удара (slash)
+    private readonly float _attackDuration = 0.7f;  // Длительность анимации удара
+    private readonly float _slashDuration = 0.5f;   // Длительность анимации эффекта удара (slash)
     
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
@@ -19,7 +19,7 @@ public class PlayerAttack : MonoBehaviour
     
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _playerTransform = transform;
         _playerStats = GetComponent<PlayerStats>();
         _playerMovementScript = GetComponent<PlayerMovement>();
@@ -57,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
             var direction = (enemy.transform.position - _playerTransform.position).normalized;
             SetAttackDirectionInAnimator(direction);
 
-            animator.SetTrigger(AttackTrigger);
+            _animator.SetTrigger(AttackTrigger);
             ShowSlashEffect(direction);
 
             var enemyStats = enemy.GetComponent<EnemyStats>();
@@ -100,8 +100,8 @@ public class PlayerAttack : MonoBehaviour
         float horizontal = Mathf.Round(direction.x);
         float vertical = Mathf.Round(direction.y);
         
-        animator.SetFloat(Horizontal, horizontal);
-        animator.SetFloat(Vertical, vertical);
+        _animator.SetFloat(Horizontal, horizontal);
+        _animator.SetFloat(Vertical, vertical);
     }
     
     private void ShowSlashEffect(Vector3 direction)
@@ -120,8 +120,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void ReturnToIdle()
     {
-        animator.SetTrigger(ReturnToIdleTrigger);
-        animator.SetFloat(Horizontal, 0);
-        animator.SetFloat(Vertical, -1);
+        _animator.SetTrigger(ReturnToIdleTrigger);
+        _animator.SetFloat(Horizontal, 0);
+        _animator.SetFloat(Vertical, -1);
     }
 }

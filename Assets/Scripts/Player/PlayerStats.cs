@@ -1,11 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerStats : MonoBehaviour
 {
-   private int _level = 1; // Уровень игрока
-   public int health = 5;  // Здоровье игрока (начальное)
-   public int damage = 1;  // Урон игрока (начальный)
+   private int _level = 1;                   // Уровень игрока
+   [SerializeField] private int health = 5;  // Здоровье игрока (начальное)
+   [SerializeField] public int damage = 1;   // Урон игрока (начальный)
 
    private int exp = 0;
    private int requiredExp = 1;
@@ -40,7 +41,7 @@ public class PlayerStats : MonoBehaviour
 
    public void GainExp()
    {
-      exp += 2;
+      exp += 1;
       
       if (exp >= requiredExp)
       {

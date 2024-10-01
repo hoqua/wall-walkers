@@ -20679,8 +20679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4b4d5ab17493a4892077f7bc4d394a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  enemy: {fileID: 0}
 --- !u!114 &418929557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20693,10 +20691,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccee0e2136898643a84f3c446cf07ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 413383338}
-  mainCamera: {fileID: 519420031}
+  _tilemap: {fileID: 413383338}
+  _mainCamera: {fileID: 519420031}
   playerPrefab: {fileID: 8385226143460851807, guid: 0737acb13a4e6144bac8f83d78376d52, type: 3}
   enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
+  enemyCount: 3
 --- !u!1 &440432743
 GameObject:
   m_ObjectHideFlags: 0

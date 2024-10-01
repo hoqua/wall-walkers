@@ -3,28 +3,28 @@ using UnityEngine.Tilemaps;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public Tilemap tilemap;             // Tilemap по которому будет двигаться враг
-    public Vector3Int currentTile;      // Текущий тайл врага
-    private EnemyAttack _enemyAttack;   // Ссылка на скрипт отвечающий за атаку врага
-    public PlayerMovement player;       // Ссылка на скрипт игрока
+    private Tilemap _tilemap;                          // Tilemap по которому будет двигаться враг
+    public Vector3Int currentTile;                     // Текущий тайл врага
+    private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
+    private PlayerMovement _player;                    // Ссылка на скрипт игрока
 
-    public float moveSpeed = 5f;        // Скорость движения игрока
-    private Vector3 _targetPosition;    // Целевая позиция для перемещения
-    private bool _isMoving;             // Флаг, что враг в движении
+    [SerializeField] private float moveSpeed = 5f;     // Скорость движения игрока
+    private Vector3 _targetPosition;                   // Целевая позиция для перемещения
+    private bool _isMoving;                            // Флаг, что враг в движении
     
     void Start()
     {
-        tilemap = FindObjectOfType<Tilemap>();
+        _tilemap = FindObjectOfType<Tilemap>();
         _enemyAttack = GetComponent<EnemyAttack>();
-        player = FindObjectOfType<PlayerMovement>();
+        _player = FindObjectOfType<PlayerMovement>();
         _targetPosition = transform.position;
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
     {
         currentTile = tilePosition;
-        tilemap = map;
-        transform.position = tilemap.GetCellCenterWorld(currentTile);
+        _tilemap = map;
+        transform.position = _tilemap.GetCellCenterWorld(currentTile);
         _targetPosition = transform.position;
     }
 
@@ -38,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
     
     public void MoveTowardsPlayer()
     {
-        Vector3Int playerTile = player.currentTile;
+        Vector3Int playerTile = _player.currentTile;
 
         if (_enemyAttack.IsPlayerInRange(currentTile, playerTile))
         {
@@ -49,7 +49,7 @@ public class EnemyMovement : MonoBehaviour
         Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
         Vector3Int targetTile = currentTile + direction;
 
-        if (tilemap.GetTile(targetTile) != null && targetTile != playerTile)
+        if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile)
         {
             MoveToTile(targetTile);
         }
@@ -82,7 +82,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (!_isMoving)
         {
-            _targetPosition = tilemap.GetCellCenterWorld(targetTile);
+            _targetPosition = _tilemap.GetCellCenterWorld(targetTile);
             currentTile = targetTile;
 
             _isMoving = true; // Устанавливаем флаг, что враг в движении
