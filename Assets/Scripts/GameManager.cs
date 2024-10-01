@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
 
