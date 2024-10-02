@@ -20696,7 +20696,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
   expGemPrefab: {fileID: 8450663273852987919, guid: a6b9a46fffb843644ad403f2492899bc, type: 3}
   expGemsContainer: {fileID: 1668646779}
-  spawnRadius: 13
+  spawnRadius: 15
 --- !u!1 &440432743
 GameObject:
   m_ObjectHideFlags: 0
@@ -20861,7 +20861,7 @@ Transform:
   m_GameObject: {fileID: 496123977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21007,7 +21007,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
-  speed: 0.01
+  followSpeed: 0.05
+  cameraMoveSpeed: 1
+  maxDistanceFromPlayer: 3
 --- !u!1 &522984263
 GameObject:
   m_ObjectHideFlags: 0
