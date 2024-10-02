@@ -49,14 +49,15 @@ public class SpawnManager : MonoBehaviour
         foreach (Vector3Int spawnPosition in availablePositions)
         {
             // Решаем, какой объект спавнить (гем или враг)
-            if (Random.value > 0.1f)
-            {
-                Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
-            }
-            else
+            if (Random.value < 0.03f)
             {
                 GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
                 enemy.GetComponent<EnemyMovement>().SetCurrentTile(spawnPosition, tilemap);
+                
+            }
+            else
+            {
+                Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
             }
 
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых

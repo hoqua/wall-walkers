@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,10 +9,13 @@ public class EnemyMovement : MonoBehaviour
     private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
     private PlayerMovement _player;                    // Ссылка на скрипт игрока
 
-    [SerializeField] private float moveSpeed = 5f;     // Скорость движения игрока
+    [SerializeField] private float moveSpeed = 5f;     // Скорость движения врага
     private Vector3 _targetPosition;                   // Целевая позиция для перемещения
     private bool _isMoving;                            // Флаг, что враг в движении
-    
+
+    // Статический список для отслеживания всех врагов и их позиций
+    private static List<Vector3Int> _enemyPositions = new List<Vector3Int>();
+
     void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
@@ -19,6 +23,12 @@ public class EnemyMovement : MonoBehaviour
         _player = FindObjectOfType<PlayerMovement>();
         _targetPosition = transform.position;
         
+        _enemyPositions.Add(currentTile);
+    }
+
+    void OnDestroy()
+    {
+        _enemyPositions.Remove(currentTile);
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -36,26 +46,28 @@ public class EnemyMovement : MonoBehaviour
             MoveTowardsTarget();
         }
     }
-    
+
     public void MoveTowardsPlayer()
     {
         Vector3Int playerTile = _player.currentTile;
 
+        // Если игрок в зоне досягаемости, атакуем
         if (_enemyAttack.IsPlayerInRange(currentTile, playerTile))
         {
             _enemyAttack.AttackPlayer();
-            return; // Если враг ударил врага, то он не двигается
+            return; // Если враг ударил игрока, он не двигается
         }
-        
+
         Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
         Vector3Int targetTile = currentTile + direction;
 
-        if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile)
+        // Проверяем, что тайл свободен и на нём нет другого врага
+        if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile && !IsTileOccupiedByEnemy(targetTile))
         {
             MoveToTile(targetTile);
         }
     }
-    
+
     private void MoveTowardsTarget()
     {
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, moveSpeed * Time.deltaTime);
@@ -65,7 +77,7 @@ public class EnemyMovement : MonoBehaviour
             _isMoving = false;
         }
     }
-    
+
     private Vector3Int GetDirectionTowardsPlayer(Vector3Int playerTile)
     {
         int dx = playerTile.x - currentTile.x;
@@ -78,15 +90,23 @@ public class EnemyMovement : MonoBehaviour
         );
         return direction;
     }
-    
+
     private void MoveToTile(Vector3Int targetTile)
     {
         if (!_isMoving)
         {
             _targetPosition = _tilemap.GetCellCenterWorld(targetTile);
+            _enemyPositions.Remove(currentTile);  // Убираем старую позицию
             currentTile = targetTile;
+            _enemyPositions.Add(currentTile);     // Добавляем новую позицию
 
             _isMoving = true; // Устанавливаем флаг, что враг в движении
         }
+    }
+
+    // Проверяем, занята ли клетка другим врагом
+    private bool IsTileOccupiedByEnemy(Vector3Int tilePosition)
+    {
+        return _enemyPositions.Contains(tilePosition);
     }
 }
