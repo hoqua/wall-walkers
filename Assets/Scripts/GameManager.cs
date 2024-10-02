@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         foreach (var enemy in _enemies)
         {
             enemy.MoveTowardsPlayer();
-            await Task.Delay(250); // Задержка между ходами врагов
+            await Task.Delay(50); // Задержка между ходами врагов
         }
 
         Debug.Log("Enemy's Turn Ended");
