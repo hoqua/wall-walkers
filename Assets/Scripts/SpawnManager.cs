@@ -6,17 +6,16 @@ using UnityEngine.Tilemaps;
 public class SpawnManager : MonoBehaviour 
 {
     [SerializeField] private Tilemap tilemap;                         // Tilemap для спавна персонажей
-
+    private PlayerMovement _player;                                   // Ссылка на скрипт движения игрока для спавна объектов вокруг него
+    
     [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
     [SerializeField] private GameObject expGemPrefab;                 // Префаб камня с опытом
     [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
-    [SerializeField] private int enemyCount = 3;                      // Количество врагов для спавна
-    [SerializeField] private float spawnRadius = 5f;                  // Радиус спавна от игрока
+    [SerializeField] private float spawnRadius = 13f;                 // Радиус спавна от игрока
     private int _spawnDelay = 200;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
-    private List<Vector3Int> _enemySpawnPositions = new List<Vector3Int>(); // Список мест появления врагов
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
 
     async void Start()
@@ -24,10 +23,9 @@ public class SpawnManager : MonoBehaviour
         await SpawnPlayer();             // Спавн игрока
         await Task.Delay(_spawnDelay);   // Задержка
 
-        await SpawnEnemies(enemyCount);  // Спавн нескольких врагов
-        await Task.Delay(_spawnDelay);   // Задержка
+        _player = FindObjectOfType<PlayerMovement>();
 
-        await SpawnExpGems();            // Спавн гемов с опытом
+        SpawnObjectsAroundPlayer();
     }
 
     private async Task SpawnPlayer() 
@@ -44,63 +42,28 @@ public class SpawnManager : MonoBehaviour
         await Task.CompletedTask;
     }
     
-    private async Task SpawnEnemies(int count) 
+    public void SpawnObjectsAroundPlayer()
     {
-        for (int i = 0; i < count; i++) 
-        {
-            Vector3Int enemySpawnPosition = GetRandomSpawnPositionWithinRadius();
+        List<Vector3Int> availablePositions = GetAvailablePositionsAroundPlayer();  // Получаем доступные позиции
 
-            while (_occupiedPositions.Contains(enemySpawnPosition)) 
+        foreach (Vector3Int spawnPosition in availablePositions)
+        {
+            // Решаем, какой объект спавнить (гем или враг)
+            if (Random.value > 0.1f)
             {
-                enemySpawnPosition = GetRandomSpawnPositionWithinRadius();
+                Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
+            }
+            else
+            {
+                GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
+                enemy.GetComponent<EnemyMovement>().SetCurrentTile(spawnPosition, tilemap);
             }
 
-            _enemySpawnPositions.Add(enemySpawnPosition);  
-            _occupiedPositions.Add(enemySpawnPosition); 
-            
-            GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(enemySpawnPosition), Quaternion.identity);
-            enemy.GetComponent<EnemyMovement>().SetCurrentTile(enemySpawnPosition, tilemap);
-        
-            Debug.Log($"Enemy {i + 1} spawned at: {enemySpawnPosition}");
-            await Task.CompletedTask;
+            _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
+            Debug.Log($"Spawned object at: {spawnPosition}");
         }
     }
-
-    private async Task SpawnExpGems()
-    {
-        BoundsInt bounds = tilemap.cellBounds;
-        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
-
-        List<Vector3Int> gemPositions = new List<Vector3Int>();
-        
-        for (int x = bounds.xMin; x < bounds.xMax; x++)
-        {
-            for (int y = bounds.yMin; y < bounds.yMax; y++)
-            {
-                Vector3Int tilePosition = new Vector3Int(x, y, 0);
-
-                if (!_occupiedPositions.Contains(tilePosition) && TileExists(tilePosition) && IsWithinRadius(tilePosition))
-                {
-                    gemPositions.Add(tilePosition);
-                }
-            }
-        }
-        
-        foreach (Vector3Int gemPosition in gemPositions)
-        {
-            Vector3 worldPosition = tilemap.GetCellCenterWorld(gemPosition);
-            worldPosition.z = 10;
-            
-            var gem = Instantiate(expGemPrefab, worldPosition, Quaternion.identity, expGemsContainer.transform);     
-            _occupiedPositions.Add(gemPosition);        
-            
-            await Task.Delay(1); // Задержка перед спавном КАЖДОГО гема
-        }
-
-        Debug.Log($"{gemPositions.Count} Exp Gems spawned.");
-        await Task.CompletedTask;
-    }
-
+    
     // Метод для генерации случайной позиции на карте для спавна игрока
     private Vector3Int GetRandomSpawnPosition()
     {
@@ -118,31 +81,28 @@ public class SpawnManager : MonoBehaviour
         return randomPosition;
     }
     
-    // Метод для генерации случайной позиции в пределах радиуса спавна
-    private Vector3Int GetRandomSpawnPositionWithinRadius()
+    // Получение всех доступных позиций вокруг игрока в пределах радиуса
+    private List<Vector3Int> GetAvailablePositionsAroundPlayer()
     {
-        Vector3Int randomPosition;
-        BoundsInt bounds = tilemap.cellBounds;
+        List<Vector3Int> availablePositions = new List<Vector3Int>();
 
-        do
+        // Перебираем все клетки в пределах радиуса
+        for (int x = -Mathf.FloorToInt(spawnRadius); x <= Mathf.FloorToInt(spawnRadius); x++)
         {
-            int randomX = Random.Range(bounds.xMin, bounds.xMax);
-            int randomY = Random.Range(bounds.xMin, bounds.xMax);
-            randomPosition = new Vector3Int(randomX, randomY, 0);
-        } 
-        while (!TileExists(randomPosition) || _occupiedPositions.Contains(randomPosition) || !IsWithinRadius(randomPosition));
+            for (int y = -Mathf.FloorToInt(spawnRadius); y <= Mathf.FloorToInt(spawnRadius); y++)
+            {
+                Vector3Int offset = new Vector3Int(x, y, 0);
+                Vector3Int potentialPosition = _playerSpawnPosition + offset;
 
-        return randomPosition;
-    }
+                // Проверяем, что клетка существует и не занята
+                if (TileExists(potentialPosition) && !_occupiedPositions.Contains(potentialPosition))
+                {
+                    availablePositions.Add(potentialPosition);  // Добавляем клетку в список доступных
+                }
+            }
+        }
 
-    // Проверка, находится ли клетка в пределах радиуса спавна от игрока
-    private bool IsWithinRadius(Vector3Int tilePosition)
-    {
-        Vector3 playerWorldPos = tilemap.GetCellCenterWorld(_playerSpawnPosition);
-        Vector3 tileWorldPos = tilemap.GetCellCenterWorld(tilePosition);
-
-        float distance = Vector3.Distance(playerWorldPos, tileWorldPos);
-        return distance <= spawnRadius;  // Возвращаем true, если клетка в пределах радиуса
+        return availablePositions;
     }
 
     private bool TileExists(Vector3Int position) 

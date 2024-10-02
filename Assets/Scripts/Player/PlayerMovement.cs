@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
     private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
@@ -18,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
         _tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        
         _playerAttackScript = GetComponent<PlayerAttack>();
     }
     
@@ -89,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_playerAttackScript.hasAttacked)
         {
             MoveToTile(targetTile);
+            _spawnManager.SpawnObjectsAroundPlayer();
         }
     }
     

@@ -18,6 +18,7 @@ public class EnemyMovement : MonoBehaviour
         _enemyAttack = GetComponent<EnemyAttack>();
         _player = FindObjectOfType<PlayerMovement>();
         _targetPosition = transform.position;
+        
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
