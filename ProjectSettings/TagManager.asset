@@ -8,6 +8,7 @@ TagManager:
   - HealthText
   - DamageText
   - LevelText
+  - ExpGem
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: User Interface
+    uniqueID: 3861205073
     locked: 0
