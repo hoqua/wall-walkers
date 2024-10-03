@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using GameObject = UnityEngine.GameObject;
 
 public class SpawnManager : MonoBehaviour 
 {
@@ -57,7 +58,8 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
+                GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
+                expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
             }
 
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых

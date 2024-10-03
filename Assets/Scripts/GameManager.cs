@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.EnemyTurn);
         Debug.Log("Now: Enemy's Turn");
 
-        await Task.Delay(500); // Задержка перед ходом врагов
+        await Task.Delay(300); // Задержка перед ходом врагов
         
         foreach (var enemy in _enemies)
         {
