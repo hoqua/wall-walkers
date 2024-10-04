@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         _spawnManager = FindObjectOfType<SpawnManager>();
 
         _playerStats = GetComponent<PlayerStats>();
+
         _playerAttackScript = GetComponent<PlayerAttack>();
     }
     
@@ -106,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_playerAttackScript.hasAttacked)
         {
             MoveToTile(targetTile);
+            _spawnManager.SpawnObjectsAroundPlayer();
         }
     }
 

@@ -9,7 +9,7 @@ public class EnemyMovement : MonoBehaviour
     private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
     private PlayerMovement _player;                    // Ссылка на скрипт игрока
 
-    private bool _isActive = false;
+
     [SerializeField] private float moveSpeed = 5f;     // Скорость движения врага
     private Vector3 _targetPosition;                   // Целевая позиция для перемещения
     private bool _isMoving;                            // Флаг, что враг в движении
@@ -46,11 +46,7 @@ public class EnemyMovement : MonoBehaviour
         {
             MoveTowardsTarget();
         } 
-        else if (_isActive == false) 
-        {
-            MoveTowardsTarget();
-            _isActive = true;
-        }
+    
     }
 
     public void MoveTowardsPlayer()
