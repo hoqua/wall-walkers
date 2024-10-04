@@ -54,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
         {
             _isMoving = false;
             hasMoved = true;
+            
+            // Спавним объекты после перемещения
+            _spawnManager.SpawnObjectsAroundPlayer(currentTile);
         }
     }
 
@@ -103,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         if (!_playerAttackScript.hasAttacked)
         {
             MoveToTile(targetTile);
-            _spawnManager.SpawnObjectsAroundPlayer();
         }
     }
 

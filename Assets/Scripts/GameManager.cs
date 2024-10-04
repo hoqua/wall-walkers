@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddEnemy(EnemyMovement enemy)
+    {
+        if (!_enemies.Contains(enemy))
+        {
+            _enemies.Add(enemy);
+        }
+    }
+    
     private async Task GameLoop()
     {
         ChangeGameState(GameState.PlayerTurn);
