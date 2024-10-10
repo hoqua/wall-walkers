@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using GameObject = UnityEngine.GameObject;
 
-public class SpawnManager : MonoBehaviour 
+
+public class SpawnManager : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private Tilemap tilemap;                         // Tilemap для спавна персонажей
     private PlayerMovement _player;                                   // Ссылка на скрипт движения игрока для спавна объектов вокруг него
     
@@ -25,7 +28,9 @@ public class SpawnManager : MonoBehaviour
 
         _player = FindObjectOfType<PlayerMovement>();
 
-        SpawnObjectsAroundPlayer();
+
+        SpawnObjectsAroundPlayer(_player.currentTile);
+
     }
 
     private async Task SpawnPlayer() 
@@ -42,22 +47,29 @@ public class SpawnManager : MonoBehaviour
         await Task.CompletedTask;
     }
     
-    public void SpawnObjectsAroundPlayer()
+
+    public void SpawnObjectsAroundPlayer(Vector3Int playerPosition)
     {
-        List<Vector3Int> availablePositions = GetAvailablePositionsAroundPlayer();  // Получаем доступные позиции
+        List<Vector3Int> availablePositions = GetAvailablePositionsAroundPlayer(playerPosition);  // Получаем доступные позиции
+
 
         foreach (Vector3Int spawnPosition in availablePositions)
         {
             // Решаем, какой объект спавнить (гем или враг)
-            if (Random.value < 0.03f)
+
+            if (Random.value < 0.025f)
             {
                 GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
-                enemy.GetComponent<EnemyMovement>().SetCurrentTile(spawnPosition, tilemap);
-                
+                EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
+                enemyScript.SetCurrentTile(spawnPosition, tilemap);
+                // Добавляем врага в список врагов
+                _gameManager.AddEnemy(enemyScript);
             }
             else
             {
-                Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
+                GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
+                expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
+
             }
 
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
@@ -83,7 +95,9 @@ public class SpawnManager : MonoBehaviour
     }
     
     // Получение всех доступных позиций вокруг игрока в пределах радиуса
-    private List<Vector3Int> GetAvailablePositionsAroundPlayer()
+
+    private List<Vector3Int> GetAvailablePositionsAroundPlayer(Vector3Int playerPosition)
+
     {
         List<Vector3Int> availablePositions = new List<Vector3Int>();
 
@@ -92,8 +106,9 @@ public class SpawnManager : MonoBehaviour
         {
             for (int y = -Mathf.FloorToInt(spawnRadius); y <= Mathf.FloorToInt(spawnRadius); y++)
             {
-                Vector3Int offset = new Vector3Int(x, y, 0);
-                Vector3Int potentialPosition = _playerSpawnPosition + offset;
+
+                Vector3Int potentialPosition = playerPosition + offset;
+
 
                 // Проверяем, что клетка существует и не занята
                 if (TileExists(potentialPosition) && !_occupiedPositions.Contains(potentialPosition))

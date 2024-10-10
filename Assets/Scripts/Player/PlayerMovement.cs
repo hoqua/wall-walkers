@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
+    private PlayerStats _playerStats;
     private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
     public Vector3Int currentTile;            // Текущая клетка персонажа
     
@@ -20,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
         _spawnManager = FindObjectOfType<SpawnManager>();
-        
+
+        _playerStats = GetComponent<PlayerStats>();
+
         _playerAttackScript = GetComponent<PlayerAttack>();
     }
     
@@ -52,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
         {
             _isMoving = false;
             hasMoved = true;
+            
+            // Спавним объекты после перемещения
+            _spawnManager.SpawnObjectsAroundPlayer(currentTile);
         }
     }
 
@@ -85,6 +91,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptToMoveOrAttack(Vector3Int targetTile)
     {
+        GameObject targetObject = GetObjectOnTile(targetTile);
+
+        // Если на клетке гем, то получаем опыт и удаляем гем
+        if (targetObject != null && targetObject.CompareTag("ExpGem"))
+        {
+            _playerStats.GainExp();
+            Destroy(targetObject);
+        }
+        
         // Передаем целевую клетку для атаки
         _playerAttackScript.HandleAttack(targetTile);
 
@@ -95,7 +110,23 @@ public class PlayerMovement : MonoBehaviour
             _spawnManager.SpawnObjectsAroundPlayer();
         }
     }
-    
+
+    private GameObject GetObjectOnTile(Vector3Int targetTile)
+    {
+        Vector3 worldPosition = _tilemap.GetCellCenterWorld(targetTile);
+        Collider2D[] colliders = Physics2D.OverlapPointAll(worldPosition);
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("ExpGem"))
+            {
+                return collider.gameObject;
+            }
+        }
+
+        return null;
+    }
+
     private bool IsWithinOneTileRadius(Vector3Int targetTile)
     {
         int dx = Mathf.Abs(targetTile.x - currentTile.x);

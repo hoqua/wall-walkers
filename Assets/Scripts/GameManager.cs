@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddEnemy(EnemyMovement enemy)
+    {
+        if (!_enemies.Contains(enemy))
+        {
+            _enemies.Add(enemy);
+        }
+    }
+    
     private async Task GameLoop()
     {
         ChangeGameState(GameState.PlayerTurn);
@@ -73,7 +81,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.EnemyTurn);
         Debug.Log("Now: Enemy's Turn");
 
-        await Task.Delay(500); // Задержка перед ходом врагов
+        await Task.Delay(300); // Задержка перед ходом врагов
         
         foreach (var enemy in _enemies)
         {
