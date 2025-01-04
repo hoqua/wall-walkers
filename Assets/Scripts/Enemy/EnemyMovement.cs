@@ -8,11 +8,11 @@ public class EnemyMovement : MonoBehaviour
     public Vector3Int currentTile;                     // Текущий тайл врага
     private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
     private PlayerMovement _player;                    // Ссылка на скрипт игрока
-
+    private SpawnManager _spawnManager;                // Ссылка для получения радиуса от игрока на котором враг может двигаться
     private bool _isActive = false;
-    [SerializeField] private float moveSpeed = 5f;     // Скорость движения врага
-    private Vector3 _targetPosition;                   // Целевая позиция для перемещения
-    private bool _isMoving;                            // Флаг, что враг в движении
+    [SerializeField] private float moveSpeed = 5f;       // Скорость движения врага
+    private Vector3 _targetPosition;                     // Целевая позиция для перемещения
+    private bool _isMoving;                              // Флаг, что враг в движении
 
     // Статический список для отслеживания всех врагов и их позиций
     private static List<Vector3Int> _enemyPositions = new List<Vector3Int>();
@@ -22,6 +22,7 @@ public class EnemyMovement : MonoBehaviour
         _tilemap = FindObjectOfType<Tilemap>();
         _enemyAttack = GetComponent<EnemyAttack>();
         _player = FindObjectOfType<PlayerMovement>();
+        _spawnManager = FindObjectOfType<SpawnManager>();
         _targetPosition = transform.position;
         
         _enemyPositions.Add(currentTile);
@@ -56,7 +57,14 @@ public class EnemyMovement : MonoBehaviour
     public void MoveTowardsPlayer()
     {
         Vector3Int playerTile = _player.currentTile;
-
+        
+        // Проверяем расстояние между врагом и игроком
+        float distance = Vector3Int.Distance(currentTile, playerTile);
+        if (distance > _spawnManager.spawnRadius - 3)
+        {
+            return; // Враг не двигается, если игрок вне радиуса
+        }
+        
         // Если игрок в зоне досягаемости, атакуем
         if (_enemyAttack.IsPlayerInRange(currentTile, playerTile))
         {

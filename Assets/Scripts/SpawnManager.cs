@@ -14,7 +14,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
     [SerializeField] private GameObject expGemPrefab;                 // Префаб камня с опытом
     [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
-    [SerializeField] private float spawnRadius = 13f;                 // Радиус спавна от игрока
+    [SerializeField] public float spawnRadius = 13f;                 // Радиус спавна от игрока
     private int _spawnDelay = 200;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
