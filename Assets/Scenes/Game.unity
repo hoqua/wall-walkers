@@ -21746,8 +21746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fe7f444fc57e54ab0d292ded92be17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeX: 20
-  gridSizeY: 20
+  gridSizeX: 30
+  gridSizeY: 30
   cellSize: 1
   gridColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1171866762
