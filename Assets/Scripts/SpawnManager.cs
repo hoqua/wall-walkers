@@ -14,8 +14,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
     [SerializeField] private GameObject expGemPrefab;                 // Префаб камня с опытом
     [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
-    [SerializeField] public float spawnRadius = 13f;                 // Радиус спавна от игрока
+    [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
     private int _spawnDelay = 200;
+    
+    [SerializeField] [Range(0f, 1f)] private float objectSpawnChance = 0.55f; // Общий шанс появления объектов (врагов, кристаллов и тд.)
+    [SerializeField] [Range(0f, 1f)] private float enemySpawnChance = 0.1f;   // Шанс появления врага
+    [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.9f;     // Шанс появления кристалла опыта
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
@@ -50,21 +54,27 @@ public class SpawnManager : MonoBehaviour
 
         foreach (Vector3Int spawnPosition in availablePositions)
         {
-            // Решаем, какой объект спавнить (гем или враг)
-            if (Random.value < 0.025f)
+            // Спавнить ли объект
+            if (Random.value < objectSpawnChance) // Общий шанс появления
             {
-                GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
-                EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
-                enemyScript.SetCurrentTile(spawnPosition, tilemap);
-                // Добавляем врага в список врагов
-                _gameManager.AddEnemy(enemyScript);
+                // Случайно выбирается, какой объект спавнить
+                if (Random.value < enemySpawnChance)
+                {
+                    GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition),
+                        Quaternion.identity);
+                    EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
+                    enemyScript.SetCurrentTile(spawnPosition, tilemap);
+                    // Добавляем врага в список врагов
+                    _gameManager.AddEnemy(enemyScript);
+                }
+                else if (Random.value < expSpawnChance)
+                {
+                    GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition),
+                        Quaternion.identity, expGemsContainer.transform);
+                    expGem.transform.position =
+                        new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
+                }
             }
-            else
-            {
-                GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity, expGemsContainer.transform);
-                expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
-            }
-
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
             Debug.Log($"Spawned object at: {spawnPosition}");
         }
