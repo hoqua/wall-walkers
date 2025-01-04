@@ -20697,7 +20697,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
   expGemPrefab: {fileID: 8450663273852987919, guid: a6b9a46fffb843644ad403f2492899bc, type: 3}
   expGemsContainer: {fileID: 1668646779}
-  spawnRadius: 14
+  spawnRadius: 13
 --- !u!1 &440432743
 GameObject:
   m_ObjectHideFlags: 0
