@@ -10,9 +10,10 @@ public class PlayerStats : MonoBehaviour
 
    private int exp = 0;
    private int requiredExp = 1;
-   private TMP_Text _levelText;  // Ссылка на TMP для отображения уровня
-   private TMP_Text _healthText; // Ссылка на TMP для отображения здоровья
-   private TMP_Text _damageText; // Ссылка на TMP для отображения урона
+   private TMP_Text _levelText;    // Ссылка на TMP для отображения уровня
+   private TMP_Text _healthText;   // Ссылка на TMP для отображения здоровья
+   private TMP_Text _damageText;   // Ссылка на TMP для отображения урона
+   private ItemSelect _itemSelect; // Ссылка на скрипт для отображения экрана с выбором предметов
 
    void Start()
    {
@@ -20,9 +21,9 @@ public class PlayerStats : MonoBehaviour
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
 
-      UpdateLevelUI();
-      UpdateHealthUI();
-      UpdateDamageUI();
+      UpdateAllUI();
+      
+      _itemSelect = GameObject.Find("ItemSelect").GetComponent<ItemSelect>();
    }
 
    
@@ -52,6 +53,8 @@ public class PlayerStats : MonoBehaviour
    
    private void LevelUp()
    {
+      _itemSelect.ShowItemSelectScreen();
+      
       _level += 1;
       health = 5 + _level;
       damage = 1 + damage;
