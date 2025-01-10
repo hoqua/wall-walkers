@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
 
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
+    
+    [SerializeField] private ItemSelect itemSelect;                 // Экран для выбора предметов 
 
     private Camera _mainCamera;
     private GameState _gameState = GameState.PlayerTurn;            // Начальное состояние игры
     private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
-
     private async void Start()
     {
         await FindCharacters();
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
             }
             await Task.Yield();
         }
-
+        
         Debug.Log("Player's Turn Ended");
     }
 
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
             enemy.MoveTowardsPlayer();
             await Task.Delay(30); // Задержка между ходами врагов
         }
-
+        
         Debug.Log("Enemy's Turn Ended");
     }
 

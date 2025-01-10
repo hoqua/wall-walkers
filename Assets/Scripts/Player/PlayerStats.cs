@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class PlayerStats : MonoBehaviour
 
       UpdateAllUI();
       
-      _itemSelect = GameObject.Find("ItemSelect").GetComponent<ItemSelect>();
+      _itemSelect = GameObject.Find("Item Select Screen").GetComponent<ItemSelect>();
    }
 
    
@@ -53,16 +52,17 @@ public class PlayerStats : MonoBehaviour
    
    private void LevelUp()
    {
-      _itemSelect.ShowItemSelectScreen();
-      
       _level += 1;
       health = 5 + _level;
       damage = 1 + damage;
       
       UpdateAllUI();
+      _itemSelect.ShowItemSelectScreen();
    }
 
-   private void UpdateAllUI()
+   
+
+   public void UpdateAllUI()
    {
       UpdateDamageUI();
       UpdateHealthUI();
@@ -90,4 +90,6 @@ public class PlayerStats : MonoBehaviour
       Debug.Log("Player has died");
       Destroy(gameObject);
    }
+   
+   
 }
