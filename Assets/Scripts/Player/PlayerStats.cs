@@ -56,11 +56,16 @@ public class PlayerStats : MonoBehaviour
       health = 5 + _level;
       damage = 1 + damage;
       
+      UpdateAllUI();
+   }
+
+   private void UpdateAllUI()
+   {
       UpdateDamageUI();
       UpdateHealthUI();
       UpdateLevelUI();
    }
-
+   
    private void UpdateLevelUI()
    {
       _levelText.text = $"{_level}";
