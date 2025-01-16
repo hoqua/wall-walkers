@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
    private TMP_Text _levelText;    // Ссылка на TMP для отображения уровня
    private TMP_Text _healthText;   // Ссылка на TMP для отображения здоровья
    private TMP_Text _damageText;   // Ссылка на TMP для отображения урона
-   private ItemSelect _itemSelect; // Ссылка на скрипт для отображения экрана с выбором предметов
+   private ItemSelectScreen _itemSelectScreen; // Ссылка на скрипт для отображения экрана с выбором предметов
 
    void Start()
    {
@@ -23,7 +23,7 @@ public class PlayerStats : MonoBehaviour
 
       UpdateAllUI();
       
-      _itemSelect = GameObject.Find("Item Select Screen").GetComponent<ItemSelect>();
+      _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
    }
 
    
@@ -80,7 +80,7 @@ public class PlayerStats : MonoBehaviour
       }
 
       // 3. Только теперь показываем экран выбора предметов
-      _itemSelect.ShowItemSelectScreen();
+      _itemSelectScreen.ShowItemSelectScreen();
    }
 
 

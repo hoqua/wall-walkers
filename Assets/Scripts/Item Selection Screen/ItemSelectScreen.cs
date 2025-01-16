@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class ItemSelect : MonoBehaviour
+public class ItemSelectScreen : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-    private GameObject _itemSelectionCanvas;
     private PlayerMovement _playerMovement;
+    
+    [SerializeField] private GameObject itemSelectCanvas;
+    [SerializeField] private GameObject itemSelectText;
     private void Start()
     {
-        _itemSelectionCanvas = GameObject.Find("Item Selection Canvas");
-        _itemSelectionCanvas.SetActive(false);
+        itemSelectCanvas.SetActive(false);
+        itemSelectText.SetActive(false);
     }
 
     public void ShowItemSelectScreen()
     {
-        _itemSelectionCanvas.SetActive(true);
+        itemSelectCanvas.SetActive(true);
+        itemSelectText.SetActive(true);
         
         _playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
         _playerMovement.enabled = false;
@@ -21,7 +24,8 @@ public class ItemSelect : MonoBehaviour
 
     public void HideItemSelectScreen()
     {
-        _itemSelectionCanvas.SetActive(false); 
+        itemSelectText.SetActive(false);
+        itemSelectCanvas.SetActive(false); 
         _playerMovement.enabled = true;
     }
 }

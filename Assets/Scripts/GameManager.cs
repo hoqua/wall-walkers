@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
     
-    [SerializeField] private ItemSelect itemSelect;                 // Экран для выбора предметов 
+    [FormerlySerializedAs("itemSelect")] [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
 
     private Camera _mainCamera;
     public GameState gameState = GameState.PlayerTurn;            // Начальное состояние игры
