@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ItemSelect : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     private GameObject _itemSelectionCanvas;
     private PlayerMovement _playerMovement;
     private void Start()

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22bbc892513ead46a346b3fa8686bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnemyTurnEnded: 0
+  gameManager: {fileID: 418929556}
 --- !u!1 &65947072
 GameObject:
   m_ObjectHideFlags: 0

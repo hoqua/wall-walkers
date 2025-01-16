@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -7,8 +8,8 @@ public class PlayerStats : MonoBehaviour
    [SerializeField] private int health = 5;  // Здоровье игрока (начальное)
    [SerializeField] public int damage = 1;   // Урон игрока (начальный)
 
-   private int exp = 0;
-   private int requiredExp = 1;
+   private int _exp = 0;
+   private int _requiredExp = 1;
    private TMP_Text _levelText;    // Ссылка на TMP для отображения уровня
    private TMP_Text _healthText;   // Ссылка на TMP для отображения здоровья
    private TMP_Text _damageText;   // Ссылка на TMP для отображения урона
@@ -41,12 +42,12 @@ public class PlayerStats : MonoBehaviour
 
    public void GainExp()
    {
-      exp += 1;
+      _exp += 1;
       
-      if (exp >= requiredExp)
+      if (_exp >= _requiredExp)
       {
          LevelUp();
-         requiredExp *= 2;
+         _requiredExp *= 2;
       }
    }
    
@@ -55,12 +56,35 @@ public class PlayerStats : MonoBehaviour
       _level += 1;
       health = 5 + _level;
       damage = 1 + damage;
-      
+    
       UpdateAllUI();
+
+      // Запускаем корутину ожидания конца PlayerTurn и EnemyTurn
+      StartCoroutine(WaitForTurnsToEnd());
+   }
+
+   private IEnumerator WaitForTurnsToEnd()
+   {
+      GameManager gameManager = FindObjectOfType<GameManager>();
+
+      // 1. Ждём, пока не закончится PlayerTurn
+      while (gameManager.CurrentState() == GameState.PlayerTurn)
+      {
+         yield return null; // Ждём следующий кадр
+      }
+
+      // 2. Ждём, пока не закончится EnemyTurn
+      while (gameManager.CurrentState() == GameState.EnemyTurn)
+      {
+         yield return null; // Ждём следующий кадр
+      }
+
+      // 3. Только теперь показываем экран выбора предметов
       _itemSelect.ShowItemSelectScreen();
    }
 
-   
+
+
 
    public void UpdateAllUI()
    {

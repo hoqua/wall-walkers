@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class GameManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemSelect itemSelect;                 // Экран для выбора предметов 
 
     private Camera _mainCamera;
-    private GameState _gameState = GameState.PlayerTurn;            // Начальное состояние игры
+    public GameState gameState = GameState.PlayerTurn;            // Начальное состояние игры
     private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
     private async void Start()
     {
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         await Task.Delay(1000); // Задержка перед первым ходом
 
         // Игровой цикл
-        while (_gameState != GameState.GameOver)
+        while (gameState != GameState.GameOver)
         {
             await PlayerTurn();
             await EnemyTurn();
@@ -55,8 +56,8 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameState newState)
     {
-        _gameState = newState;
-        OnGameStateChanged?.Invoke(_gameState);
+        gameState = newState;
+        OnGameStateChanged?.Invoke(gameState);
     }
 
     private async Task PlayerTurn()
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Now: Player's Turn");
 
         // Ожидание хода игрока
-        while (_gameState == GameState.PlayerTurn)
+        while (gameState == GameState.PlayerTurn)
         {
             if (_player.HasMovedOrAttacked())
             {
@@ -100,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState()
     {
-        return _gameState;
+        return gameState;
     }
 }
 
