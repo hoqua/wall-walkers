@@ -3,6 +3,7 @@ using UnityEngine;
 public class ItemSelect : MonoBehaviour
 {
     private GameObject _itemSelectionCanvas;
+    private PlayerMovement _playerMovement;
     private void Start()
     {
         _itemSelectionCanvas = GameObject.Find("Item Selection Canvas");
@@ -12,12 +13,14 @@ public class ItemSelect : MonoBehaviour
     public void ShowItemSelectScreen()
     {
         _itemSelectionCanvas.SetActive(true);
-        Time.timeScale = 0;
+        
+        _playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
+        _playerMovement.enabled = false;
     }
 
     public void HideItemSelectScreen()
     {
-        _itemSelectionCanvas.SetActive(false);
-        Time.timeScale = 1;
+        _itemSelectionCanvas.SetActive(false); 
+        _playerMovement.enabled = true;
     }
 }
