@@ -6,17 +6,15 @@ public class ItemSelectScreen : MonoBehaviour
     private PlayerMovement _playerMovement;
     
     [SerializeField] private GameObject itemSelectCanvas;
-    [SerializeField] private GameObject itemSelectText;
+   
     private void Start()
     {
         itemSelectCanvas.SetActive(false);
-        itemSelectText.SetActive(false);
     }
 
     public void ShowItemSelectScreen()
     {
         itemSelectCanvas.SetActive(true);
-        itemSelectText.SetActive(true);
         
         _playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
         _playerMovement.enabled = false;
@@ -24,7 +22,6 @@ public class ItemSelectScreen : MonoBehaviour
 
     public void HideItemSelectScreen()
     {
-        itemSelectText.SetActive(false);
         itemSelectCanvas.SetActive(false); 
         _playerMovement.enabled = true;
     }
