@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
    private int _level = 1;                   // Уровень игрока
-   [SerializeField] private int health = 5;  // Здоровье игрока (начальное)
+   [SerializeField] public int health = 5;  // Здоровье игрока (начальное)
    [SerializeField] public int damage = 1;   // Урон игрока (начальный)
 
    private int _exp = 0;

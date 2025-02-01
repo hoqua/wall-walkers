@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemSelectScreen : MonoBehaviour
@@ -23,6 +24,12 @@ public class ItemSelectScreen : MonoBehaviour
     public void HideItemSelectScreen()
     {
         itemSelectCanvas.SetActive(false); 
+        StartCoroutine(EnableMovementWithDelay(0.3f));
+    }
+
+    private IEnumerator EnableMovementWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         _playerMovement.enabled = true;
     }
 }
