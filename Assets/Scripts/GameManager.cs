@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 
 public class GameManager : MonoBehaviour
 {
 
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
+    
+    [FormerlySerializedAs("itemSelect")] [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
 
     private Camera _mainCamera;
-    private GameState _gameState = GameState.PlayerTurn;            // Начальное состояние игры
+    public GameState gameState = GameState.PlayerTurn;            // Начальное состояние игры
     private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
-
     private async void Start()
     {
         await FindCharacters();
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour
         await Task.Delay(1000); // Задержка перед первым ходом
 
         // Игровой цикл
-        while (_gameState != GameState.GameOver)
+        while (gameState != GameState.GameOver)
         {
             await PlayerTurn();
             await EnemyTurn();
@@ -53,8 +56,8 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameState newState)
     {
-        _gameState = newState;
-        OnGameStateChanged?.Invoke(_gameState);
+        gameState = newState;
+        OnGameStateChanged?.Invoke(gameState);
     }
 
     private async Task PlayerTurn()
@@ -64,7 +67,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Now: Player's Turn");
 
         // Ожидание хода игрока
-        while (_gameState == GameState.PlayerTurn)
+        while (gameState == GameState.PlayerTurn)
         {
             if (_player.HasMovedOrAttacked())
             {
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
             }
             await Task.Yield();
         }
-
+        
         Debug.Log("Player's Turn Ended");
     }
 
@@ -81,9 +84,12 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.EnemyTurn);
         Debug.Log("Now: Enemy's Turn");
 
-        await Task.Delay(150); // Задержка перед ходом врагов
-        
-        foreach (var enemy in _enemies)
+        await Task.Delay(100); // Задержка перед ходом врагов
+
+        // Make a copy of the enemy list to avoid modification issues
+        List<EnemyMovement> enemiesToMove = new List<EnemyMovement>(_enemies);
+    
+        foreach (var enemy in enemiesToMove)
         {
             enemy.MoveTowardsPlayer();
             await Task.Delay(30); // Задержка между ходами врагов
@@ -92,9 +98,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("Enemy's Turn Ended");
     }
 
+
     public GameState CurrentState()
     {
-        return _gameState;
+        return gameState;
     }
 }
 

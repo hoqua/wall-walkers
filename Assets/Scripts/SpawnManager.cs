@@ -43,8 +43,6 @@ public class SpawnManager : MonoBehaviour
         
         _occupiedPositions.Add(_playerSpawnPosition);
         
-        Debug.Log($"Player spawned at: {_playerSpawnPosition}");
-        
         await Task.CompletedTask;
     }
     
@@ -76,7 +74,6 @@ public class SpawnManager : MonoBehaviour
                 }
             }
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
-            Debug.Log($"Spawned object at: {spawnPosition}");
         }
     }
     
