@@ -9,6 +9,7 @@ TagManager:
   - DamageText
   - LevelText
   - ExpGem
+  - ExpSlider
   layers:
   - Default
   - TransparentFX
