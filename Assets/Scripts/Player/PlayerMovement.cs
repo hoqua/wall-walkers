@@ -8,7 +8,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAttack _playerAttackScript;
     private PlayerStats _playerStats;
     private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
-    public Vector3Int currentTile;            // Текущая клетка персонажа
+
+    private Vector3Int _lastTile;             // Предыдущая клетка игрока
+    public Vector3Int currentTile;            // Текущая клетка игрока
     
     public float moveSpeed = 5f;              // Скорость движения (настраивается в меню префаба)
     private Vector3 _targetPosition;          // Целевая позиция для перемещения
@@ -24,15 +26,30 @@ public class PlayerMovement : MonoBehaviour
 
         _playerStats = GetComponent<PlayerStats>();
         _playerAttackScript = GetComponent<PlayerAttack>();
+
+        if (currentTile == Vector3Int.zero)
+        {
+            Debug.Log($"Spawning item on tile: {_lastTile}");
+            currentTile = _tilemap.WorldToCell(transform.position);
+        }
     }
     
-    public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
+    public void SetCurrentTile(Vector3Int newTile, Tilemap tilemap)
     {
-        currentTile = tilePosition;
-        _tilemap = map;
-        transform.position = _tilemap.GetCellCenterWorld(currentTile);
-        _targetPosition = transform.position; 
+        _tilemap = tilemap;
+        
+        if (newTile != currentTile) 
+        {
+            _lastTile = currentTile;
+            currentTile = newTile;  
+
+            if (_lastTile != Vector3Int.zero) 
+            {
+                _spawnManager.SpawnItemOnTile(_lastTile); 
+            }
+        }
     }
+
 
     void Update()
     {
@@ -144,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_isMoving)
         {
             _targetPosition = _tilemap.GetCellCenterWorld(targetTile);
+            SetCurrentTile(targetTile, _tilemap);
             currentTile = targetTile;
             _isMoving = true;
             hasMoved = false;
