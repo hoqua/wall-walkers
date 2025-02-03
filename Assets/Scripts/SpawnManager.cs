@@ -76,6 +76,16 @@ public class SpawnManager : MonoBehaviour
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
         }
     }
+
+    // Спавнит объекты на клетке, которую игрок покинул
+    public void SpawnItemOnTile(Vector3Int tilePosition)
+    {
+        if (Random.value < 0.9f) // 90% шанс появления
+        {
+            GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, expGemsContainer.transform);
+            expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
+        }
+    }
     
     // Метод для генерации случайной позиции на карте для спавна игрока
     private Vector3Int GetRandomSpawnPosition()
