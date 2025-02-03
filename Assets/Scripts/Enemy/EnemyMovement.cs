@@ -122,6 +122,8 @@ public class EnemyMovement : MonoBehaviour
     // Проверяем, занята ли клетка другим врагом
     private bool IsTileOccupied(Vector3Int tilePosition)
     {
-        return _enemyPositions.Contains(tilePosition) || _spawnManager.GetExpGemPositions().Contains(tilePosition);
+        return _enemyPositions.Contains(tilePosition) || _spawnManager.IsTileOccupiedByItem(tilePosition);
     }
+
+
 }
