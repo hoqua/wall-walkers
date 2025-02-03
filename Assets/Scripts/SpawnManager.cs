@@ -12,20 +12,29 @@ public class SpawnManager : MonoBehaviour
     
     [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
-    [SerializeField] private GameObject expGemPrefab;                 // Префаб камня с опытом
+    
+    [SerializeField] private GameObject expGemPrefab;                 // Префаб кристалла с опытом
+    [SerializeField] private GameObject healthPotionPrefab;           // Префаб зелья с здоровьем
+    
     [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
+    [SerializeField] private GameObject healthPotionContainer;        // Контейнер для зелий здоровья 
+    
     [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
     private int _spawnDelay = 200;
     
     [SerializeField] [Range(0f, 1f)] private float objectSpawnChance = 0.55f; // Общий шанс появления объектов (врагов, кристаллов и тд.)
     [SerializeField] [Range(0f, 1f)] private float enemySpawnChance = 0.1f;   // Шанс появления врага
-    [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.9f;     // Шанс появления кристалла опыта
+    [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.85f;     // Шанс появления кристалла опыта
+    [SerializeField] [Range(0f, 1f)] private float healthPotionSpawnChance = 0.05f;     // Шанс появления кристалла опыта
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
 
     // Список позиций кристаллов опыта
     private List<Vector3Int> _expGemPositions = new List<Vector3Int>();
+    
+    // Список позиций зелий здоровья
+    private List<Vector3Int> _healthPotionPositions = new List<Vector3Int>();
     
     async void Start()
     {
@@ -77,6 +86,13 @@ public class SpawnManager : MonoBehaviour
                     
                     // Добавляем позицию в список
                     AddExpGemPosition(spawnPosition);
+                }
+                else if (Random.value < healthPotionSpawnChance)
+                {
+                    GameObject healthPotion = Instantiate(healthPotionPrefab, tilemap.GetCellCenterWorld(spawnPosition),
+                        Quaternion.identity, healthPotionContainer.transform);
+                    healthPotion.transform.position =
+                        new Vector3(healthPotion.transform.position.x, healthPotion.transform.position.y, 10);
                 }
             }
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
