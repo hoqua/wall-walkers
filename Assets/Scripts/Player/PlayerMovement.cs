@@ -113,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
         if (targetObject != null && targetObject.CompareTag("ExpGem"))
         {
             _playerStats.GainExp();
+            _spawnManager.RemoveExpGemPosition(targetTile);
             Destroy(targetObject);
         }
         

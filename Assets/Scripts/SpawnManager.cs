@@ -24,6 +24,9 @@ public class SpawnManager : MonoBehaviour
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
 
+    // Список позиций кристаллов опыта
+    private List<Vector3Int> _expGemPositions = new List<Vector3Int>();
+    
     async void Start()
     {
         await SpawnPlayer();             // Спавн игрока
@@ -71,6 +74,9 @@ public class SpawnManager : MonoBehaviour
                         Quaternion.identity, expGemsContainer.transform);
                     expGem.transform.position =
                         new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
+                    
+                    // Добавляем позицию в список
+                    AddExpGemPosition(spawnPosition);
                 }
             }
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
@@ -84,6 +90,8 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, expGemsContainer.transform);
             expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
+            
+            AddExpGemPosition(tilePosition);
         }
     }
     
@@ -126,6 +134,23 @@ public class SpawnManager : MonoBehaviour
         }
 
         return availablePositions;
+    }
+    
+    // Методы для списка позиций для кристаллов
+    public List<Vector3Int> GetExpGemPositions()
+    {
+        return _expGemPositions;
+    }
+    
+    public void AddExpGemPosition(Vector3Int position)
+    {
+        if (!_expGemPositions.Contains(position))
+            _expGemPositions.Add(position);
+    }
+
+    public void RemoveExpGemPosition(Vector3Int position)
+    {
+        _expGemPositions.Remove(position);
     }
 
     private bool TileExists(Vector3Int position) 

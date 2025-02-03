@@ -5,10 +5,11 @@ using UnityEngine.Tilemaps;
 public class EnemyMovement : MonoBehaviour
 {
     private Tilemap _tilemap;                          // Tilemap по которому будет двигаться враг
-    public Vector3Int currentTile;                     // Текущий тайл врага
     private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
     private PlayerMovement _player;                    // Ссылка на скрипт игрока
     private SpawnManager _spawnManager;                // Ссылка для получения радиуса от игрока на котором враг может двигаться
+   
+    public Vector3Int currentTile;                     // Текущий тайл врага
     private bool _isActive = false;
     [SerializeField] private float moveSpeed = 5f;       // Скорость движения врага
     private Vector3 _targetPosition;                     // Целевая позиция для перемещения
@@ -76,7 +77,7 @@ public class EnemyMovement : MonoBehaviour
         Vector3Int targetTile = currentTile + direction;
 
         // Проверяем, что тайл свободен и на нём нет другого врага
-        if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile && !IsTileOccupiedByEnemy(targetTile))
+        if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile && !IsTileOccupied(targetTile))
         {
             MoveToTile(targetTile);
         }
@@ -119,8 +120,8 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Проверяем, занята ли клетка другим врагом
-    private bool IsTileOccupiedByEnemy(Vector3Int tilePosition)
+    private bool IsTileOccupied(Vector3Int tilePosition)
     {
-        return _enemyPositions.Contains(tilePosition);
+        return _enemyPositions.Contains(tilePosition) || _spawnManager.GetExpGemPositions().Contains(tilePosition);
     }
 }
