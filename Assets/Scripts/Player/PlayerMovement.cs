@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (targetObject != null && targetObject.CompareTag("HealthPotion"))
         {
-            _playerStats.GainExp();
+            _playerStats.HealToFull();
             _spawnManager.RemoveItemPosition(targetTile, "HealthPotion");
             Destroy(targetObject);
         }
@@ -142,6 +142,11 @@ public class PlayerMovement : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             if (collider.gameObject.CompareTag("ExpGem"))
+            {
+                return collider.gameObject;
+            }
+            
+            if (collider.gameObject.CompareTag("HealthPotion"))
             {
                 return collider.gameObject;
             }

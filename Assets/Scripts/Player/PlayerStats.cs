@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-   private int _level = 1;                   // Уровень игрока
-   [SerializeField] public int health = 5;  // Здоровье игрока (начальное)
-   [SerializeField] public int damage = 1;   // Урон игрока (начальный)
+   private int _level = 1;                      // Уровень игрока
+   [SerializeField] public int health = 5;      // Здоровье игрока (начальное)
+   [SerializeField] public int maxHealth;       // Максимальное здоровье игрока
+   [SerializeField] public int damage = 1;      // Урон игрока (начальный)
 
    private int _currentExp = 0;
    private int _requiredExp = 1;
@@ -26,6 +27,8 @@ public class PlayerStats : MonoBehaviour
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
 
       SetUpExpSlider();
+      
+      maxHealth = health;
       UpdateAllUI();
       
       _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
@@ -55,6 +58,12 @@ public class PlayerStats : MonoBehaviour
       {
          LevelUp();
       }
+   }
+
+   public void HealToFull()
+   {
+      health = maxHealth;
+      UpdateHealthUI();
    }
    
    private void LevelUp()

@@ -20946,8 +20946,8 @@ MonoBehaviour:
   spawnRadius: 13
   objectSpawnChance: 0.55
   enemySpawnChance: 0.1
-  expSpawnChance: 0.85
-  healthPotionSpawnChance: 0.05
+  expSpawnChance: 0.75
+  healthPotionSpawnChance: 0.15
 --- !u!1 &440432743
 GameObject:
   m_ObjectHideFlags: 0
@@ -24039,7 +24039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Health +1
+  m_text: Max Health +1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

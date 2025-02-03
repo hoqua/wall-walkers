@@ -28,7 +28,7 @@ public class Item : MonoBehaviour
         _effects = new Dictionary<string, Action>()
         {
             {"Damage +1", () => _playerStats.damage += 1},
-            {"Health +1", () => _playerStats.health += 1},
+            {"Max Health +1", () => { _playerStats.health += 1; _playerStats.maxHealth += 1; }},
         };
     }
 
