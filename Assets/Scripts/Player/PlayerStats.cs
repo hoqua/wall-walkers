@@ -60,7 +60,6 @@ public class PlayerStats : MonoBehaviour
    private void LevelUp()
    {
       _level += 1;
-      health = 5 + _level;
       damage = 1 + damage;
 
       _currentExp = 0;
