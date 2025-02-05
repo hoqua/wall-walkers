@@ -12,20 +12,25 @@ public class SpawnManager : MonoBehaviour
     
     [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
-    [SerializeField] private GameObject expGemPrefab;                 // Префаб камня с опытом
+    
+    [SerializeField] private GameObject expGemPrefab;                 // Префаб кристалла с опытом
+    [SerializeField] private GameObject healthPotionPrefab;           // Префаб зелья с здоровьем
+    
     [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
+    [SerializeField] private GameObject healthPotionContainer;        // Контейнер для зелий здоровья 
+    
     [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
     private int _spawnDelay = 200;
     
     [SerializeField] [Range(0f, 1f)] private float objectSpawnChance = 0.55f; // Общий шанс появления объектов (врагов, кристаллов и тд.)
     [SerializeField] [Range(0f, 1f)] private float enemySpawnChance = 0.1f;   // Шанс появления врага
-    [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.9f;     // Шанс появления кристалла опыта
+    [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.85f;     // Шанс появления кристалла опыта
+    [SerializeField] [Range(0f, 1f)] private float healthPotionSpawnChance = 0.05f;     // Шанс появления кристалла опыта
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
-
-    // Список позиций кристаллов опыта
-    private List<Vector3Int> _expGemPositions = new List<Vector3Int>();
+    
+    private Dictionary<string, List<Vector3Int>> _itemPositions = new Dictionary<string, List<Vector3Int>>();
     
     async void Start()
     {
@@ -70,13 +75,11 @@ public class SpawnManager : MonoBehaviour
                 }
                 else if (Random.value < expSpawnChance)
                 {
-                    GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(spawnPosition),
-                        Quaternion.identity, expGemsContainer.transform);
-                    expGem.transform.position =
-                        new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
-                    
-                    // Добавляем позицию в список
-                    AddExpGemPosition(spawnPosition);
+                    SpawnItem(expGemPrefab, expGemsContainer, spawnPosition, "ExpGem");
+                }
+                else if (Random.value < healthPotionSpawnChance)
+                {
+                    SpawnItem(healthPotionPrefab, healthPotionContainer, spawnPosition, "HealthPotion");
                 }
             }
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
@@ -88,11 +91,15 @@ public class SpawnManager : MonoBehaviour
     {
         if (Random.value < 0.9f) // 90% шанс появления
         {
-            GameObject expGem = Instantiate(expGemPrefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, expGemsContainer.transform);
-            expGem.transform.position = new Vector3(expGem.transform.position.x, expGem.transform.position.y, 10);
-            
-            AddExpGemPosition(tilePosition);
+            SpawnItem(expGemPrefab, expGemsContainer, tilePosition, "ExpGem");
         }
+    }
+
+    private void SpawnItem(GameObject prefab, GameObject container, Vector3Int tilePosition, string itemType)
+    {
+        GameObject item = Instantiate(prefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, container.transform);
+        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 10);
+        AddItemPosition(tilePosition, itemType);
     }
     
     // Метод для генерации случайной позиции на карте для спавна игрока
@@ -136,22 +143,39 @@ public class SpawnManager : MonoBehaviour
         return availablePositions;
     }
     
-    // Методы для списка позиций для кристаллов
-    public List<Vector3Int> GetExpGemPositions()
+    public void AddItemPosition(Vector3Int position, string itemType)
     {
-        return _expGemPositions;
-    }
-    
-    public void AddExpGemPosition(Vector3Int position)
-    {
-        if (!_expGemPositions.Contains(position))
-            _expGemPositions.Add(position);
+        if (!_itemPositions.ContainsKey(itemType))
+        {
+            _itemPositions[itemType] = new List<Vector3Int>();
+        }
+        if (!_itemPositions[itemType].Contains(position))
+        {
+            _itemPositions[itemType].Add(position);
+        }
     }
 
-    public void RemoveExpGemPosition(Vector3Int position)
+    public void RemoveItemPosition(Vector3Int position, string itemType)
     {
-        _expGemPositions.Remove(position);
+        if (_itemPositions.ContainsKey(itemType))
+        {
+            _itemPositions[itemType].Remove(position);
+        }
     }
+    
+    public bool IsTileOccupiedByItem(Vector3Int position)
+    {
+        foreach (var itemList in _itemPositions.Values)
+        {
+            if (itemList.Contains(position))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     private bool TileExists(Vector3Int position) 
     {

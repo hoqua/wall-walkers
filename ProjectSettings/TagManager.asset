@@ -10,6 +10,7 @@ TagManager:
   - LevelText
   - ExpGem
   - ExpSlider
+  - HealthPotion
   layers:
   - Default
   - TransparentFX
