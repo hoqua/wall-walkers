@@ -43,7 +43,8 @@ public class PlayerStats : MonoBehaviour
    {
       health -= enemyDamage;
       UpdateHealthUI();
-      Debug.Log($"Player took {enemyDamage} damage. Current health = {health}");
+      
+      FindObjectOfType<DamageTextSpawner>().SpawnDamageText(transform.position, enemyDamage);
       
       if (health <= 0)
       {
