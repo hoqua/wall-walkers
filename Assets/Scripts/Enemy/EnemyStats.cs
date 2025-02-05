@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
 {
-    private PlayerStats _player;
+    private PlayerStats _playerStats;
     
     public int health = 2;       // Количество здоровья врага
     public int damage = 1;       // Сколько урона наносит враг
@@ -11,13 +11,13 @@ public class EnemyStats : MonoBehaviour
 
     void Start()
     {
-        _player = FindObjectOfType<PlayerStats>();
+        _playerStats = FindObjectOfType<PlayerStats>();
     }
     
     public void TakeDamage(int playerDamage)
     {
         health -= playerDamage;
-        Debug.Log($"Enemy takes {playerDamage} damage. Current health = {health}");
+        FindObjectOfType<DamageTextSpawner>().SpawnDamageText(transform.position, _playerStats.damage);
 
         if (health <= 0)
         {
@@ -28,7 +28,7 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy has died");
-        _player.GainExp();
+        _playerStats.GainExp();
         Destroy(gameObject);
     }
 }

@@ -12,13 +12,21 @@ public class ItemSelectScreen : MonoBehaviour
     {
         itemSelectCanvas.SetActive(false);
     }
-
+    
     public void ShowItemSelectScreen()
     {
         itemSelectCanvas.SetActive(true);
-        
-        _playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
-        _playerMovement.enabled = false;
+
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
+        {
+            _playerMovement = playerObject.GetComponent<PlayerMovement>();
+            _playerMovement.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("Player not found");
+        }
     }
 
     public void HideItemSelectScreen()
@@ -33,5 +41,11 @@ public class ItemSelectScreen : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         _playerMovement.enabled = true;
+    }
+    
+    // Автоматически скрывает окно при выходе из игры
+    private void OnApplicationQuit()
+    {
+        itemSelectCanvas.SetActive(false);
     }
 }

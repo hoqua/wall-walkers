@@ -16,6 +16,7 @@ public class PlayerStats : MonoBehaviour
    private int _currentExp = 0;
    private int _requiredExp = 1;
    private int _allExp = 0;
+   
    private TMP_Text _levelText;    // Ссылка для отображения уровня
    private TMP_Text _healthText;   // Ссылка для отображения здоровья
    private TMP_Text _damageText;   // Ссылка для отображения урона
@@ -43,7 +44,8 @@ public class PlayerStats : MonoBehaviour
    {
       health -= enemyDamage;
       UpdateHealthUI();
-      Debug.Log($"Player took {enemyDamage} damage. Current health = {health}");
+      
+      FindObjectOfType<DamageTextSpawner>().SpawnDamageText(transform.position, enemyDamage);
       
       if (health <= 0)
       {

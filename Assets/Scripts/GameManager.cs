@@ -79,7 +79,8 @@ public class GameManager : MonoBehaviour
         
         Debug.Log("Player's Turn Ended");
         
-        while (_isItemSelectionActive)
+        
+        while (_isItemSelectionActive && itemSelectScreen != null)
         {
             itemSelectScreen.ShowItemSelectScreen();
             await Task.Yield();
