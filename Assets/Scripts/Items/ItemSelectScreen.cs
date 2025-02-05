@@ -25,6 +25,8 @@ public class ItemSelectScreen : MonoBehaviour
     {
         itemSelectCanvas.SetActive(false); 
         StartCoroutine(EnableMovementWithDelay(0.3f));
+        
+        gameManager.SetItemSelectionState(false);
     }
 
     private IEnumerator EnableMovementWithDelay(float delay)

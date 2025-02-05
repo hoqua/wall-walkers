@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
+   private GameManager _gameManager;
+   private ItemSelectScreen _itemSelectScreen; // Ссылка на скрипт для отображения экрана с выбором предметов
+   
    private int _level = 1;                      // Уровень игрока
    [SerializeField] public int health = 5;      // Здоровье игрока (начальное)
    [SerializeField] public int maxHealth;       // Максимальное здоровье игрока
@@ -17,7 +20,6 @@ public class PlayerStats : MonoBehaviour
    private TMP_Text _healthText;   // Ссылка для отображения здоровья
    private TMP_Text _damageText;   // Ссылка для отображения урона
    private Slider _expSlider;      // Ссылка для отображения полоски опыта
-   private ItemSelectScreen _itemSelectScreen; // Ссылка на скрипт для отображения экрана с выбором предметов
 
    void Start()
    {
@@ -31,6 +33,7 @@ public class PlayerStats : MonoBehaviour
       maxHealth = health;
       UpdateAllUI();
       
+      _gameManager = FindObjectOfType<GameManager>();
       _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
    }
 
@@ -78,33 +81,9 @@ public class PlayerStats : MonoBehaviour
       _expSlider.value = _currentExp;
     
       UpdateAllUI();
-      
-      StartCoroutine(WaitForTurnsToEnd()); // Запускаем корутину ожидания конца PlayerTurn и EnemyTurn
+      _gameManager.SetItemSelectionState(true);
    }
-
-   private IEnumerator WaitForTurnsToEnd()
-   {
-      GameManager gameManager = FindObjectOfType<GameManager>();
-
-      // 1. Ждём, пока не закончится PlayerTurn
-      while (gameManager.CurrentState() == GameState.PlayerTurn)
-      {
-         yield return null; // Ждём следующий кадр
-      }
-
-      // 2. Ждём, пока не закончится EnemyTurn
-      while (gameManager.CurrentState() == GameState.EnemyTurn)
-      {
-         yield return null; // Ждём следующий кадр
-      }
-
-      // 3. Только теперь показываем экран выбора предметов
-      _itemSelectScreen.ShowItemSelectScreen();
-   }
-
-
-
-
+   
    public void UpdateAllUI()
    {
       UpdateDamageUI();

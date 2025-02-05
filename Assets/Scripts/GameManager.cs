@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class GameManager : MonoBehaviour
@@ -11,8 +10,9 @@ public class GameManager : MonoBehaviour
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
     
-    [FormerlySerializedAs("itemSelect")] [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
-
+    [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
+    private bool _isItemSelectionActive = false;
+    
     private Camera _mainCamera;
     public GameState gameState = GameState.PlayerTurn;            // Начальное состояние игры
     private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
@@ -73,14 +73,28 @@ public class GameManager : MonoBehaviour
             {
                 break;
             }
+            
             await Task.Yield();
         }
         
         Debug.Log("Player's Turn Ended");
+        
+        while (_isItemSelectionActive)
+        {
+            itemSelectScreen.ShowItemSelectScreen();
+            await Task.Yield();
+        }
+
     }
 
     private async Task EnemyTurn()
     {
+        // Ждём, пока окно выбора предметов не закроется
+        while (_isItemSelectionActive)
+        {
+            await Task.Yield();
+        }
+        
         ChangeGameState(GameState.EnemyTurn);
         Debug.Log("Now: Enemy's Turn");
 
@@ -97,7 +111,11 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Enemy's Turn Ended");
     }
-
+    
+    public void SetItemSelectionState(bool isActive)
+    {
+        _isItemSelectionActive = isActive;
+    }
 
     public GameState CurrentState()
     {
