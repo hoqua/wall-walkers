@@ -341,69 +341,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: grid-tiles_11
-      rect:
-        serializedVersion: 2
-        x: 416
-        y: 288
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.75}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f43e6cedc1beb4e44806b6dcae3c967b
-      internalID: -1758054335
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: grid-tiles_12
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 288
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.75}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 78005bc49be349043ac6c5ca30f7e79a
-      internalID: -1235147130
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: grid-tiles_13
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 288
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.75}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a79ebf2e8cd45cb42bfefe8bc3e7462b
-      internalID: -1129374916
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: grid-tiles_14
       rect:
         serializedVersion: 2
@@ -683,9 +620,9 @@ TextureImporter:
         x: 416
         y: 256
         width: 32
-        height: 32
+        height: 40
       alignment: 9
-      pivot: {x: 0.5, y: 0.75}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -704,9 +641,9 @@ TextureImporter:
         x: 448
         y: 256
         width: 32
-        height: 32
+        height: 40
       alignment: 9
-      pivot: {x: 0.5, y: 0.75}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -725,9 +662,9 @@ TextureImporter:
         x: 480
         y: 256
         width: 32
-        height: 32
+        height: 40
       alignment: 9
-      pivot: {x: 0.5, y: 0.75}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
