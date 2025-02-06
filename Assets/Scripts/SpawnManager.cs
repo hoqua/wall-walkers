@@ -13,11 +13,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
     
-    [SerializeField] private GameObject expGemPrefab;                 // Префаб кристалла с опытом
-    [SerializeField] private GameObject healthPotionPrefab;           // Префаб зелья с здоровьем
+    //Префабы предметов
+    [SerializeField] private GameObject expGemPrefab;                 
+    [SerializeField] private GameObject healthPotionPrefab;    
+    [SerializeField] private GameObject chestPrefab;
     
-    [SerializeField] private GameObject expGemsContainer;             // Контейнер для хранения гемов 
-    [SerializeField] private GameObject healthPotionContainer;        // Контейнер для зелий здоровья 
+    //Контейнеры для хранения предметов (в редакторе)
+    [SerializeField] private GameObject expGemsContainer;              
+    [SerializeField] private GameObject healthPotionContainer;   
+    [SerializeField] private GameObject chestContainer;
     
     [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
     private int _spawnDelay = 200;
@@ -26,6 +30,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float enemySpawnChance = 0.1f;   // Шанс появления врага
     [SerializeField] [Range(0f, 1f)] private float expSpawnChance = 0.85f;     // Шанс появления кристалла опыта
     [SerializeField] [Range(0f, 1f)] private float healthPotionSpawnChance = 0.05f;     // Шанс появления кристалла опыта
+    [SerializeField] [Range(0f, 1f)] private float chestSpawnChance = 0.2f;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
     private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
@@ -81,6 +86,10 @@ public class SpawnManager : MonoBehaviour
                 {
                     SpawnItem(healthPotionPrefab, healthPotionContainer, spawnPosition, "HealthPotion");
                 }
+                else if (Random.value < chestSpawnChance)
+                {
+                    SpawnItem(chestPrefab, chestContainer, spawnPosition, "Chest");
+                }
             }
             _occupiedPositions.Add(spawnPosition);  // Добавляем в список занятых
         }
@@ -98,6 +107,12 @@ public class SpawnManager : MonoBehaviour
     private void SpawnItem(GameObject prefab, GameObject container, Vector3Int tilePosition, string itemType)
     {
         GameObject item = Instantiate(prefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, container.transform);
+        
+        if (itemType == "Chest")
+        {
+            item.transform.localPosition += new Vector3(0, 0.25f, 0);
+        }
+        
         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 10);
         AddItemPosition(tilePosition, itemType);
     }

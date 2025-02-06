@@ -20956,13 +20956,16 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8385226143460851807, guid: 19fdd292e1d03ba4789858a322fb8851, type: 3}
   expGemPrefab: {fileID: 8450663273852987919, guid: a6b9a46fffb843644ad403f2492899bc, type: 3}
   healthPotionPrefab: {fileID: 3326918737580893569, guid: 8566d615b0038ee4b9a00cc3a8e394b5, type: 3}
+  chestPrefab: {fileID: 5428371342324272097, guid: bde12374f97199f44ae309bb39b52678, type: 3}
   expGemsContainer: {fileID: 1668646779}
   healthPotionContainer: {fileID: 2034620845}
+  chestContainer: {fileID: 1804695667}
   spawnRadius: 13
   objectSpawnChance: 0.55
   enemySpawnChance: 0.1
-  expSpawnChance: 0.75
-  healthPotionSpawnChance: 0.15
+  expSpawnChance: 0.85
+  healthPotionSpawnChance: 0.05
+  chestSpawnChance: 0.2
 --- !u!114 &418929558
 MonoBehaviour:
   m_ObjectHideFlags: 0
