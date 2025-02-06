@@ -123,6 +123,12 @@ public class PlayerMovement : MonoBehaviour
             _spawnManager.RemoveItemPosition(targetTile, "HealthPotion");
             Destroy(targetObject);
         }
+
+        if (targetObject != null && targetObject.CompareTag("Chest"))
+        {
+            targetObject.GetComponent<Chest>().OpenChest();
+            return;
+        }
         
         // Передаем целевую клетку для атаки
         _playerAttackScript.HandleAttack(targetTile);
@@ -147,6 +153,11 @@ public class PlayerMovement : MonoBehaviour
             }
             
             if (collider.gameObject.CompareTag("HealthPotion"))
+            {
+                return collider.gameObject;
+            }
+            
+            if (collider.gameObject.CompareTag("Chest"))
             {
                 return collider.gameObject;
             }

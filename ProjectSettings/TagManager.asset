@@ -11,6 +11,7 @@ TagManager:
   - ExpGem
   - ExpSlider
   - HealthPotion
+  - Chest
   layers:
   - Default
   - TransparentFX
