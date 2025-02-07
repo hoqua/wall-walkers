@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
     private List<EnemyMovement> _enemies = new();                    // Список врагов
     
+    [SerializeField] private GameObject _waitForTurnIcon;            // Иконка, которая появляется, когда игрок ждет своего хода
+    
     [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
     private bool _isItemSelectionActive = false;
     
@@ -98,6 +100,12 @@ public class GameManager : MonoBehaviour
         
         ChangeGameState(GameState.EnemyTurn);
         Debug.Log("Now: Enemy's Turn");
+        
+        // Показываем иконку ожидания хода
+        if (_waitForTurnIcon != null)
+        {
+            _waitForTurnIcon.SetActive(true); 
+        }
 
         await Task.Delay(90); // Задержка перед ходом врагов
 
@@ -111,6 +119,12 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Enemy's Turn Ended");
+        
+        // Скрываем иконку ожидания хода
+        if (_waitForTurnIcon != null)
+        {
+            _waitForTurnIcon.SetActive(false); 
+        }
     }
     
     public void SetItemSelectionState(bool isActive)

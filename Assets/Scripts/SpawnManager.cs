@@ -7,20 +7,20 @@ using GameObject = UnityEngine.GameObject;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameManager _gameManager;
-    [SerializeField] private Tilemap tilemap;                         // Tilemap для спавна персонажей
+    [SerializeField] public Tilemap tilemap;                         // Tilemap для спавна персонажей
     private PlayerMovement _player;                                   // Ссылка на скрипт движения игрока для спавна объектов вокруг него
     
     [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
     [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
     
     //Префабы предметов
-    [SerializeField] private GameObject expGemPrefab;                 
-    [SerializeField] private GameObject healthPotionPrefab;    
+    [SerializeField] public GameObject expGemPrefab;                 
+    [SerializeField] public GameObject healthPotionPrefab;    
     [SerializeField] private GameObject chestPrefab;
     
     //Контейнеры для хранения предметов (в редакторе)
-    [SerializeField] private GameObject expGemsContainer;              
-    [SerializeField] private GameObject healthPotionContainer;   
+    [SerializeField] public GameObject expGemsContainer;              
+    [SerializeField] public GameObject healthPotionContainer;   
     [SerializeField] private GameObject chestContainer;
     
     [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
@@ -104,7 +104,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void SpawnItem(GameObject prefab, GameObject container, Vector3Int tilePosition, string itemType)
+    public void SpawnItem(GameObject prefab, GameObject container, Vector3Int tilePosition, string itemType)
     {
         GameObject item = Instantiate(prefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, container.transform);
         

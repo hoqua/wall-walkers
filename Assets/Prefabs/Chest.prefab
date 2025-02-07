@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67fa8e395951d046a9b50ce2a638212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardPrefabs:
+  - {fileID: 8450663273852987919, guid: a6b9a46fffb843644ad403f2492899bc, type: 3}
+  - {fileID: 3326918737580893569, guid: 8566d615b0038ee4b9a00cc3a8e394b5, type: 3}
 --- !u!61 &7418999804909103426
 BoxCollider2D:
   m_ObjectHideFlags: 0
