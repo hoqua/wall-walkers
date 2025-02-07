@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour
     
     //Префабы игрока и врагов
     [SerializeField] private GameObject playerPrefab;                 
-    [SerializeField] private GameObject enemyPrefab;                  
+    [SerializeField] private GameObject skeletonPrefab;
     
     //Префабы предметов
     [SerializeField] public GameObject expGemPrefab;                 
@@ -73,7 +73,7 @@ public class SpawnManager : MonoBehaviour
                 // Случайно выбирается, какой объект спавнить
                 if (Random.value < enemySpawnChance)
                 {
-                    GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition),
+                    GameObject enemy = Instantiate(skeletonPrefab, tilemap.GetCellCenterWorld(spawnPosition),
                         Quaternion.identity, basicSkeletonsContainer.transform);
                     EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
                     enemyScript.SetCurrentTile(spawnPosition, tilemap);

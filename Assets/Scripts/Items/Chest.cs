@@ -1,23 +1,15 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Chest : MonoBehaviour
 {
-    private bool _isOpened = false;
-    
     private SpawnManager _spawnManager;
-
+    [SerializeField] private GameObject _mimicPrefab;
     private void Start()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
     }
     public void OpenChest()
     {
-        if (_isOpened) return;
-
-        _isOpened = true;
-        Debug.Log("Chest opened! Player received a reward.");
-
         // Смещаем сундук перед уничтожением вниз, чтобы правильно появился предмет
         var adjustedPosition = transform.position;
         adjustedPosition.y -= 0.25f;
@@ -35,11 +27,16 @@ public class Chest : MonoBehaviour
             return;
         }
         
-        Vector3Int spawnPosition = _spawnManager.tilemap.WorldToCell(transform.position);
+        Vector3Int spawnPosition = _spawnManager.tilemap.WorldToCell(transform.position); 
         
         float randomValue = Random.value;
 
-        if (randomValue < 0.5f) 
+        if (randomValue < 0.1f)
+        { 
+            Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
+            Debug.Log("A mimic has spawned instead of a chest!");
+        } 
+        else if (randomValue < 0.5f) 
         {
             _spawnManager.SpawnItem(_spawnManager.healthPotionPrefab, _spawnManager.healthPotionContainer, spawnPosition, "HealthPotion");
         }
