@@ -10,8 +10,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] public Tilemap tilemap;                         // Tilemap для спавна персонажей
     private PlayerMovement _player;                                   // Ссылка на скрипт движения игрока для спавна объектов вокруг него
     
-    [SerializeField] private GameObject playerPrefab;                 // Префаб игрока
-    [SerializeField] private GameObject enemyPrefab;                  // Префаб врага
+    //Префабы игрока и врагов
+    [SerializeField] private GameObject playerPrefab;                 
+    [SerializeField] private GameObject enemyPrefab;                  
     
     //Префабы предметов
     [SerializeField] public GameObject expGemPrefab;                 
@@ -22,9 +23,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] public GameObject expGemsContainer;              
     [SerializeField] public GameObject healthPotionContainer;   
     [SerializeField] private GameObject chestContainer;
+    [SerializeField] private GameObject basicSkeletonsContainer;
     
     [SerializeField] public float spawnRadius = 13f;                  // Радиус спавна от игрока
-    private int _spawnDelay = 200;
+    private readonly int _spawnDelay = 200;
     
     [SerializeField] [Range(0f, 1f)] private float objectSpawnChance = 0.55f; // Общий шанс появления объектов (врагов, кристаллов и тд.)
     [SerializeField] [Range(0f, 1f)] private float enemySpawnChance = 0.1f;   // Шанс появления врага
@@ -33,9 +35,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float chestSpawnChance = 0.2f;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
-    private List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
+    private readonly List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
     
-    private Dictionary<string, List<Vector3Int>> _itemPositions = new Dictionary<string, List<Vector3Int>>();
+    private readonly Dictionary<string, List<Vector3Int>> _itemPositions = new Dictionary<string, List<Vector3Int>>();
     
     async void Start()
     {
@@ -72,7 +74,7 @@ public class SpawnManager : MonoBehaviour
                 if (Random.value < enemySpawnChance)
                 {
                     GameObject enemy = Instantiate(enemyPrefab, tilemap.GetCellCenterWorld(spawnPosition),
-                        Quaternion.identity);
+                        Quaternion.identity, basicSkeletonsContainer.transform);
                     EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
                     enemyScript.SetCurrentTile(spawnPosition, tilemap);
                     // Добавляем врага в список врагов

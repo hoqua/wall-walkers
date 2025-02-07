@@ -268,9 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1a87c97a7358c40b31e6f7bcc75cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
   currentTile: {x: 0, y: 0, z: 0}
-  player: {fileID: 0}
   moveSpeed: 3
 --- !u!114 &7679155137043371668
 MonoBehaviour:

@@ -41,12 +41,13 @@ public class Chest : MonoBehaviour
 
         if (randomValue < 0.5f) 
         {
-            _spawnManager.SpawnItem(_spawnManager.expGemPrefab, _spawnManager.expGemsContainer, spawnPosition, "ExpGem");
-        }
-        else if (randomValue < 0.5f) 
-        {
             _spawnManager.SpawnItem(_spawnManager.healthPotionPrefab, _spawnManager.healthPotionContainer, spawnPosition, "HealthPotion");
         }
+        else
+        {
+            _spawnManager.SpawnItem(_spawnManager.expGemPrefab, _spawnManager.expGemsContainer, spawnPosition, "ExpGem");
+        }
+        
     }
 
 }
