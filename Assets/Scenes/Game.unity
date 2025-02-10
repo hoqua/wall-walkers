@@ -22198,8 +22198,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 345
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 36ae783e33e343740b1fd9c5fba232b9, type: 2}
+  m_sharedMaterial: {fileID: 4024460996922437931, guid: 36ae783e33e343740b1fd9c5fba232b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -22223,17 +22223,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
+  m_fontSize: 100
   m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 70
-  m_fontSizeMax: 80
-  m_fontStyle: 0
+  m_fontSizeMin: 100
+  m_fontSizeMax: 110
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -22334,8 +22334,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 36ae783e33e343740b1fd9c5fba232b9, type: 2}
+  m_sharedMaterial: {fileID: 4024460996922437931, guid: 36ae783e33e343740b1fd9c5fba232b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -22359,17 +22359,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.25
+  m_fontSize: 100
   m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 60
-  m_fontSizeMax: 80
-  m_fontStyle: 0
+  m_fontSizeMin: 100
+  m_fontSizeMax: 110
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
