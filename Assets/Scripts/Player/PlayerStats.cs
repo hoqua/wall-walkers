@@ -28,7 +28,7 @@ public class PlayerStats : MonoBehaviour
       _expSlider = GameObject.FindWithTag("ExpSlider").GetComponent<Slider>();
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
-
+      
       SetUpExpSlider();
       
       maxHealth = health;
@@ -37,9 +37,7 @@ public class PlayerStats : MonoBehaviour
       _gameManager = FindObjectOfType<GameManager>();
       _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
    }
-
    
-
    public void TakeDamage(int enemyDamage)
    {
       health -= enemyDamage;
