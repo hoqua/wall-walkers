@@ -31,7 +31,7 @@ public class Chest : MonoBehaviour
         
         float randomValue = Random.value;
 
-        if (randomValue < 0.1f)
+        if (randomValue < 1f)
         { 
             Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
             Debug.Log("A mimic has spawned instead of a chest!");
