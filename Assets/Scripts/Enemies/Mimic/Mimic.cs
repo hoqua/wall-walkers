@@ -16,7 +16,6 @@ public class Mimic : Enemy
         _enemyStats = GetComponent<EnemyStats>();
         _player = FindObjectOfType<PlayerStats>();
         attackVFXPrefab.SetActive(false);
-        transform.localPosition += new Vector3(0, 0.25f, 0);
         
         EnemyPositionManager.Instance.RegisterEnemy(_spawnPosition);
         _gameManager = FindObjectOfType<GameManager>();
@@ -33,15 +32,16 @@ public class Mimic : Enemy
     
     private bool IsPlayerInRange()
     {
-        {
-            Vector3Int enemyTile = Vector3Int.FloorToInt(transform.position);
-            Vector3Int playerTile = Vector3Int.FloorToInt(_player.transform.position);
+        Vector3Int enemyTile = Vector3Int.FloorToInt(transform.position);
+        Vector3Int playerTile = Vector3Int.FloorToInt(_player.transform.position);
 
-            int dx = Mathf.Abs(enemyTile.x - playerTile.x);
-            int dy = Mathf.Abs(enemyTile.y - playerTile.y);
-            return dx <= _enemyStats.attackRange && dy <= _enemyStats.attackRange;
-        }
+        int dx = Mathf.Abs(enemyTile.x - playerTile.x);
+        int dy = Mathf.Abs(enemyTile.y - playerTile.y);
+
+        return Mathf.Max(dx, dy) <= _enemyStats.attackRange;
     }
+
+
     
     private void AttackPlayer()
     {
@@ -55,7 +55,7 @@ public class Mimic : Enemy
         attackVFXPrefab.SetActive(true);
 
         // Перемещаем эффект к игроку
-        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0.2f, 10);
+        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0.2f, 15);
         attackVFXPrefab.transform.position = playerPosition;
 
         // Выключаем эффект через время
