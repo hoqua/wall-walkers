@@ -55,7 +55,7 @@ public class Mimic : Enemy
         attackVFXPrefab.SetActive(true);
 
         // Перемещаем эффект к игроку
-        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0, 10);
+        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0.2f, 10);
         attackVFXPrefab.transform.position = playerPosition;
 
         // Выключаем эффект через время
