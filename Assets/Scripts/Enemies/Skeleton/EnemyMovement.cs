@@ -14,10 +14,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;       // Скорость движения врага
     private Vector3 _targetPosition;                     // Целевая позиция для перемещения
     private bool _isMoving;                              // Флаг, что враг в движении
-
-    // Статический список для отслеживания всех врагов и их позиций
-    private static List<Vector3Int> _enemyPositions = new List<Vector3Int>();
-
+    
     void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
@@ -26,12 +23,12 @@ public class EnemyMovement : MonoBehaviour
         _spawnManager = FindObjectOfType<SpawnManager>();
         _targetPosition = transform.position;
         
-        _enemyPositions.Add(currentTile);
+        EnemyPositionManager.Instance.RegisterEnemy(currentTile);
     }
 
     void OnDestroy()
     {
-        _enemyPositions.Remove(currentTile);
+        EnemyPositionManager.Instance.UnregisterEnemy(currentTile);
     }
 
     public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
@@ -111,9 +108,9 @@ public class EnemyMovement : MonoBehaviour
         if (!_isMoving)
         {
             _targetPosition = _tilemap.GetCellCenterWorld(targetTile);
-            _enemyPositions.Remove(currentTile);  // Убираем старую позицию
+            EnemyPositionManager.Instance.UnregisterEnemy(currentTile);
             currentTile = targetTile;
-            _enemyPositions.Add(currentTile);     // Добавляем новую позицию
+            EnemyPositionManager.Instance.RegisterEnemy(currentTile);
 
             _isMoving = true; // Устанавливаем флаг, что враг в движении
         }
@@ -122,7 +119,7 @@ public class EnemyMovement : MonoBehaviour
     // Проверяем, занята ли клетка другим врагом
     private bool IsTileOccupied(Vector3Int tilePosition)
     {
-        return _enemyPositions.Contains(tilePosition) || _spawnManager.IsTileOccupiedByItem(tilePosition);
+        return EnemyPositionManager.Instance.IsTileOccupied(tilePosition) || _spawnManager.IsTileOccupiedByItem(tilePosition);
     }
 
 
