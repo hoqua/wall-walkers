@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
 
     private PlayerMovement _player;                                  // Ссылка на скрипт игрока
-    private List<EnemyMovement> _enemies = new();                    // Список врагов
+    private List<Enemy> _enemies = new();                    // Список врагов
     
     [SerializeField] private GameObject _waitForTurnIcon;            // Иконка, которая появляется, когда игрок ждет своего хода
     
@@ -30,12 +30,12 @@ public class GameManager : MonoBehaviour
         while (_player == null || _enemies.Count == 0) 
         {
             _player = FindObjectOfType<PlayerMovement>();
-            _enemies.AddRange(FindObjectsOfType<EnemyMovement>()); // Находим всех врагов на сцене
+            _enemies.AddRange(FindObjectsOfType<Enemy>()); // Находим всех врагов на сцене
             await Task.Yield();
         }
     }
 
-    public void AddEnemy(EnemyMovement enemy)
+    public void AddEnemy(Enemy enemy)
     {
         if (!_enemies.Contains(enemy))
         {
@@ -110,11 +110,11 @@ public class GameManager : MonoBehaviour
         await Task.Delay(90); // Задержка перед ходом врагов
 
         // Make a copy of the enemy list to avoid modification issues
-        List<EnemyMovement> enemiesToMove = new List<EnemyMovement>(_enemies);
+        List<Enemy> enemiesToAct = new List<Enemy>(_enemies);
     
-        foreach (var enemy in enemiesToMove)
+        foreach (var enemy in enemiesToAct)
         {
-            enemy.MoveTowardsPlayer();
+            enemy.EnemyTurn();
             await Task.Delay(25); // Задержка между ходами врагов
         }
 

@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Mimic : MonoBehaviour
+public class Mimic : Enemy
 {
+    private GameManager _gameManager;
     public GameObject attackVFXPrefab;  // Префаб эффекта удара
     private const float AttackVFXDuration = 0.5f; // Длительность эффекта атаки
-
+    
     private EnemyStats _enemyStats;
     private PlayerStats _player;
     private Vector3Int _spawnPosition;
-    private bool _hasAttacked = false;
 
     private void Start()
     {
@@ -19,11 +17,15 @@ public class Mimic : MonoBehaviour
         _player = FindObjectOfType<PlayerStats>();
         attackVFXPrefab.SetActive(false);
         transform.localPosition += new Vector3(0, 0.25f, 0);
+        
+        EnemyPositionManager.Instance.RegisterEnemy(_spawnPosition);
+        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.AddEnemy(this);
     }
 
-    private void Update()
+    public override void EnemyTurn()
     {
-        if (_player != null & IsPlayerInRange())
+        if (_player != null && IsPlayerInRange())
         {
             AttackPlayer();
         }
@@ -53,7 +55,7 @@ public class Mimic : MonoBehaviour
         attackVFXPrefab.SetActive(true);
 
         // Перемещаем эффект к игроку
-        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0, 10);
+        Vector3 playerPosition = _player.transform.position + new Vector3(0, 0.2f, 10);
         attackVFXPrefab.transform.position = playerPosition;
 
         // Выключаем эффект через время

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class SkeletonAttack : MonoBehaviour
 {
    public GameObject slashObject;                // Префаб для эффекта удара
    private readonly float _slashDuration = 0.5f; // Длительность эффекта атаки (slash)
