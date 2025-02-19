@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : Enemy
 {
     private Tilemap _tilemap;                          // Tilemap по которому будет двигаться враг
     private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
@@ -24,6 +24,11 @@ public class EnemyMovement : MonoBehaviour
         _targetPosition = transform.position;
         
         EnemyPositionManager.Instance.RegisterEnemy(currentTile);
+    }
+
+    public override void EnemyTurn()
+    {
+        MoveTowardsPlayer();
     }
 
     void OnDestroy()
