@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Mimic : Enemy
 {
+    private GameManager _gameManager;
     public GameObject attackVFXPrefab;  // Префаб эффекта удара
     private const float AttackVFXDuration = 0.5f; // Длительность эффекта атаки
     
@@ -18,6 +19,8 @@ public class Mimic : Enemy
         transform.localPosition += new Vector3(0, 0.25f, 0);
         
         EnemyPositionManager.Instance.RegisterEnemy(_spawnPosition);
+        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.AddEnemy(this);
     }
 
     public override void EnemyTurn()

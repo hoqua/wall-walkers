@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         while (_player == null || _enemies.Count == 0) 
         {
             _player = FindObjectOfType<PlayerMovement>();
-            _enemies.AddRange(FindObjectsOfType<EnemyMovement>()); // Находим всех врагов на сцене
+            _enemies.AddRange(FindObjectsOfType<Enemy>()); // Находим всех врагов на сцене
             await Task.Yield();
         }
     }
