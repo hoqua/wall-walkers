@@ -75,10 +75,10 @@ public class SpawnManager : MonoBehaviour
                 {
                     GameObject enemy = Instantiate(skeletonPrefab, tilemap.GetCellCenterWorld(spawnPosition),
                         Quaternion.identity, basicSkeletonsContainer.transform);
-                    EnemyMovement enemyScript = enemy.GetComponent<EnemyMovement>();
-                    enemyScript.SetCurrentTile(spawnPosition, tilemap);
+                    SkeletonMovement skeletonScript = enemy.GetComponent<SkeletonMovement>();
+                    skeletonScript.SetCurrentTile(spawnPosition, tilemap);
                     // Добавляем врага в список врагов
-                    _gameManager.AddEnemy(enemyScript);
+                    _gameManager.AddEnemy(skeletonScript);
                 }
                 else if (Random.value < expSpawnChance)
                 {

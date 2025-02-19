@@ -79,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            var enemyMovement = enemy.GetComponent<EnemyMovement>();
+            var enemyMovement = enemy.GetComponent<SkeletonMovement>();
 
             if (enemyMovement.currentTile == targetTile)
             {

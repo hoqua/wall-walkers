@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EnemyMovement : Enemy
+public class SkeletonMovement : Enemy
 {
     private Tilemap _tilemap;                          // Tilemap по которому будет двигаться враг
-    private EnemyAttack _enemyAttack;                  // Ссылка на скрипт отвечающий за атаку врага
+    private SkeletonAttack _skeletonAttack;                  // Ссылка на скрипт отвечающий за атаку врага
     private PlayerMovement _player;                    // Ссылка на скрипт игрока
     private SpawnManager _spawnManager;                // Ссылка для получения радиуса от игрока на котором враг может двигаться
    
@@ -18,7 +18,7 @@ public class EnemyMovement : Enemy
     void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
-        _enemyAttack = GetComponent<EnemyAttack>();
+        _skeletonAttack = GetComponent<SkeletonAttack>();
         _player = FindObjectOfType<PlayerMovement>();
         _spawnManager = FindObjectOfType<SpawnManager>();
         _targetPosition = transform.position;
@@ -69,9 +69,9 @@ public class EnemyMovement : Enemy
         }
         
         // Если игрок в зоне досягаемости, атакуем
-        if (_enemyAttack.IsPlayerInRange(currentTile, playerTile))
+        if (_skeletonAttack.IsPlayerInRange(currentTile, playerTile))
         {
-            _enemyAttack.AttackPlayer();
+            _skeletonAttack.AttackPlayer();
             return; // Если враг ударил игрока, он не двигается
         }
 
