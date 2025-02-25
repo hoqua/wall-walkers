@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Enemies.Skeleton;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using GameObject = UnityEngine.GameObject;

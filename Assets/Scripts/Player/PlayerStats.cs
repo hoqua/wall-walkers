@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Damage_Text;
+using Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
