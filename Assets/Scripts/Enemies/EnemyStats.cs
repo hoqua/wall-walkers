@@ -1,19 +1,29 @@
 using Damage_Text;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Enemies
 {
     public class EnemyStats : MonoBehaviour
     {
         private PlayerStats _playerStats;
-    
+        private Tilemap _tilemap;
+        public Vector3Int CurrentTile { get; private set; } 
+        
         public int health = 2;       // Количество здоровья врага
         public int damage = 1;       // Сколько урона наносит враг
         public int attackRange = 1;  // Радиус атаки (1 = одна клетка)
 
         void Start()
         {
-            _playerStats = FindObjectOfType<PlayerStats>();
+            _playerStats = FindObjectOfType<PlayerStats>(); 
+            _tilemap = FindObjectOfType<Tilemap>();
+            UpdateCurrentTile();
+        }
+
+        public void UpdateCurrentTile()
+        {
+            CurrentTile = _tilemap.WorldToCell(transform.position);
         }
     
         public void TakeDamage(int playerDamage)

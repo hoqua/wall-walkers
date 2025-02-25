@@ -81,9 +81,8 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            var enemyMovement = enemy.GetComponent<SkeletonMovement>();
-
-            if (enemyMovement.currentTile == targetTile)
+            var enemyStats = enemy.GetComponent<EnemyStats>(); // Проверяем, есть ли компонент EnemyStats
+            if (enemyStats != null && enemyStats.CurrentTile == targetTile)
             {
                 return enemy;
             }
@@ -91,6 +90,7 @@ public class PlayerAttack : MonoBehaviour
 
         return null;
     }
+
 
     private bool CheckIfWillKillEnemy(GameObject enemy)
     {

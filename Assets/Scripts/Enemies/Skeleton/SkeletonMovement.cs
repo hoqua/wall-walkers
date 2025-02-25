@@ -104,6 +104,12 @@ namespace Enemies.Skeleton
                 transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _moveSpeed * Time.deltaTime);
                 yield return null;
             }
+            
+            var enemyStats = GetComponent<EnemyStats>();
+            if (enemyStats != null)
+            {
+                enemyStats.UpdateCurrentTile();
+            }
 
             _isMoving = false;
         }
