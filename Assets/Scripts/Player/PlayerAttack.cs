@@ -1,5 +1,4 @@
 using Enemies;
-using Enemies.Skeleton;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -17,8 +16,7 @@ public class PlayerAttack : MonoBehaviour
     private Transform _playerTransform;             // Положение игрока
     private PlayerStats _playerStats;               // Статистики игрока (здоровье, урон и тд.)
     private PlayerMovement _playerMovementScript;   // Ссылка на движение игрока
-    public bool hasAttacked = false;                // Проверка, совершил ли игрок атаку
-    
+    public bool hasAttacked;                // Проверка, совершил ли игрок атаку
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -51,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    public void Attack(GameObject enemy)
+    private void Attack(GameObject enemy)
     {
         if (!hasAttacked)
         {
