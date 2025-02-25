@@ -6,7 +6,7 @@ public class DynamicOutline : MonoBehaviour
     [SerializeField] private TMP_Text textMeshPro;
     [SerializeField] private Camera mainCamera;
     private float baseOutlineWidth = 0.2f;
-    private float scaleFactor = 0.015f; // Чем больше, тем сильнее будет влиять расстояние
+    private float scaleFactor = 0.010f; // Чем больше, тем сильнее будет влиять расстояние
 
     void Update()
     {

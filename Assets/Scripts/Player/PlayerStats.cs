@@ -1,31 +1,37 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
    private GameManager _gameManager;
+   private XPBar _xpBar;
    private ItemSelectScreen _itemSelectScreen; // Ссылка на скрипт для отображения экрана с выбором предметов
    
    private int _level = 1;                      // Уровень игрока
    [SerializeField] public int health = 5;      // Здоровье игрока (начальное)
    [SerializeField] public int maxHealth;       // Максимальное здоровье игрока
    [SerializeField] public int damage = 1;      // Урон игрока (начальный)
+   
 
-   private int _currentExp = 0;
-   private int _requiredExp = 1;
+   public int currentExp = 0;
+   public int requiredExp = 1;
    private int _allExp = 0;
    
    private TMP_Text _levelText;    // Ссылка для отображения уровня
    private TMP_Text _healthText;   // Ссылка для отображения здоровья
    private TMP_Text _damageText;   // Ссылка для отображения урона
    private Slider _expSlider;      // Ссылка для отображения полоски опыта
+   
 
    void Start()
    {
+      _xpBar = FindObjectOfType<XPBar>().GetComponent<XPBar>();
       _levelText = GameObject.FindWithTag("LevelText").GetComponent<TMP_Text>();
-      _expSlider = GameObject.FindWithTag("ExpSlider").GetComponent<Slider>();
+      //_expSlider = GameObject.FindWithTag("ExpSlider").GetComponent<Slider>();
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
       
@@ -54,10 +60,11 @@ public class PlayerStats : MonoBehaviour
    public void GainExp()
    {
       _allExp += 1;
-      _currentExp += 1;
-      _expSlider.value = _currentExp;
+      currentExp += 1;
       
-      if (_currentExp >= _requiredExp)
+      _xpBar.UpdateXPBar();
+      
+      if (currentExp >= requiredExp)
       {
          LevelUp();
       }
@@ -74,11 +81,9 @@ public class PlayerStats : MonoBehaviour
       _level += 1;
       damage = 1 + damage;
 
-      _currentExp = 0;
-      _requiredExp *= 2;
+      currentExp = 0;
+      requiredExp *= 2;
       
-      _expSlider.maxValue = _requiredExp;
-      _expSlider.value = _currentExp;
     
       UpdateAllUI();
       _gameManager.SetItemSelectionState(true);
@@ -89,6 +94,7 @@ public class PlayerStats : MonoBehaviour
       UpdateDamageUI();
       UpdateHealthUI();
       UpdateLevelUI();
+      _xpBar.UpdateXPBar();
    }
    
    private void UpdateLevelUI()
@@ -110,10 +116,11 @@ public class PlayerStats : MonoBehaviour
    {
       if (_expSlider != null)
       {
-         _expSlider.maxValue = _requiredExp;
-         _expSlider.value = _currentExp;
+         _expSlider.maxValue = requiredExp;
+         _expSlider.value = currentExp;
       }
    }
+   
    
    private void Die()
    {

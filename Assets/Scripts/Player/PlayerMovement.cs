@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
-    private PlayerStats _playerStats;
+    [SerializeField] private PlayerStats _playerStats;
     private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
 
     private Vector3Int _lastTile;             // Предыдущая клетка игрока
@@ -17,14 +17,17 @@ public class PlayerMovement : MonoBehaviour
     private bool _isMoving;                   // Флаг, что персонаж в движении
     public bool hasMoved;                     // Флаг, что персонаж походил и может начинаться ход врагов
 
-    void Start()
+    private void Awake()
+    {
+        _playerStats = GetComponent<PlayerStats>();
+    }
+    private void Start()
     {
         _tilemap = FindObjectOfType<Tilemap>();
         _targetPosition = transform.position;
         _gameManager = FindObjectOfType<GameManager>();
         _spawnManager = FindObjectOfType<SpawnManager>();
-
-        _playerStats = GetComponent<PlayerStats>();
+        
         _playerAttackScript = GetComponent<PlayerAttack>();
 
         if (currentTile == Vector3Int.zero)
