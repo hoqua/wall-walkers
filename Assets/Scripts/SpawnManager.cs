@@ -7,7 +7,7 @@ using GameObject = UnityEngine.GameObject;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private GameManager gameManager;
     [SerializeField] public Tilemap tilemap;                         // Tilemap для спавна персонажей
     private PlayerMovement _player;                                   // Ссылка на скрипт движения игрока для спавна объектов вокруг него
     
@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
                     SkeletonMovement skeletonScript = enemy.GetComponent<SkeletonMovement>();
                     skeletonScript.SetCurrentTile(spawnPosition, tilemap);
                     // Добавляем врага в список врагов
-                    _gameManager.AddEnemy(skeletonScript);
+                    gameManager.AddEnemy(skeletonScript);
                 }
                 else if (Random.value < expSpawnChance)
                 {
@@ -155,8 +155,8 @@ public class SpawnManager : MonoBehaviour
 
         return availablePositions;
     }
-    
-    public void AddItemPosition(Vector3Int position, string itemType)
+
+    private void AddItemPosition(Vector3Int position, string itemType)
     {
         if (!_itemPositions.ContainsKey(itemType))
         {
@@ -170,9 +170,9 @@ public class SpawnManager : MonoBehaviour
 
     public void RemoveItemPosition(Vector3Int position, string itemType)
     {
-        if (_itemPositions.ContainsKey(itemType))
+        if (_itemPositions.TryGetValue(itemType, out var itemPosition))
         {
-            _itemPositions[itemType].Remove(position);
+            itemPosition.Remove(position);
         }
     }
     

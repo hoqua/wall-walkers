@@ -93,7 +93,6 @@ namespace Enemies.Skeleton
                 {
                     StartCoroutine(MoveCoroutine());
                 } 
-                else return;
             }
         }
 
