@@ -1,3 +1,4 @@
+using System;
 using Damage_Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -18,7 +19,13 @@ namespace Enemies
         {
             _playerStats = FindObjectOfType<PlayerStats>(); 
             _tilemap = FindObjectOfType<Tilemap>();
+            EnemyPositionManager.Instance.RegisterEnemy(CurrentTile);
             UpdateCurrentTile();
+        }
+
+        private void OnDestroy()
+        {
+            EnemyPositionManager.Instance.UnregisterEnemy(CurrentTile);
         }
 
         public void UpdateCurrentTile()

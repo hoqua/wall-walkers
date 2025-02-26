@@ -30,8 +30,8 @@ namespace Items
 
             if (randomValue < 1f)
             { 
-                Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
-                Debug.Log("A mimic has spawned instead of a chest!");
+                GameObject mimic = Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
+                mimic.GetComponent<Mimic>().AwakeMimic();
             } 
             else if (randomValue < 0.5f) 
             {
