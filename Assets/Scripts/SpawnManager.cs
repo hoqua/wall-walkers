@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float chestSpawnChance = 0.2f;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
-    private readonly List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
+    private readonly HashSet<Vector3Int> _occupiedPositions = new HashSet<Vector3Int>();
     
     private readonly Dictionary<string, HashSet<Vector3Int>> _itemPositions = new Dictionary<string, HashSet<Vector3Int>>();
     
