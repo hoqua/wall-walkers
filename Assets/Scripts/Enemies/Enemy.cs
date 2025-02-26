@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+namespace Enemies
 {
-    public abstract void EnemyTurn();
+    public abstract class Enemy : MonoBehaviour
+    {
+        public abstract void EnemyTurn();
+    }
 }

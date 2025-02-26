@@ -1,23 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Enemies;
+using Items;
 using UnityEngine;
 
 
 public class GameManager : MonoBehaviour
 {
 
-    private PlayerMovement _player;                                  // Ссылка на скрипт игрока
-    private List<Enemy> _enemies = new();                    // Список врагов
+    private PlayerMovement _player; // Ссылка на скрипт игрока
+    private List<Enemy> _enemies = new(); // Список врагов
     
-    [SerializeField] private GameObject _waitForTurnIcon;            // Иконка, которая появляется, когда игрок ждет своего хода
+    [SerializeField] private GameObject waitForTurnIcon; // Иконка, которая появляется, когда игрок ждет своего хода
     
-    [SerializeField] private ItemSelectScreen itemSelectScreen;                 // Экран для выбора предметов 
+    [SerializeField] private ItemSelectScreen itemSelectScreen; // Экран для выбора предметов 
     private bool _isItemSelectionActive = false;
     
     private Camera _mainCamera;
-    public GameState gameState = GameState.PlayerTurn;            // Начальное состояние игры
-    private static event Action<GameState> OnGameStateChanged;      // Ивент для изменения состояния игры
+    public GameState gameState = GameState.PlayerTurn; // Начальное состояние игры
+    private static event Action<GameState> OnGameStateChanged; // Ивент для изменения состояния игры
     private async void Start()
     {
         await FindCharacters();
@@ -102,12 +104,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("Now: Enemy's Turn");
         
         // Показываем иконку ожидания хода
-        if (_waitForTurnIcon != null)
+        if (waitForTurnIcon != null)
         {
-            _waitForTurnIcon.SetActive(true); 
+            waitForTurnIcon.SetActive(true); 
         }
 
-        await Task.Delay(90); // Задержка перед ходом врагов
+        await Task.Delay(175); // Задержка перед ходом врагов
 
         // Make a copy of the enemy list to avoid modification issues
         List<Enemy> enemiesToAct = new List<Enemy>(_enemies);
@@ -115,15 +117,15 @@ public class GameManager : MonoBehaviour
         foreach (var enemy in enemiesToAct)
         {
             enemy.EnemyTurn();
-            await Task.Delay(25); // Задержка между ходами врагов
+            await Task.Delay(15); // Задержка между ходами врагов
         }
 
         Debug.Log("Enemy's Turn Ended");
         
         // Скрываем иконку ожидания хода
-        if (_waitForTurnIcon != null)
+        if (waitForTurnIcon != null)
         {
-            _waitForTurnIcon.SetActive(false); 
+            waitForTurnIcon.SetActive(false); 
         }
     }
     

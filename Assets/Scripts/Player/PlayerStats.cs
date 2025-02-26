@@ -1,16 +1,13 @@
-using System;
-using System.Collections;
+using Damage_Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
    private GameManager _gameManager;
    private XPBar _xpBar;
-   private ItemSelectScreen _itemSelectScreen; // Ссылка на скрипт для отображения экрана с выбором предметов
-   
+
    private int _level = 1;                      // Уровень игрока
    [SerializeField] public int health = 5;      // Здоровье игрока (начальное)
    [SerializeField] public int maxHealth;       // Максимальное здоровье игрока
@@ -19,7 +16,7 @@ public class PlayerStats : MonoBehaviour
 
    public int currentExp = 0;
    public int requiredExp = 1;
-   private int _allExp = 0;
+   private int _allExp;
    
    private TMP_Text _levelText;    // Ссылка для отображения уровня
    private TMP_Text _healthText;   // Ссылка для отображения здоровья
@@ -29,9 +26,9 @@ public class PlayerStats : MonoBehaviour
 
    void Start()
    {
+      _gameManager = FindObjectOfType<GameManager>();
       _xpBar = FindObjectOfType<XPBar>().GetComponent<XPBar>();
       _levelText = GameObject.FindWithTag("LevelText").GetComponent<TMP_Text>();
-      //_expSlider = GameObject.FindWithTag("ExpSlider").GetComponent<Slider>();
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
       _damageText = GameObject.FindWithTag("DamageText").GetComponent<TMP_Text>();
       
@@ -40,8 +37,7 @@ public class PlayerStats : MonoBehaviour
       maxHealth = health;
       UpdateAllUI();
       
-      _gameManager = FindObjectOfType<GameManager>();
-      _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
+      
    }
    
    public void TakeDamage(int enemyDamage)

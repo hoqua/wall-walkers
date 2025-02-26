@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class DamageTextSpawner : MonoBehaviour
+namespace Damage_Text
 {
-    [SerializeField] private GameObject damageTextPrefab;  // Префаб текста урона
-    [SerializeField] private Transform canvasTransform;    // Canvas, в котором будет текст
-    [SerializeField] private float verticalOffset = 25;    // Смещение текста по вертикали
-
-    public void SpawnDamageText(Vector3 position, int damage)
+    public class DamageTextSpawner : MonoBehaviour
     {
-        if (damageTextPrefab == null || canvasTransform == null) return;
+        [SerializeField] private GameObject damageTextPrefab;  // Префаб текста урона
+        [SerializeField] private Transform canvasTransform;    // Canvas, в котором будет текст
+        [SerializeField] private float verticalOffset = 25;    // Смещение текста по вертикали
+
+        public void SpawnDamageText(Vector3 position, int damage)
+        {
+            if (damageTextPrefab == null || canvasTransform == null) return;
         
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
-        screenPosition.y += verticalOffset;
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        worldPosition.z = 0;
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
+            screenPosition.y += verticalOffset;
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+            worldPosition.z = 0;
         
-        GameObject damageText = Instantiate(damageTextPrefab, worldPosition, Quaternion.identity, canvasTransform);
-        damageText.GetComponent<DamageText>().SetDamage(damage);
+            GameObject damageText = Instantiate(damageTextPrefab, worldPosition, Quaternion.identity, canvasTransform);
+            damageText.GetComponent<DamageText>().SetDamage(damage);
+        }
     }
 }

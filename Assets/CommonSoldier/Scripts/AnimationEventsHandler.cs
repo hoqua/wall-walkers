@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace PixelArtStudio.Scripts
+namespace CommonSoldier.Scripts
 {
     public class AnimationEventsHandler : MonoBehaviour
     {

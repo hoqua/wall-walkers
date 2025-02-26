@@ -4,8 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-namespace PixelArtStudio.Scripts
+namespace CommonSoldier.Scripts
 {
     public class DemoPlayer : MonoBehaviour
     {
