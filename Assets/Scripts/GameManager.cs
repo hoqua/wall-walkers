@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
             waitForTurnIcon.SetActive(true); 
         }
 
-        await Task.Delay(90); // Задержка перед ходом врагов
+        await Task.Delay(175); // Задержка перед ходом врагов
 
         // Make a copy of the enemy list to avoid modification issues
         List<Enemy> enemiesToAct = new List<Enemy>(_enemies);
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         foreach (var enemy in enemiesToAct)
         {
             enemy.EnemyTurn();
-            await Task.Delay(25); // Задержка между ходами врагов
+            await Task.Delay(15); // Задержка между ходами врагов
         }
 
         Debug.Log("Enemy's Turn Ended");

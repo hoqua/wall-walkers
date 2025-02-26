@@ -42,6 +42,8 @@ public class SpawnManager : MonoBehaviour
     
     async void Start()
     {
+        gameManager = GetComponent<GameManager>();
+        
         await SpawnPlayer();             // Спавн игрока
         await Task.Delay(_spawnDelay);   // Задержка
 
