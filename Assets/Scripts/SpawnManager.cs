@@ -113,7 +113,7 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject item = Instantiate(prefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, container.transform);
         
-        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 10);
+        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 0);
         UpdateItemPosition(tilePosition, itemType, true);
     }
     

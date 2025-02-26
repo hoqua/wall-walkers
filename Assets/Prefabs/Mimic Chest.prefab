@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2109405435368372422}
-  - component: {fileID: -2238857843677221849}
   - component: {fileID: 6671042553491761534}
+  - component: {fileID: 1302531631414447439}
   m_Layer: 0
   m_Name: Mimic Chest
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 576772497601898412}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -35,19 +35,6 @@ Transform:
   - {fileID: 4807092196922693765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2238857843677221849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576772497601898412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d91e5e4e9ed70ac4d83ed380520fea75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackVFXPrefab: {fileID: 5397384876864538445}
 --- !u!114 &6671042553491761534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +50,18 @@ MonoBehaviour:
   health: 1
   damage: 1
   attackRange: 1
+--- !u!114 &1302531631414447439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576772497601898412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91e5e4e9ed70ac4d83ed380520fea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1186230690839152268
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +134,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 699f02c3237acea42b3fff0b28d285b8, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -216,11 +215,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
---- !u!1 &5397384876864538445 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4535266626840902487, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
-  m_PrefabInstance: {fileID: 8365396747754322970}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7765563716074792651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2293193176964815569, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}

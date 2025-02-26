@@ -30,8 +30,7 @@ namespace Items
 
             if (randomValue < 1f)
             { 
-                GameObject mimic = Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
-                mimic.GetComponent<Mimic>().AwakeMimic();
+                Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
             } 
             else if (randomValue < 0.5f) 
             {
