@@ -1,3 +1,4 @@
+using Enemies;
 using UnityEngine;
 
 namespace Items
@@ -31,6 +32,8 @@ namespace Items
             if (randomValue < 1f)
             { 
                 Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
+                var gameManager = FindObjectOfType<GameManager>();
+                gameManager.AddEnemy(_mimicPrefab.GetComponent<Enemy>());
             } 
             else if (randomValue < 0.5f) 
             {
