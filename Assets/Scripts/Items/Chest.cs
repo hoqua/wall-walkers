@@ -12,11 +12,6 @@ namespace Items
         }
         public void OpenChest()
         {
-            // Смещаем сундук перед уничтожением вниз, чтобы правильно появился предмет
-            var adjustedPosition = transform.position;
-            adjustedPosition.y -= 0.25f;
-            transform.position = adjustedPosition;
-        
             SpawnLoot();
             Destroy(gameObject);
         }
