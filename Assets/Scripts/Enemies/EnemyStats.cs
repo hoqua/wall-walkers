@@ -1,12 +1,14 @@
+using System;
 using Damage_Text;
 using Enemies;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class EnemyStats : MonoBehaviour
 {
     private PlayerStats _playerStats;
-    private Tilemap _tilemap;
+    public Tilemap tilemap;
     public Vector3Int CurrentTile { get; private set; } 
         
     public int health = 2;       // Количество здоровья врага
@@ -16,11 +18,11 @@ public class EnemyStats : MonoBehaviour
     void Start()
     {
         _playerStats = FindObjectOfType<PlayerStats>(); 
-        _tilemap = FindObjectOfType<Tilemap>();
+        tilemap = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
         EnemyPositionManager.Instance.RegisterEnemy(CurrentTile);
         UpdateCurrentTile();
     }
-
+    
     private void OnDestroy()
     {
         EnemyPositionManager.Instance.UnregisterEnemy(CurrentTile);
@@ -28,7 +30,7 @@ public class EnemyStats : MonoBehaviour
 
     public void UpdateCurrentTile()
     {
-        CurrentTile = _tilemap.WorldToCell(transform.position);
+        CurrentTile = tilemap.WorldToCell(transform.position);
     }
     
     public void TakeDamage(int playerDamage)

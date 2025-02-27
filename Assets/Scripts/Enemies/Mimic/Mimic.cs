@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Enemies.Mimic
 {
@@ -11,7 +12,7 @@ namespace Enemies.Mimic
         
         [SerializeField] private GameObject attackEffectPrefab; // Префаб эффекта атаки
         [SerializeField] private float attackEffectDuration = 1f; // Время жизни эффекта
-
+        
         private void Awake()
         {
             _gameManager = FindObjectOfType<GameManager>();
@@ -21,19 +22,32 @@ namespace Enemies.Mimic
         public override void EnemyTurn()
         {
             if (this != null)
-            { 
-                if (_player == null) _player = FindObjectOfType<PlayerMovement>(); 
+            {
+                if (_player == null) _player = FindObjectOfType<PlayerMovement>();
                 if (_playerStats == null) _playerStats = FindObjectOfType<PlayerStats>();
                 if (_enemyStats == null) _enemyStats = GetComponent<EnemyStats>();
 
-                if (_player != null)
-                {
-                    float distance = Vector3.Distance(transform.position, _player.transform.position);
+                Debug.Log("Мимик выполняет ход!");
 
-                    if (distance <= _enemyStats.attackRange)
-                    {
-                        AttackPlayer();
-                    }
+                if (_enemyStats.tilemap == null)
+                {
+                    _enemyStats.tilemap = FindObjectOfType<Tilemap>();
+                }
+                
+                Vector3Int mimicTile = _enemyStats.tilemap.WorldToCell(transform.position);
+                Vector3Int playerTile = _enemyStats.tilemap.WorldToCell(_player.transform.position);
+                
+                // Получаем позиции мимика и игрока в клетках
+                int dx = Mathf.Abs(mimicTile.x - playerTile.x);
+                int dy = Mathf.Abs(mimicTile.y - playerTile.y);
+    
+                int distance = Mathf.Max(dx, dy); 
+                Debug.Log("Расстояние в клетках: " + distance);
+    
+                if (distance <= 1) // Если игрок находится в радиусе 1 клетки
+                {
+                    Debug.Log("Мимик атакует! Дистанция: " + distance);
+                    AttackPlayer();
                 }
             }
         }
@@ -48,9 +62,7 @@ namespace Enemies.Mimic
         {
             if (attackEffectPrefab != null)
             {
-                var playerPosition = _player.transform.position;
-                playerPosition.y = transform.position.y + 0.015f;   //Корректировка высоты отображения эффекта
-                GameObject effect = Instantiate(attackEffectPrefab, playerPosition, Quaternion.identity);
+                GameObject effect = Instantiate(attackEffectPrefab, _player.transform.position, Quaternion.identity);
                 effect.SetActive(true);
                 Destroy(effect, attackEffectDuration);
             }
@@ -58,6 +70,11 @@ namespace Enemies.Mimic
             {
                 Debug.LogError("Ошибка: Префаб эффекта атаки не установлен в мимике!");
             }
+        }
+        
+        private void OnDestroy()
+        {
+            Debug.LogWarning(gameObject.name + " был уничтожен!");
         }
     }
 }

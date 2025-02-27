@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2109405435368372422}
-  - component: {fileID: 6671042553491761534}
   - component: {fileID: 1302531631414447439}
+  - component: {fileID: 6671042553491761534}
   m_Layer: 0
   m_Name: Mimic Chest
   m_TagString: Enemy
@@ -35,21 +35,6 @@ Transform:
   - {fileID: 4807092196922693765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6671042553491761534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576772497601898412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6783e291cf1cbcc46a8ef3717b2e4f34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  damage: 1
-  attackRange: 1
 --- !u!114 &1302531631414447439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +49,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackEffectPrefab: {fileID: 5397384876864538445}
   attackEffectDuration: 0.5
+--- !u!114 &6671042553491761534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576772497601898412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6783e291cf1cbcc46a8ef3717b2e4f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
+  health: 1
+  damage: 1
+  attackRange: 1
 --- !u!1 &1186230690839152268
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2293193176964815569, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2293193176964815569, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
       propertyPath: m_LocalPosition.z
