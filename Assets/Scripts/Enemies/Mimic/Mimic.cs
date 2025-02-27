@@ -13,7 +13,7 @@ namespace Enemies.Mimic
         [SerializeField] private GameObject attackEffectPrefab; // Префаб эффекта атаки
         [SerializeField] private float attackEffectDuration = 1f; // Время жизни эффекта
         
-        private void Awake()
+        private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
             _gameManager.AddEnemy(this);
@@ -26,27 +26,19 @@ namespace Enemies.Mimic
                 if (_player == null) _player = FindObjectOfType<PlayerMovement>();
                 if (_playerStats == null) _playerStats = FindObjectOfType<PlayerStats>();
                 if (_enemyStats == null) _enemyStats = GetComponent<EnemyStats>();
-
-                Debug.Log("Мимик выполняет ход!");
-
-                if (_enemyStats.tilemap == null)
-                {
-                    _enemyStats.tilemap = FindObjectOfType<Tilemap>();
-                }
                 
-                Vector3Int mimicTile = _enemyStats.tilemap.WorldToCell(transform.position);
-                Vector3Int playerTile = _enemyStats.tilemap.WorldToCell(_player.transform.position);
+                
+                Vector3Int mimicTile = Tilemap.WorldToCell(transform.position);
+                Vector3Int playerTile = Tilemap.WorldToCell(_player.transform.position);
                 
                 // Получаем позиции мимика и игрока в клетках
-                int dx = Mathf.Abs(mimicTile.x - playerTile.x);
-                int dy = Mathf.Abs(mimicTile.y - playerTile.y);
+                var dx = Mathf.Abs(mimicTile.x - playerTile.x);
+                var dy = Mathf.Abs(mimicTile.y - playerTile.y);
     
-                int distance = Mathf.Max(dx, dy); 
-                Debug.Log("Расстояние в клетках: " + distance);
+                var distance = Mathf.Max(dx, dy); 
     
                 if (distance <= 1) // Если игрок находится в радиусе 1 клетки
                 {
-                    Debug.Log("Мимик атакует! Дистанция: " + distance);
                     AttackPlayer();
                 }
             }
