@@ -26,7 +26,11 @@ namespace Enemies.Mimic
                 if (_player == null) _player = FindObjectOfType<PlayerMovement>();
                 if (_playerStats == null) _playerStats = FindObjectOfType<PlayerStats>();
                 if (_enemyStats == null) _enemyStats = GetComponent<EnemyStats>();
-                
+
+                if (_player == null && _playerStats == null)
+                {
+                    return;
+                }
                 
                 Vector3Int mimicTile = Tilemap.WorldToCell(transform.position);
                 Vector3Int playerTile = Tilemap.WorldToCell(_player.transform.position);
@@ -54,7 +58,7 @@ namespace Enemies.Mimic
         {
             if (attackEffectPrefab != null)
             {
-                GameObject effect = Instantiate(attackEffectPrefab, _player.transform.position, Quaternion.identity);
+                GameObject effect = Instantiate(attackEffectPrefab, _player.transform.position, Quaternion.Euler(0, 0, -30)); // Задаем нужный угол для эффекта
                 effect.SetActive(true);
                 Destroy(effect, attackEffectDuration);
             }
@@ -62,11 +66,6 @@ namespace Enemies.Mimic
             {
                 Debug.LogError("Ошибка: Префаб эффекта атаки не установлен в мимике!");
             }
-        }
-        
-        private void OnDestroy()
-        {
-            Debug.LogWarning(gameObject.name + " был уничтожен!");
         }
     }
 }
