@@ -117,14 +117,14 @@ public class PlayerMovement : MonoBehaviour
         if (targetObject != null && targetObject.CompareTag("ExpGem"))
         {
             _playerStats.GainExp();
-            _spawnManager.RemoveItemPosition(targetTile, "ExpGem");
+            _spawnManager.UpdateItemPosition(targetTile, "ExpGem", false);
             Destroy(targetObject);
         }
         
         if (targetObject != null && targetObject.CompareTag("HealthPotion"))
         {
             _playerStats.HealToFull();
-            _spawnManager.RemoveItemPosition(targetTile, "HealthPotion");
+            _spawnManager.UpdateItemPosition(targetTile, "HealthPotion", false);
             Destroy(targetObject);
         }
 

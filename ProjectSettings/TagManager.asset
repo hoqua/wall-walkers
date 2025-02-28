@@ -12,6 +12,7 @@ TagManager:
   - ExpSlider
   - HealthPotion
   - Chest
+  - Tilemap
   layers:
   - Default
   - TransparentFX

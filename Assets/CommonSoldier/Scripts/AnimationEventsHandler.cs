@@ -7,7 +7,7 @@ namespace CommonSoldier.Scripts
     {
         public void AnimationEventHandler(string eventName)
         {
-            Debug.Log($"Event triggered: {eventName}");
+            //Debug.Log($"Event triggered: {eventName}");
         }
     }
 }

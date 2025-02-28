@@ -1,3 +1,4 @@
+using Enemies;
 using UnityEngine;
 
 namespace Items
@@ -12,11 +13,6 @@ namespace Items
         }
         public void OpenChest()
         {
-            // Смещаем сундук перед уничтожением вниз, чтобы правильно появился предмет
-            var adjustedPosition = transform.position;
-            adjustedPosition.y -= 0.25f;
-            transform.position = adjustedPosition;
-        
             SpawnLoot();
             Destroy(gameObject);
         }
@@ -36,7 +32,8 @@ namespace Items
             if (randomValue < 1f)
             { 
                 Instantiate(_mimicPrefab, _spawnManager.tilemap.GetCellCenterWorld(spawnPosition), Quaternion.identity);
-                Debug.Log("A mimic has spawned instead of a chest!");
+                var gameManager = FindObjectOfType<GameManager>();
+                gameManager.AddEnemy(_mimicPrefab.GetComponent<Enemy>());
             } 
             else if (randomValue < 0.5f) 
             {

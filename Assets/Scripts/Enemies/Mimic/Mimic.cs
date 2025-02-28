@@ -1,71 +1,71 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Enemies.Mimic
 {
     public class Mimic : Enemy
     {
         private GameManager _gameManager;
-        public GameObject attackVFXPrefab;  // Префаб эффекта удара
-        private const float AttackVFXDuration = 0.5f; // Длительность эффекта атаки
-    
         private EnemyStats _enemyStats;
-        private PlayerStats _player;
-        private Vector3Int _spawnPosition;
-
+        private PlayerMovement _player;
+        private PlayerStats _playerStats;
+        
+        [SerializeField] private GameObject attackEffectPrefab; // Префаб эффекта атаки
+        [SerializeField] private float attackEffectDuration = 1f; // Время жизни эффекта
+        
         private void Start()
         {
-            _enemyStats = GetComponent<EnemyStats>();
-            _player = FindObjectOfType<PlayerStats>();
-            attackVFXPrefab.SetActive(false);
-        
-            EnemyPositionManager.Instance.RegisterEnemy(_spawnPosition);
             _gameManager = FindObjectOfType<GameManager>();
             _gameManager.AddEnemy(this);
         }
 
         public override void EnemyTurn()
         {
-            if (_player != null && IsPlayerInRange())
+            if (this != null)
             {
-                AttackPlayer();
+                if (_player == null) _player = FindObjectOfType<PlayerMovement>();
+                if (_playerStats == null) _playerStats = FindObjectOfType<PlayerStats>();
+                if (_enemyStats == null) _enemyStats = GetComponent<EnemyStats>();
+
+                if (_player == null && _playerStats == null)
+                {
+                    return;
+                }
+                
+                Vector3Int mimicTile = Tilemap.WorldToCell(transform.position);
+                Vector3Int playerTile = Tilemap.WorldToCell(_player.transform.position);
+                
+                // Получаем позиции мимика и игрока в клетках
+                var dx = Mathf.Abs(mimicTile.x - playerTile.x);
+                var dy = Mathf.Abs(mimicTile.y - playerTile.y);
+    
+                var distance = Mathf.Max(dx, dy); 
+    
+                if (distance <= 1) // Если игрок находится в радиусе 1 клетки
+                {
+                    AttackPlayer();
+                }
             }
         }
-    
-        private bool IsPlayerInRange()
-        {
-            Vector3Int enemyTile = Vector3Int.FloorToInt(transform.position);
-            Vector3Int playerTile = Vector3Int.FloorToInt(_player.transform.position);
 
-            int dx = Mathf.Abs(enemyTile.x - playerTile.x);
-            int dy = Mathf.Abs(enemyTile.y - playerTile.y);
-
-            return Mathf.Max(dx, dy) <= _enemyStats.attackRange;
-        }
-
-
-    
         private void AttackPlayer()
         {
-            _player.TakeDamage(_enemyStats.damage);
-        
+            _playerStats.TakeDamage(_enemyStats.damage);
             ShowAttackEffect();
         }
-    
+        
         private void ShowAttackEffect()
         {
-            attackVFXPrefab.SetActive(true);
-
-            // Перемещаем эффект к игроку
-            Vector3 playerPosition = _player.transform.position + new Vector3(0, 0.2f, 15);
-            attackVFXPrefab.transform.position = playerPosition;
-
-            // Выключаем эффект через время
-            Invoke(nameof(DeactivateSlash), AttackVFXDuration);
-        }
-    
-        private void DeactivateSlash()
-        {
-            attackVFXPrefab.SetActive(false);  
+            if (attackEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(attackEffectPrefab, _player.transform.position, Quaternion.Euler(0, 0, -30)); // Задаем нужный угол для эффекта
+                effect.SetActive(true);
+                Destroy(effect, attackEffectDuration);
+            }
+            else
+            {
+                Debug.LogError("Ошибка: Префаб эффекта атаки не установлен в мимике!");
+            }
         }
     }
 }

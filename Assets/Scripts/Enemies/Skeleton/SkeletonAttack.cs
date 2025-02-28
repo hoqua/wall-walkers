@@ -32,7 +32,6 @@ namespace Enemies.Skeleton
          if (_player != null && _enemy != null)
          {
             _player.TakeDamage(_enemyStats.damage);
-            Debug.Log($"Enemy attacks Player for {_enemyStats.damage} damage.");
 
             Vector3 attackDirection = (_player.transform.position - _enemy.position).normalized;
          

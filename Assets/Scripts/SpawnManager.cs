@@ -36,9 +36,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float chestSpawnChance = 0.2f;
     
     private Vector3Int _playerSpawnPosition;                          // Место появления игрока
-    private readonly List<Vector3Int> _occupiedPositions = new List<Vector3Int>();
+    private readonly HashSet<Vector3Int> _occupiedPositions = new HashSet<Vector3Int>();
     
-    private readonly Dictionary<string, List<Vector3Int>> _itemPositions = new Dictionary<string, List<Vector3Int>>();
+    private readonly Dictionary<string, HashSet<Vector3Int>> _itemPositions = new Dictionary<string, HashSet<Vector3Int>>();
     
     async void Start()
     {
@@ -113,8 +113,8 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject item = Instantiate(prefab, tilemap.GetCellCenterWorld(tilePosition), Quaternion.identity, container.transform);
         
-        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 10);
-        AddItemPosition(tilePosition, itemType);
+        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 0);
+        UpdateItemPosition(tilePosition, itemType, true);
     }
     
     // Метод для генерации случайной позиции на карте для спавна игрока
@@ -158,23 +158,20 @@ public class SpawnManager : MonoBehaviour
         return availablePositions;
     }
 
-    private void AddItemPosition(Vector3Int position, string itemType)
+    public void UpdateItemPosition(Vector3Int position, string itemType, bool add)
     {
         if (!_itemPositions.ContainsKey(itemType))
         {
-            _itemPositions[itemType] = new List<Vector3Int>();
+            _itemPositions[itemType] = new HashSet<Vector3Int>();
         }
-        if (!_itemPositions[itemType].Contains(position))
+
+        if (add)
         {
             _itemPositions[itemType].Add(position);
         }
-    }
-
-    public void RemoveItemPosition(Vector3Int position, string itemType)
-    {
-        if (_itemPositions.TryGetValue(itemType, out var itemPosition))
+        else
         {
-            itemPosition.Remove(position);
+            _itemPositions[itemType].Remove(position);
         }
     }
     

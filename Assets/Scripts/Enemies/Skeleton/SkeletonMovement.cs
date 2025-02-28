@@ -25,19 +25,13 @@ namespace Enemies.Skeleton
         
             _targetPosition = transform.position;
             currentTile = _tilemap.WorldToCell(transform.position);
-            EnemyPositionManager.Instance.RegisterEnemy(currentTile);
         }
 
         public override void EnemyTurn()
         {
             MoveTowardsPlayer();
         }
-
-        void OnDestroy()
-        {
-            EnemyPositionManager.Instance.UnregisterEnemy(currentTile);
-        }
-
+        
         public void SetCurrentTile(Vector3Int tilePosition, Tilemap map)
         {
             currentTile = tilePosition;
