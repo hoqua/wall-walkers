@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91e5e4e9ed70ac4d83ed380520fea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackEffectPrefab: {fileID: 5397384876864538445}
-  attackEffectDuration: 0.5
+  attackEffectPrefab: {fileID: 4535266626840902487, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
+  attackEffectDuration: 1
 --- !u!114 &6671042553491761534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,11 +222,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
---- !u!1 &5397384876864538445 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4535266626840902487, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
-  m_PrefabInstance: {fileID: 8365396747754322970}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7765563716074792651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2293193176964815569, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}

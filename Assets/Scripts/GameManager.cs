@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
     {
         _player.StartPlayersTurn();
         ChangeGameState(GameState.PlayerTurn);
-        //Debug.Log("Now: Player's Turn");
 
         // Ожидание хода игрока
         while (gameState == GameState.PlayerTurn)
@@ -80,9 +79,6 @@ public class GameManager : MonoBehaviour
             
             await Task.Yield();
         }
-        
-        //Debug.Log("Player's Turn Ended");
-        
         
         while (_isItemSelectionActive && itemSelectScreen != null)
         {
@@ -101,7 +97,6 @@ public class GameManager : MonoBehaviour
         }
         
         ChangeGameState(GameState.EnemyTurn); 
-        //Debug.Log("Now: Enemy's Turn");
         
         // Показываем иконку ожидания хода
         if (waitForTurnIcon != null)
@@ -119,8 +114,6 @@ public class GameManager : MonoBehaviour
             enemy.EnemyTurn();
             await Task.Delay(15); // Задержка между ходами врагов
         }
-
-        //Debug.Log("Enemy's Turn Ended");
         
         // Скрываем иконку ожидания хода
         if (waitForTurnIcon != null)

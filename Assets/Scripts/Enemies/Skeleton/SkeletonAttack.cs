@@ -32,21 +32,20 @@ namespace Enemies.Skeleton
          if (_player != null && _enemy != null)
          {
             _player.TakeDamage(_enemyStats.damage);
-
-            Vector3 attackDirection = (_player.transform.position - _enemy.position).normalized;
-         
-            ShowSlashEffect(attackDirection);
+            
+            ShowSlashEffect();
          }
       }
 
       // Слеш эффект
-      private void ShowSlashEffect(Vector3 attackDirection)
+      private void ShowSlashEffect()
       {
          slashObject.SetActive(true);
-
-         float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;
-         slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
-      
+         
+         var effectPosition = _player.transform.position; //Корректирует расположение эффекта
+         effectPosition.y += 0.1f;
+         slashObject.transform.position = effectPosition;
+         
          Invoke(nameof(DeactivateSlash), _slashDuration);
       }
 
