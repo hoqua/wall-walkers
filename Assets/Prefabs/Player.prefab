@@ -308,6 +308,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1920562852025266045}
     m_Modifications:
+    - target: {fileID: 595823932873384012, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_Size.x
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 595823932873384012, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_Size.y
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 595823932873384012, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 96edb840891ab3640a741797ceb1cc11, type: 3}
+    - target: {fileID: 595823932873384012, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 595823932873384012, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1514371375106999781, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 30855891f2fb5b3448669ab45b3ddbff, type: 2}
     - target: {fileID: 1514371375106999781, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_UpdateMode
       value: 0
@@ -317,12 +341,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -356,9 +388,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -40
       objectReference: {fileID: 0}
+    - target: {fileID: 2186518893098105892, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4714875881519045637, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_Name
-      value: SlashEffect
+      value: Player Slash Effect
       objectReference: {fileID: 0}
     - target: {fileID: 4714875881519045637, guid: 77cda099eeb33a14a86a57d761508cb8, type: 3}
       propertyPath: m_IsActive
