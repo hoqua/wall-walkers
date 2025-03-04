@@ -58,10 +58,24 @@ namespace Enemies.Skeleton
             Vector3Int direction = GetDirectionTowardsPlayer(playerTile);
             Vector3Int targetTile = currentTile + direction;
 
-            if (_tilemap.GetTile(targetTile) != null && targetTile != playerTile && !IsTileOccupied(targetTile))
+            // Проверяем, находится ли клетка в пределах Tilemap
+            if (!IsTileInBounds(targetTile))
+            {
+                return;
+            }
+            
+            if (targetTile != playerTile && !IsTileOccupied(targetTile))
             {
                 MoveToTile(targetTile);
             }
+        }
+        
+        // Функция для проверки, находится ли клетка в пределах Tilemap
+        private bool IsTileInBounds(Vector3Int tilePosition)
+        {
+            BoundsInt bounds = _tilemap.cellBounds;
+            return tilePosition.x >= bounds.xMin && tilePosition.x < bounds.xMax &&
+                   tilePosition.y >= bounds.yMin && tilePosition.y < bounds.yMax;
         }
         
         private Vector3Int GetDirectionTowardsPlayer(Vector3Int playerTile)
