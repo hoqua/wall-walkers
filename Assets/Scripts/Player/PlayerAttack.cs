@@ -117,6 +117,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (swordHitSound != null && _audioSource != null)
         {
+            _audioSource.volume = 0.5f;
             _audioSource.PlayOneShot(swordHitSound); // Воспроизводим звук
         }
     }

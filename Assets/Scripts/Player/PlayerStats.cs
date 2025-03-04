@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerStats : MonoBehaviour
 {
    private GameManager _gameManager;
+   private PlayerSoundController _playerSoundController;
    private XPBar _xpBar;
 
    private int _level = 1;                      // Уровень игрока
@@ -27,6 +28,7 @@ public class PlayerStats : MonoBehaviour
    void Start()
    {
       _gameManager = FindObjectOfType<GameManager>();
+      _playerSoundController = GetComponent<PlayerSoundController>();
       _xpBar = FindObjectOfType<XPBar>().GetComponent<XPBar>();
       _levelText = GameObject.FindWithTag("LevelText").GetComponent<TMP_Text>();
       _healthText = GameObject.FindWithTag("HealthText").GetComponent<TMP_Text>();
@@ -36,8 +38,6 @@ public class PlayerStats : MonoBehaviour
       
       maxHealth = health;
       UpdateAllUI();
-      
-      
    }
    
    public void TakeDamage(int enemyDamage)
@@ -82,6 +82,7 @@ public class PlayerStats : MonoBehaviour
       
     
       UpdateAllUI();
+      _playerSoundController.PlayLevelUpSound();
       _gameManager.SetItemSelectionState(true);
    }
    

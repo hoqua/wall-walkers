@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: -8695173655716281036}
   - component: {fileID: 2182160745639888878}
   - component: {fileID: 801657881872222057}
+  - component: {fileID: 6729828987599540297}
   - component: {fileID: 6023518367176766760}
   m_Layer: 0
   m_Name: Player
@@ -302,6 +303,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804c93d0ec3915c4895ef6e9accb86c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6729828987599540297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385226143460851807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2e99bd0e1b22d449452bda91497e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemPickupSound: {fileID: 8300000, guid: 22f16455a1c72d94f991c89e3019e7f9, type: 3}
+  levelUpSound: {fileID: 8300000, guid: dca21e0577a16e842a3c7a1fff3add15, type: 3}
 --- !u!82 &6023518367176766760
 AudioSource:
   m_ObjectHideFlags: 0
