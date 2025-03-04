@@ -17,6 +17,9 @@ public class PlayerAttack : MonoBehaviour
     private PlayerStats _playerStats;               // Статистики игрока (здоровье, урон и тд.)
     private PlayerMovement _playerMovementScript;   // Ссылка на движение игрока
     public bool hasAttacked;                // Проверка, совершил ли игрок атаку
+    
+    [SerializeField] private AudioClip swordHitSound; // Звук удара мечом
+    private AudioSource _audioSource;
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -25,6 +28,8 @@ public class PlayerAttack : MonoBehaviour
         _playerStats = GetComponent<PlayerStats>();
         _playerMovementScript = GetComponent<PlayerMovement>();
         slashObject.SetActive(false);
+        
+        _audioSource = GetComponent<AudioSource>();
     }
     
     // Основная функция для атаки врага
@@ -60,6 +65,7 @@ public class PlayerAttack : MonoBehaviour
 
             _animator.SetTrigger(AttackTrigger);
             ShowSlashEffect(direction);
+            PlaySwordHitSound();
 
             var enemyStats = enemy.GetComponent<EnemyStats>();
             enemyStats.TakeDamage(_playerStats.damage);
@@ -71,6 +77,14 @@ public class PlayerAttack : MonoBehaviour
     public void ResetAttack()
     {
         hasAttacked = false;
+    }
+    
+    private void PlaySwordHitSound()
+    {
+        if (swordHitSound != null && _audioSource != null)
+        {
+            _audioSource.PlayOneShot(swordHitSound); // Воспроизводим звук
+        }
     }
 
     private GameObject FindEnemyOnTile(Vector3Int targetTile)
