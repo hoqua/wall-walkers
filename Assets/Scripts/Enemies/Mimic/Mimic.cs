@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Enemies.Mimic
@@ -14,10 +15,14 @@ namespace Enemies.Mimic
         [SerializeField] private GameObject attackEffectPrefab2;
         private readonly float _attackEffectDuration = 0.3f; // Время жизни эффекта
         
+        private AudioSource _audioSource;
+        [SerializeField] private AudioClip mimicBiteSound;
+        
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
             _gameManager.AddEnemy(this);
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public override void EnemyTurn()
@@ -53,6 +58,7 @@ namespace Enemies.Mimic
         {
             _playerStats.TakeDamage(_enemyStats.damage);
             ShowAttackEffect();
+            PlayMimicBiteSound();
         }
         
         private void ShowAttackEffect()
@@ -73,6 +79,14 @@ namespace Enemies.Mimic
             else
             {
                 Debug.LogError("Ошибка: Префаб эффекта атаки не установлен в мимике!");
+            }
+        }
+        
+        private void PlayMimicBiteSound()
+        {
+            if (mimicBiteSound != null && _audioSource != null)
+            {
+                _audioSource.PlayOneShot(mimicBiteSound); // Воспроизводим звук
             }
         }
     }
