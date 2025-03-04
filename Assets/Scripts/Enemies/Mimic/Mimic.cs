@@ -10,8 +10,9 @@ namespace Enemies.Mimic
         private PlayerMovement _player;
         private PlayerStats _playerStats;
         
-        [SerializeField] private GameObject attackEffectPrefab; // Префаб эффекта атаки
-        [SerializeField] private float attackEffectDuration = 1f; // Время жизни эффекта
+        [SerializeField] private GameObject attackEffectPrefab; // 2 Префаба эффекта атаки для реализации "укуса"
+        [SerializeField] private GameObject attackEffectPrefab2;
+        private readonly float _attackEffectDuration = 0.3f; // Время жизни эффекта
         
         private void Start()
         {
@@ -58,9 +59,16 @@ namespace Enemies.Mimic
         {
             if (attackEffectPrefab != null)
             {
-                GameObject effect = Instantiate(attackEffectPrefab, _player.transform.position, Quaternion.Euler(0, 0, -30)); // Задаем нужный угол для эффекта
+                var effectLocation = _player.transform.position + new Vector3(0, 0.2f, 0);
+                
+                GameObject effect = Instantiate(attackEffectPrefab, effectLocation, Quaternion.Euler(0, 0, -30)); // Задаем нужный угол для эффекта
+                GameObject effect2 = Instantiate(attackEffectPrefab2, effectLocation, Quaternion.Euler(0, 0, -210));
+                
                 effect.SetActive(true);
-                Destroy(effect, attackEffectDuration);
+                effect2.SetActive(true);
+                
+                Destroy(effect, _attackEffectDuration);
+                Destroy(effect2, _attackEffectDuration);
             }
             else
             {
