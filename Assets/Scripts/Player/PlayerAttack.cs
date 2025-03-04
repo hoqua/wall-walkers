@@ -79,13 +79,7 @@ public class PlayerAttack : MonoBehaviour
         hasAttacked = false;
     }
     
-    private void PlaySwordHitSound()
-    {
-        if (swordHitSound != null && _audioSource != null)
-        {
-            _audioSource.PlayOneShot(swordHitSound); // Воспроизводим звук
-        }
-    }
+    
 
     private GameObject FindEnemyOnTile(Vector3Int targetTile)
     {
@@ -117,6 +111,14 @@ public class PlayerAttack : MonoBehaviour
         
         _animator.SetFloat(Horizontal, horizontal);
         _animator.SetFloat(Vertical, vertical);
+    }
+    
+    private void PlaySwordHitSound()
+    {
+        if (swordHitSound != null && _audioSource != null)
+        {
+            _audioSource.PlayOneShot(swordHitSound); // Воспроизводим звук
+        }
     }
     
     private void ShowSlashEffect(Vector3 direction)
