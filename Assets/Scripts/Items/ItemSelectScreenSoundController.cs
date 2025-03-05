@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class ItemSelectScreenSoundController : MonoBehaviour
 {
@@ -16,6 +14,9 @@ public class ItemSelectScreenSoundController : MonoBehaviour
 
     public void PlayMenuSelectSound()
     {
-        _audioSource.PlayOneShot(menuSelectSound); 
+        if (menuSelectSound != null && _audioSource != null)
+        {
+            _audioSource.PlayOneShot(menuSelectSound);
+        }
     }
 }

@@ -128,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _playerStats.HealToFull();
             _spawnManager.UpdateItemPosition(targetTile, "HealthPotion", false);
+            _playerSoundController.PlayPotionDrinkSound();
             Destroy(targetObject);
         }
 

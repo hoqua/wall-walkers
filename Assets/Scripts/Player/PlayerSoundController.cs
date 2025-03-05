@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,6 +6,7 @@ public class PlayerSoundController : MonoBehaviour
     private AudioSource _audioSource;
     
     [SerializeField] private AudioClip gemPickupSound;
+    [SerializeField] private AudioClip potionDrinkSound;
     [SerializeField] private AudioClip levelUpSound;
     private void Start()
     {
@@ -22,6 +20,16 @@ public class PlayerSoundController : MonoBehaviour
             _audioSource.volume = 0.1f;
             _audioSource.pitch = Random.Range(0.7f, 1.05f); // Рандомная тональность звука
             _audioSource.PlayOneShot(gemPickupSound); 
+        }
+    }
+
+    public void PlayPotionDrinkSound()
+    {
+        if (gemPickupSound != null && _audioSource != null)
+        {
+            _audioSource.volume = 0.2f;
+            _audioSource.pitch = Random.Range(1f, 1.1f); // Рандомная тональность звука
+            _audioSource.PlayOneShot(potionDrinkSound); 
         }
     }
     
