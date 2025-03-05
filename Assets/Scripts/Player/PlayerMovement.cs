@@ -135,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
         if (targetObject != null && targetObject.CompareTag("Chest"))
         {
             targetObject.GetComponent<Chest>().OpenChest();
+            _playerSoundController.PlayChestOpenSound();
             return;
         }
         

@@ -317,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemPickupSound: {fileID: 8300000, guid: 22f16455a1c72d94f991c89e3019e7f9, type: 3}
   potionDrinkSound: {fileID: 8300000, guid: 221d1a25991a3f1429abc11a2e746303, type: 3}
+  chestOpenSound: {fileID: 8300000, guid: a6827c826c9a49c44893e8b1ed809632, type: 3}
   levelUpSound: {fileID: 8300000, guid: dca21e0577a16e842a3c7a1fff3add15, type: 3}
 --- !u!82 &6023518367176766760
 AudioSource:
