@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 8634210395813746921}
   - component: {fileID: 6250364599876764653}
   - component: {fileID: 7679155137043371668}
+  - component: {fileID: -6856394858997117372}
   - component: {fileID: 6998419321880898251}
   m_Layer: 0
   m_Name: Skeleton
@@ -283,7 +284,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slashObject: {fileID: 3328478242169154839}
-  swordHitSound: {fileID: 8300000, guid: 39fe3bfd10ca5fb4bbbe1db7912167b3, type: 3}
+--- !u!114 &-6856394858997117372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385226143460851807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71aa14a49b5b3324092fc1bace99b26c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAttackSound: {fileID: 8300000, guid: 39fe3bfd10ca5fb4bbbe1db7912167b3, type: 3}
 --- !u!82 &6998419321880898251
 AudioSource:
   m_ObjectHideFlags: 0

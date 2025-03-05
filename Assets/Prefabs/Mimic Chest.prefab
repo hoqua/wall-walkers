@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2109405435368372422}
   - component: {fileID: 1302531631414447439}
   - component: {fileID: 6671042553491761534}
+  - component: {fileID: 6326043662977417607}
   - component: {fileID: 1819686095329575757}
   m_Layer: 0
   m_Name: Mimic Chest
@@ -51,7 +52,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackEffectPrefab: {fileID: 4535266626840902487, guid: 8afe5a014f5fd194b8311ffd30e220f8, type: 3}
   attackEffectPrefab2: {fileID: 5397384876864538445}
-  mimicBiteSound: {fileID: 8300000, guid: f803cfd382207ee4c9dd450f306e041d, type: 3}
 --- !u!114 &6671042553491761534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +68,19 @@ MonoBehaviour:
   health: 1
   damage: 1
   attackRange: 1
+--- !u!114 &6326043662977417607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576772497601898412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b9de2206ae803458be6e6a2f714ebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mimicBiteSound: {fileID: 8300000, guid: f803cfd382207ee4c9dd450f306e041d, type: 3}
 --- !u!82 &1819686095329575757
 AudioSource:
   m_ObjectHideFlags: 0
