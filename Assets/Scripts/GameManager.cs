@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Enemies;
 using Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class GameManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject waitForTurnIcon; // Иконка, которая появляется, когда игрок ждет своего хода
     
-    [SerializeField] private ItemSelectScreen itemSelectScreen; // Экран для выбора предметов 
+    [FormerlySerializedAs("itemSelectScreen")] [SerializeField] private ItemSelectMenu itemSelectMenu; // Экран для выбора предметов 
     private bool _isItemSelectionActive = false;
     
     private Camera _mainCamera;
@@ -80,9 +81,9 @@ public class GameManager : MonoBehaviour
             await Task.Yield();
         }
         
-        while (_isItemSelectionActive && itemSelectScreen != null)
+        if (_isItemSelectionActive && itemSelectMenu != null)
         {
-            itemSelectScreen.ShowItemSelectScreen();
+            itemSelectMenu.ShowItemSelectMenu();
             await Task.Yield();
         }
 

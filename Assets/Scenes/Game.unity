@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 20501652}
   - component: {fileID: 20501653}
   m_Layer: 0
-  m_Name: Item Select Screen
+  m_Name: Item Select Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21180,7 +21180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitForTurnIcon: {fileID: 2007273108}
-  itemSelectScreen: {fileID: 20501651}
+  itemSelectMenu: {fileID: 20501651}
   gameState: 0
 --- !u!114 &418929557
 MonoBehaviour:
