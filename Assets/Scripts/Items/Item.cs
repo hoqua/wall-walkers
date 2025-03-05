@@ -7,6 +7,7 @@ namespace Items
 {
     public class Item : MonoBehaviour
     {
+        private ItemSelectScreenSoundController _itemSelectScreenSoundController;
         private ItemSelectScreen _itemSelectScreen;
         private PlayerStats _playerStats;
 
@@ -14,8 +15,9 @@ namespace Items
         private Dictionary<string, Action> _effects;
         private void Awake()
         {
+            _itemSelectScreenSoundController = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreenSoundController>();
+            
             _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
-        
             TextMeshProUGUI textComponent = transform.parent.GetComponentInChildren<TextMeshProUGUI>();
         
             if (textComponent != null)
@@ -41,6 +43,7 @@ namespace Items
             if (_effects.ContainsKey(effect))
             {
                 _effects[effect].Invoke();
+                _itemSelectScreenSoundController.PlayMenuSelectSound();
             }
             else
             {
