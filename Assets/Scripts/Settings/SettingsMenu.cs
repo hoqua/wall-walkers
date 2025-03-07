@@ -6,6 +6,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     private bool isOpen = false;
 
+    private PlayerMovement _playerMovement;
+    private GameObject playerObject;
     private void Start()
     {
         settingsMenu.SetActive(false);
@@ -23,5 +25,17 @@ public class SettingsMenu : MonoBehaviour
     {
         isOpen = !isOpen;
         settingsMenu.SetActive(isOpen);
+        
+        playerObject = GameObject.FindWithTag("Player");
+        _playerMovement = playerObject.GetComponent<PlayerMovement>();
+        
+        if (playerObject != null && isOpen)
+        {
+            _playerMovement.enabled = false;
+        }
+        else if (_playerMovement != null && !isOpen)
+        {
+            _playerMovement.enabled = true;
+        }
     }
 }
