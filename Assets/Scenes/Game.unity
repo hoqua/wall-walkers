@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 418929556}
   itemSelectCanvas: {fileID: 1147720807}
+  isMouseInputBlocked: 0
 --- !u!114 &20501652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +194,7 @@ AudioSource:
   m_GameObject: {fileID: 20501649}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2510198571047345890, guid: 250079b6020cad04db0fd63047e448e3, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.4
