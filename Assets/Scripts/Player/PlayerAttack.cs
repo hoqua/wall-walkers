@@ -1,3 +1,4 @@
+using System.Collections;
 using Enemies;
 using UnityEngine;
 
@@ -45,13 +46,19 @@ public class PlayerAttack : MonoBehaviour
 
             if (willKillEnemy)
             {
-                _playerMovementScript.MoveToTile(targetTile);
+                StartCoroutine(MoveAfterAttack(targetTile));
             }
         }
         else
         {
             hasAttacked = false; // Не атакуем, если враг не найден
         }
+    }
+    
+    private IEnumerator MoveAfterAttack(Vector3Int targetTile)
+    {
+        yield return new WaitForSeconds(_attackDuration);
+        _playerMovementScript.MoveToTile(targetTile);
     }
 
     private void Attack(GameObject enemy)

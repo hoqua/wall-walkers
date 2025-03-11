@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
+    
     private async Task EnemyTurn()
     {
         // Ждём, пока окно выбора предметов не закроется
