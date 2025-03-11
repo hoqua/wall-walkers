@@ -10,12 +10,14 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
 
-    private PlayerMovement _player; // Ссылка на скрипт игрока
+    private Player _player;
+    private PlayerMovement _playerMovement; // Ссылка на скрипт игрока
+    
     private List<Enemy> _enemies = new(); // Список врагов
     
     [SerializeField] private GameObject waitForTurnIcon; // Иконка, которая появляется, когда игрок ждет своего хода
     
-    [FormerlySerializedAs("itemSelectScreen")] [SerializeField] private ItemSelectMenu itemSelectMenu; // Экран для выбора предметов 
+    [SerializeField] private ItemSelectMenu itemSelectMenu; // Экран для выбора предметов 
     private bool _isItemSelectionActive = false;
     
     private Camera _mainCamera;
@@ -30,9 +32,10 @@ public class GameManager : MonoBehaviour
     // Находит игрока и всех врагов на сцене
     private async Task FindCharacters()
     {
-        while (_player == null || _enemies.Count == 0) 
+        while (_playerMovement == null || _enemies.Count == 0) 
         {
-            _player = FindObjectOfType<PlayerMovement>();
+            _player= FindObjectOfType<Player>();
+            _playerMovement = _player.GetComponent<PlayerMovement>();
             _enemies.AddRange(FindObjectsOfType<Enemy>()); // Находим всех врагов на сцене
             await Task.Yield();
         }
@@ -67,13 +70,13 @@ public class GameManager : MonoBehaviour
 
     private async Task PlayerTurn()
     {
-        _player.StartPlayersTurn();
+        _playerMovement.StartPlayersTurn();
         ChangeGameState(GameState.PlayerTurn);
 
         // Ожидание хода игрока
         while (gameState == GameState.PlayerTurn)
         {
-            if (_player.HasMovedOrAttacked())
+            if (_playerMovement.HasMovedOrAttacked())
             {
                 break;
             }
