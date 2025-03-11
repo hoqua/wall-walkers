@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
+    private PlayerSoundController _playerSoundController;
     [SerializeField] private PlayerStats _playerStats;
     private Tilemap _tilemap;                 // Tilemap, по которой будет двигаться персонаж
 
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
         _spawnManager = FindObjectOfType<SpawnManager>();
         
+        _playerSoundController = FindObjectOfType<PlayerSoundController>();
         _playerAttackScript = GetComponent<PlayerAttack>();
 
         if (currentTile == Vector3Int.zero)
@@ -118,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _playerStats.GainExp();
             _spawnManager.UpdateItemPosition(targetTile, "ExpGem", false);
+            _playerSoundController.PlayExpGemPickupSound();
             Destroy(targetObject);
         }
         
@@ -125,12 +128,14 @@ public class PlayerMovement : MonoBehaviour
         {
             _playerStats.HealToFull();
             _spawnManager.UpdateItemPosition(targetTile, "HealthPotion", false);
+            _playerSoundController.PlayPotionDrinkSound();
             Destroy(targetObject);
         }
 
         if (targetObject != null && targetObject.CompareTag("Chest"))
         {
             targetObject.GetComponent<Chest>().OpenChest();
+            _playerSoundController.PlayChestOpenSound();
             return;
         }
         

@@ -7,20 +7,22 @@ namespace Items
 {
     public class Item : MonoBehaviour
     {
-        private ItemSelectScreen _itemSelectScreen;
+        private ItemSelectScreenSoundController _itemSelectScreenSoundController;
+        private ItemSelectMenu _itemSelectMenu;
         private PlayerStats _playerStats;
 
-        private string effect;
+        private string _effect;
         private Dictionary<string, Action> _effects;
         private void Awake()
         {
-            _itemSelectScreen = GameObject.Find("Item Select Screen").GetComponent<ItemSelectScreen>();
-        
+            _itemSelectScreenSoundController = GameObject.Find("Item Select Menu").GetComponent<ItemSelectScreenSoundController>();
+            
+            _itemSelectMenu = GameObject.Find("Item Select Menu").GetComponent<ItemSelectMenu>();
             TextMeshProUGUI textComponent = transform.parent.GetComponentInChildren<TextMeshProUGUI>();
         
             if (textComponent != null)
             {
-                effect = textComponent.text;
+                _effect = textComponent.text;
             }
             else
             {
@@ -36,19 +38,22 @@ namespace Items
 
         private void OnMouseDown()
         {
+            if (_itemSelectMenu.isMouseInputBlocked) return;
+
             _playerStats = GameObject.Find("Player(Clone)").GetComponent<PlayerStats>();
 
-            if (_effects.ContainsKey(effect))
+            if (_effects.ContainsKey(_effect))
             {
-                _effects[effect].Invoke();
+                _effects[_effect].Invoke();
+                _itemSelectScreenSoundController.PlayMenuSelectSound();
             }
             else
             {
-                Debug.Log(effect + " doesn't exist");
+                Debug.Log(_effect + " doesn't exist");
             }
        
             _playerStats.UpdateAllUI();
-            _itemSelectScreen.HideItemSelectScreen();
+            _itemSelectMenu.HideItemSelectScreen();
         }
     }
 }

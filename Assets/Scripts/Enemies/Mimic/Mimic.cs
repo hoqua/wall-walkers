@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Enemies.Mimic
@@ -14,10 +15,13 @@ namespace Enemies.Mimic
         [SerializeField] private GameObject attackEffectPrefab2;
         private readonly float _attackEffectDuration = 0.3f; // Время жизни эффекта
         
+        private MimicSoundController _mimicSoundController;
+        
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
             _gameManager.AddEnemy(this);
+            _mimicSoundController = GetComponent<MimicSoundController>();
         }
 
         public override void EnemyTurn()
@@ -53,6 +57,7 @@ namespace Enemies.Mimic
         {
             _playerStats.TakeDamage(_enemyStats.damage);
             ShowAttackEffect();
+            _mimicSoundController.PlayMimicBiteSound();
         }
         
         private void ShowAttackEffect()
