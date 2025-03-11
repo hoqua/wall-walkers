@@ -32,13 +32,14 @@ public class GameManager : MonoBehaviour
     // Находит игрока и всех врагов на сцене
     private async Task FindCharacters()
     {
-        while (_playerMovement == null || _enemies.Count == 0) 
+        while (_player == null || _enemies.Count == 0) 
         {
             _player= FindObjectOfType<Player>();
-            _playerMovement = _player.GetComponent<PlayerMovement>();
             _enemies.AddRange(FindObjectsOfType<Enemy>()); // Находим всех врагов на сцене
             await Task.Yield();
         }
+        
+        _playerMovement = _player.GetComponent<PlayerMovement>();
     }
 
     public void AddEnemy(Enemy enemy)
