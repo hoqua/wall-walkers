@@ -79,16 +79,16 @@ public class PlayerAttack : MonoBehaviour
             enemyStats.TakeDamage(_playerStats.damage);
 
             Invoke(nameof(ReturnToIdle), _attackDuration);
+            
+          
         }
     }
-
+    
     public void ResetAttack()
     {
         hasAttacked = false;
     }
     
-    
-
     private GameObject FindEnemyOnTile(Vector3Int targetTile)
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -153,5 +153,10 @@ public class PlayerAttack : MonoBehaviour
         _animator.SetTrigger(ReturnToIdleTrigger);
         _animator.SetFloat(Horizontal, 0);
         _animator.SetFloat(Vertical, -1);
+    }
+    
+    public bool HasAttacked()
+    {
+        return hasAttacked; // `true`, если атака идёт
     }
 }

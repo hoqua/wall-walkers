@@ -85,6 +85,12 @@ public class GameManager : MonoBehaviour
             await Task.Yield();
         }
         
+        // Ждём, пока игрок полностью закончит атаку, движение и встанет на место
+        while (!_player.IsTurnFinished())
+        {
+            await Task.Yield();
+        }
+        
         if (_isItemSelectionActive && itemSelectMenu != null)
         {
             itemSelectMenu.ShowItemSelectMenu();

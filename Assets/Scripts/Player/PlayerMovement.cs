@@ -211,4 +211,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return hasMoved || _playerAttackScript.hasAttacked;
     }
+    
+    public bool IsMoving()
+    {
+        return _isMoving; // `true`, если игрок ещё двигается
+    }
+    
 }
