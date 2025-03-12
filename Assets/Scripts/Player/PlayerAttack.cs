@@ -71,7 +71,8 @@ public class PlayerAttack : MonoBehaviour
             SetAttackDirectionInAnimator(direction);
 
             _animator.SetTrigger(AttackTrigger);
-            ShowSlashEffect(direction);
+            var enemyPosition = enemy.transform.position;
+            ShowSlashEffect(direction, enemyPosition);
             PlaySwordHitSound();
 
             var enemyStats = enemy.GetComponent<EnemyStats>();
@@ -129,11 +130,15 @@ public class PlayerAttack : MonoBehaviour
         }
     }
     
-    private void ShowSlashEffect(Vector3 direction)
+    private void ShowSlashEffect(Vector3 direction, Vector3 enemyPosition)
     {
-        slashObject.SetActive(true);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 40);
+        slashObject.transform.rotation = Quaternion.Euler(0, 0, angle - 60);
+
+        slashObject.transform.position = enemyPosition;
+        
+        slashObject.SetActive(true);
+        
         
         Invoke(nameof(DeactivateSlash), _slashDuration);
     }
