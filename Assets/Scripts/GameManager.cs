@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         }
         
         // Ждём, пока игрок полностью закончит атаку, движение и встанет на место
-        while (!_player.IsTurnFinished())
+        while (_player.IsBusy)
         {
             await Task.Yield();
         }

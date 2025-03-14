@@ -1,19 +1,11 @@
-
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private PlayerMovement _playerMovement;
-    private PlayerAttack _playerAttack;
+    public bool IsBusy { get; private set; }
 
-    void Start()
+    public void SetBusy(bool state)
     {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerAttack = GetComponent<PlayerAttack>();
-    }
-    
-    public bool IsTurnFinished()
-    {
-        return !_playerMovement.IsMoving() || !_playerAttack.HasAttacked();
+        IsBusy = state;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Player _player;
     private SpawnManager _spawnManager;
     private GameManager _gameManager;
     private PlayerAttack _playerAttackScript;
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _playerStats = GetComponent<PlayerStats>();
+        _player = GetComponent<Player>();
     }
     private void Start()
     {
@@ -80,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
             
             // Спавним объекты после перемещения
             _spawnManager.SpawnObjectsAroundPlayer(currentTile);
+            _player.SetBusy(false);
         }
     }
 
@@ -140,12 +143,17 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // Передаем целевую клетку для атаки
+        _player.SetBusy(true);
         _playerAttackScript.HandleAttack(targetTile);
 
         // Если атаки не было, перемещаемся на клетку
         if (!_playerAttackScript.hasAttacked)
         {
             MoveToTile(targetTile);
+        }
+        else
+        {
+            _player.SetBusy(false);
         }
     }
 
@@ -198,6 +206,7 @@ public class PlayerMovement : MonoBehaviour
             currentTile = targetTile;
             _isMoving = true;
             hasMoved = false;
+            _player.SetBusy(true);
         }
     }
 
@@ -205,6 +214,7 @@ public class PlayerMovement : MonoBehaviour
     {
         hasMoved = false;
         _playerAttackScript.ResetAttack();
+        _player.SetBusy(false);
     }
     
     public bool HasMovedOrAttacked()
