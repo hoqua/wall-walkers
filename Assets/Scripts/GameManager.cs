@@ -59,6 +59,12 @@ public class GameManager : MonoBehaviour
         while (gameState != GameState.GameOver)
         {
             await PlayerTurn();
+           
+            while (_player.IsBusy)
+            {
+                await Task.Yield();
+            }
+            
             await EnemyTurn();
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private Player _player;
     private Animator _animator;                      // Аниматор и значения для анимаций
     public GameObject slashObject;                 // Префаб для эффекта удара
     private readonly float _attackDuration = 0.7f;  // Длительность анимации удара
@@ -23,6 +24,7 @@ public class PlayerAttack : MonoBehaviour
     private AudioSource _audioSource;
     void Start()
     {
+        _player = GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _playerTransform = transform;
         _playerMovementScript = GetComponent<PlayerMovement>();
@@ -43,6 +45,8 @@ public class PlayerAttack : MonoBehaviour
             bool willKillEnemy = CheckIfWillKillEnemy(enemy);
 
             Attack(enemy);
+            _player.SetBusy(true); // Игрок занят
+            Debug.Log("Игрок атаковал = занят");
 
             if (willKillEnemy)
             {
@@ -80,8 +84,16 @@ public class PlayerAttack : MonoBehaviour
 
             Invoke(nameof(ReturnToIdle), _attackDuration);
             
-          
+            StartCoroutine(ResetBusyState());
         }
+    }
+
+    private IEnumerator ResetBusyState()
+    {
+        _player.SetBusy(true);
+        yield return new WaitForSeconds(1f); //Ожидаем секунду после атаки
+        _player.SetBusy(false); // Сбрасываем состояние занятости
+        Debug.Log("Игрок перестал быть занятым");
     }
     
     public void ResetAttack()

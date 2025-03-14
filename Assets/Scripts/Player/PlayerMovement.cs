@@ -151,10 +151,6 @@ public class PlayerMovement : MonoBehaviour
         {
             MoveToTile(targetTile);
         }
-        else
-        {
-            _player.SetBusy(false);
-        }
     }
 
     private GameObject GetObjectOnTile(Vector3Int targetTile)
