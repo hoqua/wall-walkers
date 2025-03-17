@@ -91,7 +91,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator ResetBusyState()
     {
         _player.SetBusy(true);
-        yield return new WaitForSeconds(1f); //Ожидаем секунду после атаки
+        yield return new WaitForSeconds(_attackDuration); //Ожидаем секунду после атаки
         _player.SetBusy(false); // Сбрасываем состояние занятости
         Debug.Log("Игрок перестал быть занятым");
     }
